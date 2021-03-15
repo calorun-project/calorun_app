@@ -1,22 +1,17 @@
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:calorun/screens/authenticate/authenticate.dart';
 import 'package:flutter/material.dart';
-// import 'package:new_pro/pages/authenticate.dart';
-// import 'package:new_pro/pages/home_page.dart';
-// import 'package:new_pro/pages/prelogin_page.dart';
-// import 'package:new_pro/widgets/loading.dart';
-// import 'package:provider/provider.dart';
-
-
+import 'package:provider/provider.dart';
+import 'package:calorun/screens/home/home_page.dart';
 
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final String user = Provider.of<String>(context);
-    // if (user == null) {
-    //   return Home();
-    // } else {
-    //   return Home();
-    // }
+    final String user = Provider.of<String>(context);
+    if (user == null) {
+      return Authenticate();
+    } else {
+      return Home();
+    }
   }
 }
 

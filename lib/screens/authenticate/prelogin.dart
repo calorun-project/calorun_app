@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:new_pro/pages/authenticate.dart';
 
 class Prepage extends StatelessWidget {
   
