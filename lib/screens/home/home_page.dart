@@ -1,4 +1,5 @@
 import 'package:calorun/screens/authenticate/login.dart';
+import 'package:calorun/screens/home/timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -44,11 +45,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          SignIn(),
-          SignIn(),
-          SignIn(),
-          SignIn(),
-          SignIn(),
+          Timeline(),
+          Timeline(),
+          Timeline(),
+          Timeline(),
+          Timeline(),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,
