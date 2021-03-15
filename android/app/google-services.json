@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "973519430574",
+    "project_id": "calorunapp",
+    "storage_bucket": "calorunapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973519430574:android:81268735807034d8801e3f",
+        "android_client_info": {
+          "package_name": "com.example.calorun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973519430574-r4l5mp9bhcdn9qcck9tf541ve6h5osp4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.calorun",
+            "certificate_hash": "43a15186c3e611f1aa83c1aab809649d16d329d7"
+          }
+        },
+        {
+          "client_id": "973519430574-s4rs9bm5sgcj2g551a1v3510pk3gsv40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXH9lZgHOeqqO6W7wjgU8DfJAYL_eKmHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973519430574-s4rs9bm5sgcj2g551a1v3510pk3gsv40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
