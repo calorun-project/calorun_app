@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       value: AuthServices().userCurrentId,
       initialData: null,
       child: MaterialApp(
-        title: 'FlutterShare',
+        title: 'Calorun',
         debugShowCheckedModeBanner: false,
         home: Wrapper(),
       ),
