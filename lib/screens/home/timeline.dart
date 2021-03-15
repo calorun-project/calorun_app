@@ -2,6 +2,7 @@ import 'package:calorun/models/post.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/widget/header.dart';
 import 'package:calorun/widget/post.dart';
+import 'package:calorun/widget/post/upload.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,6 @@ class _TimelineState extends State<Timeline> {
             DatabaseServices(uid: Provider.of<String>(context)).getPostList(),
         builder: (context, snapshot) {
           return Scaffold(
-              appBar: header(),
               body: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -44,88 +44,35 @@ class _TimelineState extends State<Timeline> {
                                     'https://cdn.now.howstuffworks.com/media-content/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
                                   ),
                                 )),
-                            Container(
-                              height: 40,
-                              width: 300,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'What\'s on your mind?',
+                            GestureDetector(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(color: Color(0xff6c807b)),
+                                  borderRadius: BorderRadius.all(Radius.circular(20))
                                 ),
-                                autofocus: false,
+                                height: 40,
+                                width: 300,
+                                //color: Color(0xffFFFFFF),
+                                child: Center(
+                                  child: Text(                                  
+                                    "What\'s on your mind?",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                )
                               ),
-                            )
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => UploadWidget())
+                                );
+                              }
+                            )                            
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            //Feature: Add Photo
-                            Container(
-                              alignment: Alignment.center,
-                              color: Colors.grey[200],
-                              width: 200,
-                              height: 35,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                      onTap: () => print('Open Photo'),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.photo,
-                                            size: 27.0,
-                                            color: Color(0xff000000),
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: 5, left: 5)),
-                                          Text(
-                                            "Post a photo",
-                                            style: TextStyle(
-                                                color: Color(0xff14321D)),
-                                          )
-                                        ],
-                                      )),
-                                ],
-                              ),
-                            ),
-                            Padding(padding: EdgeInsets.only(left: 10)),
-                            Container(
-                                color: Color(0xff90a6a6).withOpacity(0.4),
-                                width: 200,
-                                height: 35,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                        onTap: () => print('Posted'),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.send,
-                                              size: 27.0,
-                                              color: Color(0xff000000),
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 5, left: 5)),
-                                            Text(
-                                              "Post",
-                                              style: TextStyle(
-                                                  color: Color(0xff14321D)),
-                                            )
-                                          ],
-                                        )),
-                                  ],
-                                ))
-                          ],
-                        )
                       ],
                     )),
                     Container(

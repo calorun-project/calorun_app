@@ -1,5 +1,8 @@
 import 'package:calorun/screens/authenticate/login.dart';
 import 'package:calorun/screens/home/timeline.dart';
+import 'package:calorun/screens/home/user_profile.dart';
+import 'package:calorun/widget/header.dart';
+import 'package:calorun/widget/post/upload.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -43,13 +46,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: header(),
       body: PageView(
         children: <Widget>[
           Timeline(),
           Timeline(),
           Timeline(),
           Timeline(),
-          Timeline(),
+          UserProfile(),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,
