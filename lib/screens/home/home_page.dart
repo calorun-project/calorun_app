@@ -1,12 +1,12 @@
-import 'package:calorun/screens/authenticate/login.dart';
+import 'package:calorun/models/user.dart';
 import 'package:calorun/screens/home/timeline.dart';
 import 'package:calorun/screens/home/user_profile.dart';
+import 'package:calorun/services/database.dart';
 import 'package:calorun/widget/header.dart';
-import 'package:calorun/widget/post/upload.dart';
+import 'package:calorun/widget/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -18,59 +18,75 @@ class _HomeState extends State<Home> {
   int pageIndex = 0;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     pageController = PageController();
-  } 
+  }
 
   @override
-  void dispose() { 
+  void dispose() {
     pageController.dispose();
     super.dispose();
   }
 
-  onPageChanged(int pageIndex){
+  onPageChanged(int pageIndex) {
     setState(() {
-          this.pageIndex = pageIndex;
-        });
+      this.pageIndex = pageIndex;
+    });
   }
 
-  onTap(int pageIndex){
-    pageController.animateToPage(
-      pageIndex,
-      duration: Duration(milliseconds: 200),
-      curve: Curves.easeInOut
-    );
+  onTap(int pageIndex) {
+    pageController.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: header(),
-      body: PageView(
-        children: <Widget>[
-          Timeline(),
-          Timeline(),
-          Timeline(),
-          Timeline(),
-          UserProfile(),
-        ],
-        controller: pageController,
-        onPageChanged: onPageChanged,
-        physics: NeverScrollableScrollPhysics(),
-      ),
-      bottomNavigationBar: CupertinoTabBar(
-        currentIndex: pageIndex,
-        onTap: onTap,
-        activeColor: Color(0xff297373),
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.whatshot),),
-          BottomNavigationBarItem(icon: Icon(Icons.run_circle_rounded),),
-          BottomNavigationBarItem(icon: Icon(Icons.equalizer_rounded),),
-          BottomNavigationBarItem(icon: Icon(Icons.games_rounded),),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle),),
-        ],
-      ),
+    return FutureProvider<ModifiedUser>.value(
+      value: DatabaseServices(uid: Provider.of<String>(context)).getUserData(),
+      initialData: null,
+      builder: (context, snapshot) {
+        if (Provider.of<ModifiedUser>(context) == null) {
+          return Waiting();
+        }
+        return Scaffold(
+          appBar: header(),
+          body: PageView(
+            children: <Widget>[
+              Timeline(),
+              Timeline(),
+              Timeline(),
+              Timeline(),
+              UserProfile(),
+            ],
+            controller: pageController,
+            onPageChanged: onPageChanged,
+            physics: NeverScrollableScrollPhysics(),
+          ),
+          bottomNavigationBar: CupertinoTabBar(
+            currentIndex: pageIndex,
+            onTap: onTap,
+            activeColor: Color(0xff297373),
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.whatshot),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.run_circle_rounded),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.equalizer_rounded),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.games_rounded),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

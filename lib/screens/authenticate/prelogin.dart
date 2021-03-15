@@ -1,3 +1,4 @@
+import 'package:calorun/screens/authenticate/authenticate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,20 +29,24 @@ class Prepage extends StatelessWidget {
           children: <Widget>[
             Text('Calorun',
               style: TextStyle(
-                //fontFamily: 'Spantaran',
+                fontFamily: 'Spantaran',
                 fontWeight: FontWeight.w300,
                 fontSize: 90.0,
                 color: Colors.white,
                 ), 
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => Authenticate()),
-            //     );},
-            //     child: Text('Sign in'),              
-            // ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xffFCA311),
+                onPrimary: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Authenticate()),
+                );},
+                child: Text('Sign in'),              
+            ),
           ],
         ),
       ),
