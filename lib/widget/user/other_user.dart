@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class otherUser extends StatefulWidget {
-  otherUser({Key key}) : super(key: key);
+class OtherUser extends StatefulWidget {
+  OtherUser({Key key}) : super(key: key);
 
   @override
-  _otherUserState createState() => _otherUserState();
+  _OtherUserState createState() => _OtherUserState();
 }
 
-class _otherUserState extends State<otherUser> {
+class _OtherUserState extends State<OtherUser> {
           
     Color c = const Color(0x297373);
     bool owner = true;

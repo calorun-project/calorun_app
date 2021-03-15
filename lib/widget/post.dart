@@ -32,7 +32,7 @@ createPostHead(){
     onTap: (){
       Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => otherUser()),
+              MaterialPageRoute(builder: (context) => OtherUser()),
             );
     },
 
@@ -45,7 +45,7 @@ createPostHead(){
       onTap: (){
         Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => otherUser()),
+                MaterialPageRoute(builder: (context) => OtherUser()),
               );
       },
       child: Container(
