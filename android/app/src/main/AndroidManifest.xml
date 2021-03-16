@@ -2,6 +2,7 @@
     package="com.example.calorun">
    <application
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:label="calorun"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -44,8 +44,12 @@ class AuthServices {
       );
 
       User user = result.user;
-      await DatabaseServices(uid: user.uid)
-          .createUserData(user.uid, email, firstName, lastName, 'None');
+      await DatabaseServices(uid: user.uid).createUserData(
+          user.uid,
+          email,
+          firstName,
+          lastName,
+          'https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f');
       return user?.uid;
     } catch (e) {
       print("Register error: " + e.toString());
@@ -60,6 +64,29 @@ class AuthServices {
     } catch (e) {
       print(e.toString());
       return null;
+    }
+  }
+
+  Future<bool> changeAccount(String newEmail, String newPassword) async {
+    try {
+      UserCredential result = await firebaseAuth.currentUser
+          .reauthenticateWithCredential(EmailAuthProvider.credential(
+              email: newEmail, password: newPassword));
+      DatabaseServices(uid: result.user.uid).updateEmail(newEmail);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> changePassword(String newPassword) async {
+    try {
+        await firebaseAuth.currentUser.updatePassword(newPassword);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:calorun/models/user.dart';
 import 'package:calorun/screens/home/timeline.dart';
-import 'package:calorun/screens/home/user_profile.dart';
+import 'package:calorun/screens/home/profile.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/widget/header.dart';
 import 'package:calorun/widget/loading.dart';
@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
               Timeline(),
               Timeline(),
               Timeline(),
-              UserProfile(),
+              Profile(Provider.of<String>(context)),
             ],
             controller: pageController,
             onPageChanged: onPageChanged,

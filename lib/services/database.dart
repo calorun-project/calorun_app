@@ -31,6 +31,7 @@ class DatabaseServices {
       'firstName': firstName,
       'lastName': lastName,
       'avtUrl': avtUrl,
+      'bio': '',
       'registerTime': Timestamp.now(),
       'following': <String>[],
       'follower': <String>[],
@@ -194,56 +195,29 @@ class DatabaseServices {
     return posts;
   }
 
-  // bool get isUpdate {
-  //   if (_isUpdate) {
-  //     _isUpdate = !_isUpdate;
-  //     return true;
-  //   }
-  //   return false;
-  // }
-  // Stream<List<Post>> get postsStream async* {
-  //   Stream<List<Post>> returnStream;
-  //   ModifiedUser currentUser = await getUserData(uid);
-  //   List<dynamic> following = currentUser.following;
-  //   for (String followingUser in following) {
-  //     Stream<QuerySnapshot> streamQuerySnap = firebaseFirestore
-  //         .collection('Posts')
-  //         .doc(followingUser)
-  //         .collection('UserPosts')
-  //         .orderBy('postTime', descending: true)
-  //         .snapshots();
-  //     Stream<List<Post>> newStream = streamQuerySnap.map((event) {
-  //       return event.docs.map((doc) {
-  //         return Post(
-  //           pid: doc.data()['pid'] ?? '',
-  //           ownerId: doc.data()['ownerId'] ?? '',
-  //           imgUrl: doc.data()['imgUrl'] ?? '',
-  //           description: doc.data()['description'] ?? '',
-  //           location: doc.data()['location'] ?? '',
-  //           postTime: (doc.data()['postTime'] ?? Timestamp.now()).toDate(),
-  //           userLike: doc.data()['userLike'] ?? <String>[],
-  //         );
-  //       }).toList();
-  //     });
-  //     returnStream = Observera
-  //   }
-  // }
-  // //brew list
-  // List<Brew> _brewListFromSnapshot(QuerySnapshot snapshot) {
-  //   return snapshot.docs.map((doc) {
-  //     return Brew(
-  //       name: doc.data()['name'] ?? '',
-  //       sugars: doc.data()['sugars'] ?? '',
-  //       strength: doc.data()['strength'] ?? 0,
-  //     );
-  //   }).toList();
-  // }
-
-  // //get brew stream
-  // Stream<List<Brew>> get brews {
-  //   return firebaseFirestore
-  //       .collection('Users')
-  //       .snapshots()
-  //       .map(_brewListFromSnapshot);
-  // }
+  Stream<List<Post>> get userPosts {
+    return firebaseFirestore
+        .collection('Posts')
+        .doc(uid)
+        .collection('UserPosts')
+        .snapshots()
+        .map((doc) {
+      return doc.docs.map((doc) {
+        return Post(
+          pid: doc.data()['pid'] ?? '',
+          ownerId: doc.data()['ownerId'] ?? '',
+          imgUrl: doc.data()['imgUrl'] ?? '',
+          description: doc.data()['description'] ?? '',
+          location: doc.data()['location'] ?? '',
+          postTime: (doc.data()['postTime'] ?? Timestamp.now()).toDate(),
+          userLike: doc.data()['userLike'] ?? <String>[],
+        );
+      }).toList();
+    });
+  }
+  Future<void> updateEmail(String newEmail) async {
+    await firebaseFirestore.collection('Users').doc(uid).update({
+      'email': newEmail,
+    });
+  }
 }

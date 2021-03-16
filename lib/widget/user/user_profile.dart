@@ -1,21 +1,23 @@
 import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
+import 'package:calorun/services/auth.dart';
 import 'package:calorun/services/database.dart';
-import 'package:calorun/widget/header.dart';
 import 'package:calorun/widget/post/post.dart';
+import 'package:calorun/widget/user/edit_account.dart';
+import 'package:calorun/widget/user/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class OtherUser extends StatefulWidget {
+class UserProfile extends StatefulWidget {
   final String uid;
 
-  OtherUser(this.uid);
+  UserProfile(this.uid);
 
   @override
-  _OtherUserState createState() => _OtherUserState();
+  _UserProfileState createState() => _UserProfileState();
 }
 
-class _OtherUserState extends State<OtherUser> {
+class _UserProfileState extends State<UserProfile> {
   ModifiedUser user = ModifiedUser();
 
   Future<void> _loadUserProfile() async {
@@ -27,11 +29,11 @@ class _OtherUserState extends State<OtherUser> {
     _loadUserProfile();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: header(),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
@@ -48,6 +50,47 @@ class _OtherUserState extends State<OtherUser> {
                           fontSize: 26,
                           letterSpacing: 0,
                           fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15.0, top: 8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditAccount()));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xffFCA311),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(40))),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 13, right: 20, top: 10, bottom: 10),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Text(
+                                'Edit',
+                                style: GoogleFonts.lato(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -214,26 +257,17 @@ class _OtherUserState extends State<OtherUser> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                  child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 50,
-                    child: GestureDetector(
-                      child: Container(
-                        color: Color(0xff297373),
-                      ),
-                      onTap: () => print('follow'),
-                    ),
-                  ),
-                  Text(
-                    "Folow",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  )
-                ],
-              )),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff297373),
+                  onPrimary: Color(0xff14213D),
+                ),
+                onPressed: AuthServices().signOut,
+                child: Text(
+                  "Log out",
+                  style: TextStyle(color: Color(0xffFFFFFF)),
+                ),
+              ),
               SizedBox(
                 height: 30,
               ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:calorun/models/post.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/services/location.dart';
 import 'package:calorun/services/storage.dart';
@@ -12,7 +13,8 @@ import 'package:uuid/uuid.dart';
 
 class UploadWidget extends StatefulWidget {
   final String uid;
-  UploadWidget({this.uid});
+  final Function reload;
+  UploadWidget({this.uid, this.reload});
   @override
   _UploadWidgetState createState() => _UploadWidgetState();
 }
@@ -74,10 +76,12 @@ class _UploadWidgetState extends State<UploadWidget> {
     String downloadUrl = await StorageServices().uploadPostImage(image, pid);
 
     // Save post info to Firestore
-    await DatabaseServices(uid: widget.uid)
+    Post newPost = await DatabaseServices(uid: widget.uid)
         .updatePostData(pid, downloadUrl, descriptionController.text, location);
 
     // Display the post
+    widget.reload(newPost);
+
     // Upload complete
     setState(() {
       pid = Uuid().v4();

@@ -6,9 +6,10 @@ class PostOwner {
   final String avtUrl;
 
   PostOwner({
-    this.firstName,
-    this.lastName,
-    this.avtUrl,
+    this.firstName = '',
+    this.lastName = '',
+    this.avtUrl =
+        'https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f',
   });
 
   factory PostOwner.fromDocument(DocumentSnapshot document) {
@@ -26,6 +27,7 @@ class ModifiedUser {
   final String firstName;
   final String lastName;
   final String avtUrl;
+  final String bio;
   final List<dynamic> following;
   final List<dynamic> follower;
   final double totalDistance;
@@ -34,17 +36,18 @@ class ModifiedUser {
   final double weight;
 
   ModifiedUser(
-      {this.uid,
-      this.email,
-      this.firstName,
-      this.lastName,
-      this.avtUrl,
-      this.following,
-      this.follower,
-      this.totalDistance,
-      this.totalTime,
-      this.height,
-      this.weight});
+      {this.uid = '',
+      this.email = '',
+      this.firstName = '',
+      this.lastName = '',
+      this.avtUrl = 'https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f',
+      this.bio = '',
+      this.following = const [],
+      this.follower = const [],
+      this.totalDistance = 0.0,
+      this.totalTime = 0.0,
+      this.height = 0.0,
+      this.weight = 0.0});
 
   factory ModifiedUser.fromDocument(DocumentSnapshot document) {
     return ModifiedUser(
@@ -53,6 +56,7 @@ class ModifiedUser {
       firstName: document.data()["firstName"] ?? "",
       lastName: document.data()["lastName"] ?? "",
       avtUrl: document.data()["avtUrl"] ?? "",
+      bio: document.data()["bio"] ?? "",
       following: document.data()["following"] ?? <String>[],
       follower: document.data()["follower"] ?? <String>[],
       totalDistance: document.data()["totalDistance"] ?? 0.0,
