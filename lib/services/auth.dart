@@ -4,11 +4,12 @@ import 'package:calorun/services/database.dart';
 
 class AuthServices {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  static User user;
 
   // Create user object based on FirebaseUser
   Future<ModifiedUser> userFromFirebaseUser() async {
-    User user = firebaseAuth.currentUser;
-    return (user != null)
+    User currentUser = firebaseAuth.currentUser;
+    return (currentUser != null)
         ? await DatabaseServices(uid: user.uid).getUserData()
         : null;
   }
@@ -26,7 +27,7 @@ class AuthServices {
         email: email,
         password: password,
       );
-      User user = result.user;
+      user = result.user;
       return user?.uid;
     } catch (e) {
       print("Sign in error: " + e.toString());
@@ -43,7 +44,7 @@ class AuthServices {
         password: password,
       );
 
-      User user = result.user;
+      user = result.user;
       await DatabaseServices(uid: user.uid).createUserData(
           user.uid,
           email,
@@ -60,7 +61,9 @@ class AuthServices {
   // Sign out
   Future<void> signOut() async {
     try {
-      return await firebaseAuth.signOut();
+      await firebaseAuth.signOut();
+      user = null;
+      return null;
     } catch (e) {
       print(e.toString());
       return null;
@@ -69,7 +72,7 @@ class AuthServices {
 
   Future<bool> changeAccount(String newEmail, String newPassword) async {
     try {
-      UserCredential result = await firebaseAuth.currentUser
+      UserCredential result = await user
           .reauthenticateWithCredential(EmailAuthProvider.credential(
               email: newEmail, password: newPassword));
       DatabaseServices(uid: result.user.uid).updateEmail(newEmail);
@@ -82,7 +85,7 @@ class AuthServices {
 
   Future<bool> changePassword(String newPassword) async {
     try {
-        await firebaseAuth.currentUser.updatePassword(newPassword);
+      await user.updatePassword(newPassword);
       return true;
     } catch (e) {
       print(e);

@@ -36,18 +36,18 @@ class DatabaseServices {
       'following': <String>[],
       'follower': <String>[],
       'totalDistance': 0.0,
-      'totalTime': 0.0,
+      'totalTime': 0,
       'height': 0.0,
       'weight': 0.0,
     });
   }
 
-  Future<void> updateRun(double newDistance, double newTime) async {
+  Future<void> updateRun(double newDistance, int newTime) async {
     DocumentSnapshot currentUser =
         await firebaseFirestore.collection('Users').doc(uid).get();
     double newTotalDistance =
         (currentUser.data()['totalDistance'] ?? 0.0) + newDistance;
-    double newTotalTime = (currentUser.data()['totalTime'] ?? 0.0) + newTime;
+    int newTotalTime = (currentUser.data()['totalTime'] ?? 0.0) + newTime;
     firebaseFirestore.collection('Users').doc(uid).update({
       'totalDistance': newTotalDistance,
       'totalTime': newTotalTime,
@@ -215,6 +215,7 @@ class DatabaseServices {
       }).toList();
     });
   }
+
   Future<void> updateEmail(String newEmail) async {
     await firebaseFirestore.collection('Users').doc(uid).update({
       'email': newEmail,

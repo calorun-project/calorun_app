@@ -178,8 +178,9 @@ class _UploadWidgetState extends State<UploadWidget> {
                 'Upload',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {
-                _uploadAndSave();
+              onPressed: () async {
+                await _uploadAndSave();
+                Navigator.pop(context);
               },
             )
           ],

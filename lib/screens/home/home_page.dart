@@ -1,4 +1,5 @@
 import 'package:calorun/models/user.dart';
+import 'package:calorun/screens/home/map.dart';
 import 'package:calorun/screens/home/timeline.dart';
 import 'package:calorun/screens/home/profile.dart';
 import 'package:calorun/services/database.dart';
@@ -54,7 +55,7 @@ class _HomeState extends State<Home> {
           body: PageView(
             children: <Widget>[
               Timeline(),
-              Timeline(),
+              Map(Provider.of<String>(context)),
               Timeline(),
               Timeline(),
               Profile(Provider.of<String>(context)),

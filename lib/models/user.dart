@@ -31,7 +31,7 @@ class ModifiedUser {
   final List<dynamic> following;
   final List<dynamic> follower;
   final double totalDistance;
-  final double totalTime;
+  final int totalTime;
   final double height;
   final double weight;
 
@@ -45,7 +45,7 @@ class ModifiedUser {
       this.following = const [],
       this.follower = const [],
       this.totalDistance = 0.0,
-      this.totalTime = 0.0,
+      this.totalTime = 0,
       this.height = 0.0,
       this.weight = 0.0});
 
@@ -60,7 +60,7 @@ class ModifiedUser {
       following: document.data()["following"] ?? <String>[],
       follower: document.data()["follower"] ?? <String>[],
       totalDistance: document.data()["totalDistance"] ?? 0.0,
-      totalTime: document.data()["totalTime"] ?? 0.0,
+      totalTime: document.data()["totalTime"] ?? 0,
       height: document.data()["height"] ?? 0.0,
       weight: document.data()["weight"] ?? 0.0,
     );

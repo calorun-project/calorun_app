@@ -28,34 +28,6 @@ class _EditAccount extends State<EditAccount> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Container(
-                        height: 40,
-                        width: 300,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            labelText: "Username",
-                            border: OutlineInputBorder(),
-                          ),
-                          validator: (val) =>
-                              val.isEmpty ? 'Please enter an email' : null,
-                          autofocus: false,
-                          onChanged: (val) {
-                            setState(() => email = val);
-                          },
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                //Password
                 loading ? linearProgress() : Text(''),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -133,10 +105,10 @@ class _EditAccount extends State<EditAccount> {
                     if (_formKey.currentState.validate()) {
                       setState(() => loading = true);
                       bool result = await AuthServices().changePassword(password);
-                      if (result == null) {
+                      if (result == false) {
                         setState(() {
                           error =
-                              'The email is invalid or has been used by an another account';
+                              'Failed';
                           loading = false;
                         });
                       } else {

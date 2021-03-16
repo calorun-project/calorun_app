@@ -2,7 +2,6 @@ import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/screens/home/profile.dart';
 import 'package:calorun/services/database.dart';
-import 'package:calorun/widget/user/other_user.dart';
 import 'package:flutter/material.dart';
 
 class PostWidget extends StatefulWidget {
@@ -79,6 +78,8 @@ class _PostWidgetState extends State<PostWidget> {
           SizedBox(
             height: 200,
           ),
+
+          /// của ĐĂng widget.post.imgUrl
         ],
       ),
     );
