@@ -59,7 +59,7 @@ class _UserProfileState extends State<UserProfile> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EditAccount()));
+                                builder: (context) => EditProfile()));
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -257,16 +257,38 @@ class _UserProfileState extends State<UserProfile> {
               SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xff297373),
-                  onPrimary: Color(0xff14213D),
-                ),
-                onPressed: AuthServices().signOut,
-                child: Text(
-                  "Log out",
-                  style: TextStyle(color: Color(0xffFFFFFF)),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff297373),
+                      onPrimary: Color(0xff14213D),
+                    ),
+                    onPressed:(){
+                      Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditAccount()));
+                    },
+                    child: Text(
+                      "Change password",
+                      style: TextStyle(color: Color(0xffFFFFFF)),
+                    ),
+                  ),
+                  SizedBox(width: 70,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff297373),
+                      onPrimary: Color(0xff14213D),
+                    ),
+                    onPressed: AuthServices().signOut,
+                    child: Text(
+                      "Log out",
+                      style: TextStyle(color: Color(0xffFFFFFF)),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 30,

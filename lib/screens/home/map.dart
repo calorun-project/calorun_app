@@ -50,7 +50,7 @@ class _MapState extends State<Map> {
 
   Future<void> setUp() async {
     await locationServices.askPermission();
-    screen.move(curentLocation, 16.0);
+    screen.move(curentLocation, 18.0);
   }
 
   void startRun() {
@@ -88,6 +88,8 @@ class _MapState extends State<Map> {
         isRunning = false;
         totalDistance = 0.0;
         totalTime = 0;
+        route.clear();
+        routes.clear();
       });
     }
   }
@@ -105,75 +107,105 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              icon: Icon(Icons.access_alarm),
-              onPressed: () {
-                saveRun();
-              }),
-          IconButton(
-              icon: Icon(Icons.ac_unit),
-              onPressed: () {
-                stopRun();
-              })
-        ],
-      ),
-      body: StreamBuilder<LatLng>(
-        stream: locationServices.locationListen,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (isRunning && snapshot.data != curentLocation) {
-              route.add(snapshot.data);
-              totalDistance += _measure(curentLocation, snapshot.data);
-            }
-            curentLocation = snapshot.data;
-            screen.move(snapshot.data, 16.0);
-          }
-          return FlutterMap(
-            mapController: screen,
-            options: MapOptions(
-              center: curentLocation,
-              zoom: 13.0,
-            ),
-            layers: [
-              TileLayerOptions(
-                  urlTemplate:
-                      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                  subdomains: ['a', 'b', 'c']),
-              PolylineLayerOptions(
-                polylines: routes +
-                    [
-                      Polyline(
-                        points: route,
-                        strokeWidth: 6.0,
-                        color: Colors.blue,
-                      )
-                    ],
-              ),
-              MarkerLayerOptions(
-                markers: [
-                  Marker(
-                    width: 80.0,
-                    height: 80.0,
-                    point: curentLocation,
-                    builder: (contex) => Container(
-                      child: Icon(
-                        Icons.location_on,
+    return Stack(
+      children: <Widget>[
+
+        Scaffold(
+          // appBar: AppBar(
+          //   backgroundColor: Color(0xff297373),
+          //   actions: [
+          //     IconButton(
+          //         icon: Icon(Icons.save_alt_outlined),
+          //         onPressed: () {
+          //           saveRun();
+          //         }),
+          //     IconButton(
+          //         icon: Icon(Icons.delete),
+          //         onPressed: () {
+          //           removeRun();
+          //         })
+          //   ],
+          // ),
+          body: StreamBuilder<LatLng>(
+            stream: locationServices.locationListen,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (isRunning && snapshot.data != curentLocation) {
+                  route.add(snapshot.data);
+                  totalDistance += _measure(curentLocation, snapshot.data);
+                }
+                curentLocation = snapshot.data;
+                screen.move(snapshot.data, 18.0);
+              }
+              return FlutterMap(
+                mapController: screen,
+                options: MapOptions(
+                  center: curentLocation,
+                  zoom: 13.0,
+                ),
+                layers: [
+                  TileLayerOptions(
+                      urlTemplate:
+                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                      subdomains: ['a', 'b', 'c']),
+                  PolylineLayerOptions(
+                    polylines: routes +
+                        [
+                          Polyline(
+                            points: route,
+                            strokeWidth: 6.0,
+                            color: Colors.blue,
+                          )
+                        ],
+                  ),
+                  MarkerLayerOptions(
+                    markers: [
+                      Marker(
+                        width: 80.0,
+                        height: 80.0,
+                        point: curentLocation,
+                        builder: (contex) => Container(
+                          child: Icon(
+                            Icons.location_on,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
+              );
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: isRunning ? Color(0xffFCA311):Color(0xff297373),
+            child: isRunning ? Icon(Icons.pause, size: 40,) : Icon(Icons.play_arrow_rounded, size: 40),
+            onPressed: isRunning ? stopRun : startRun,
+          ),
+        ),
+        
+                
+        Positioned(
+            child: Container(
+              height: 50,
+              child: AppBar(
+                backgroundColor: Color(0xff447967),
+                actions: [
+                  IconButton(
+                      icon: Icon(Icons.save_alt_outlined),
+                      onPressed: () {
+                        saveRun();
+                      }),
+                  IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        removeRun();
+                      })
+                ],
               ),
-            ],
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: isRunning ? Icon(Icons.pause) : Icon(Icons.play_arrow_rounded),
-        onPressed: isRunning ? stopRun : startRun,
-      ),
+            )
+          )
+
+      ],
     );
   }
 }

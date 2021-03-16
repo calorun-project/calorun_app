@@ -1,9 +1,11 @@
 import 'package:calorun/models/user.dart';
+import 'package:calorun/screens/home/leader_board.dart';
 import 'package:calorun/screens/home/map.dart';
 import 'package:calorun/screens/home/timeline.dart';
 import 'package:calorun/screens/home/profile.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/widget/header.dart';
+import 'package:calorun/widget/header_navigate.dart';
 import 'package:calorun/widget/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,12 +53,12 @@ class _HomeState extends State<Home> {
           return Waiting();
         }
         return Scaffold(
-          appBar: header(),
+          appBar: navigate_header(context),
           body: PageView(
             children: <Widget>[
               Timeline(),
               Map(Provider.of<String>(context)),
-              Timeline(),
+              LeaderBoard(),
               Timeline(),
               Profile(Provider.of<String>(context)),
             ],

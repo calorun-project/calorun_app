@@ -1,4 +1,5 @@
 import 'package:calorun/screens/authenticate/prelogin.dart';
+import 'package:calorun/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:calorun/screens/home/home_page.dart';
