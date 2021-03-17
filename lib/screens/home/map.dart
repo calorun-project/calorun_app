@@ -16,6 +16,10 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   final LocationServices locationServices = LocationServices();
   bool isRunning = false;
+
+  //TODO: check xem chay chua?
+  bool haveRun=false;
+
   MapController screen = MapController();
   LatLng curentLocation = LatLng(0.0, 0.0);
   List<LatLng> route = <LatLng>[];
@@ -176,34 +180,128 @@ class _MapState extends State<Map> {
               );
             },
           ),
-          floatingActionButton: FloatingActionButton(
+          // floatingActionButton: FloatingActionButton(
+          //   backgroundColor: isRunning ? Color(0xffFCA311):Color(0xff297373),
+          //   child: isRunning ? Icon(Icons.pause, size: 40,) : Icon(Icons.play_arrow_rounded, size: 40),
+          //   onPressed: isRunning ? stopRun : startRun,
+          // ),
+
+        ),
+
+        Visibility(
+          visible: haveRun,
+          child: Align(
+            alignment: Alignment(0.9,-0.9),
+            child: FloatingActionButton(
+              backgroundColor: Colors.red.withOpacity(0.8),
+              child: Icon(Icons.close_rounded),
+              heroTag: null,
+              onPressed: (){
+                removeRun();
+              },
+            ),
+          ),
+        ),
+
+        Align(
+          alignment: Alignment(0,1),
+          child: Container(
+            decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xff297373).withOpacity(0.75),
+              Color(0xff297373).withOpacity(0.5),
+              Color(0xff297373).withOpacity(0.4),
+              Colors.transparent
+            ],
+          ),
+        ),
+
+
+            height: 220,
+            child: Row(
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "00:00:00",
+                      style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "RobotoLight"),
+                    ),
+                    Text(
+                      "Duration",
+                      style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "RobotoLight"),
+                    ),
+                    SizedBox(height: 30),
+                    Text(
+                      "0",
+                      style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "RobotoLight"),
+                    ),
+                    Text(
+                      "Calories burned",
+                      style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "RobotoLight"),
+                    ),
+                  ],
+                ),
+
+                SizedBox(width: 70,),
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "0",
+                      style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "RobotoLight"),
+                    ),
+                    Text(
+                      "Distance (km)",
+                      style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "RobotoLight"),
+                    ),
+                    SizedBox(height: 30),
+                    Text(
+                      "0",
+                      style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "RobotoLight"),
+                    ),
+                    Text(
+                      "Speed (km/h)",
+                      style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "RobotoLight"),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ),
+
+        Align(
+          alignment: Alignment(0,0.23),
+          child: FloatingActionButton(
             backgroundColor: isRunning ? Color(0xffFCA311):Color(0xff297373),
             child: isRunning ? Icon(Icons.pause, size: 40,) : Icon(Icons.play_arrow_rounded, size: 40),
             onPressed: isRunning ? stopRun : startRun,
           ),
         ),
-        
-                
-        Positioned(
-            child: Container(
-              height: 50,
-              child: AppBar(
-                backgroundColor: Color(0xff447967),
-                actions: [
-                  IconButton(
-                      icon: Icon(Icons.save_alt_outlined),
-                      onPressed: () {
-                        saveRun();
-                      }),
-                  IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                        removeRun();
-                      })
-                ],
-              ),
-            )
-          )
+
+        Visibility(
+          visible: haveRun,
+          child: Align(
+          alignment: Alignment(0.9,0.9),
+            child: FloatingActionButton(
+              backgroundColor: Color(0xff297373),
+              child: Icon(Icons.save_alt_outlined),
+              heroTag: null,
+              onPressed: (){
+                print("object");
+              },
+            ),
+          ),
+        ),
 
       ],
     );
