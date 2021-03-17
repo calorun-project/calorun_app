@@ -229,18 +229,38 @@ class _MapState extends State<Map> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "00:00:00",
-                      style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "RobotoLight"),
+                    Container(
+                      alignment: Alignment.center,
+                      width: 120,
+                      height: 70,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: TextEditingController(text: '00:00:00'),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontFamily: "RobotoLight"),
+                      ),
                     ),
+
                     Text(
                       "Duration",
                       style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "RobotoLight"),
                     ),
-                    SizedBox(height: 30),
-                    Text(
-                      "0",
-                      style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "RobotoLight"),
+                    SizedBox(height: 10),
+
+                     Container(
+                      alignment: Alignment.center,
+                      width: 120,
+                      height: 70,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: TextEditingController(text: '0'),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontFamily: "RobotoLight"),
+                      ),
                     ),
                     Text(
                       "Calories burned",
@@ -255,18 +275,37 @@ class _MapState extends State<Map> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "0",
-                      style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "RobotoLight"),
+                     Container(
+                      alignment: Alignment.center,
+                      width: 120,
+                      height: 70,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: TextEditingController(text: '0'),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontFamily: "RobotoLight"),
+                      ),
                     ),
+
                     Text(
                       "Distance (km)",
                       style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "RobotoLight"),
                     ),
-                    SizedBox(height: 30),
-                    Text(
-                      "0",
-                      style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "RobotoLight"),
+                    SizedBox(height: 10),
+                     Container(
+                      alignment: Alignment.center,
+                      width: 120,
+                      height: 70,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: TextEditingController(text: '0'),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontFamily: "RobotoLight"),
+                      ),
                     ),
                     Text(
                       "Speed (km/h)",
