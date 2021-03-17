@@ -14,7 +14,7 @@ class PostWidget extends StatefulWidget {
 
 class _PostWidgetState extends State<PostWidget> {
   bool isLiked = false;
-  PostOwner postOwner = PostOwner();
+  SimplifiedUser postOwner = SimplifiedUser();
   int numLike = 0;
 
   @override
@@ -24,7 +24,7 @@ class _PostWidgetState extends State<PostWidget> {
   }
 
   Future<void> _getPostInfo() async {
-    postOwner = await DatabaseServices(uid: widget.post.ownerId).getPostOwner();
+    postOwner = await DatabaseServices(uid: widget.post.ownerId).getSimplifiedUser();
     setState(() {
       isLiked = widget.post.userLike.contains(widget.currentUserId);
       numLike = widget.post.userLike.length;

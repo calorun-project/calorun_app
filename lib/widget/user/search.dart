@@ -11,7 +11,7 @@ class SearchUser extends StatefulWidget {
 }
 
 class _SearchUserState extends State<SearchUser> {
-  List<PostOwner> _listOwner = [PostOwner(), PostOwner(), PostOwner()];
+  List<SimplifiedUser> _listUser = [SimplifiedUser(), SimplifiedUser(), SimplifiedUser()];
   
 
 
@@ -67,7 +67,7 @@ class _SearchUserState extends State<SearchUser> {
                         },
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                            _listOwner[0].avtUrl,
+                            _listUser[0].avtUrl,
                           ),
                         ),
                         title: GestureDetector(
@@ -83,7 +83,7 @@ class _SearchUserState extends State<SearchUser> {
                           },
                           child: Container(
                             child: Text(
-                              _listOwner[0].firstName + " " + _listOwner[0].lastName,
+                              _listUser[0].firstName + " " + _listUser[0].lastName,
                               style: TextStyle(color: Color(0xff297373)),
                             ),
                           )

@@ -20,21 +20,18 @@ class _MapState extends State<Map> {
 
   TextEditingController timeController =
       TextEditingController(text: '00:00:00');
-  TextEditingController distanceController;
-  TextEditingController caloController;
-  TextEditingController speedController;
-
-  //TODO: check xem chay chua?
-  bool haveRun = false;
+  TextEditingController distanceController =
+      TextEditingController(text: '0.00');
+  TextEditingController caloController = TextEditingController(text: '0.00');
+  TextEditingController speedController = TextEditingController(text: '0.00');
 
   MapController screen = MapController();
   LatLng curentLocation = LatLng(0.0, 0.0);
   List<LatLng> route = <LatLng>[];
   List<Polyline> routes = <Polyline>[];
   double totalDistance = 0.0;
-  int totalTime = 0;
+  double totalTime = 0.0;
 
-  DateTime startTime = DateTime.now();
   Timer timer;
 
   double _measure(LatLng point1, LatLng point2) {
@@ -71,8 +68,13 @@ class _MapState extends State<Map> {
   void startRun() {
     route.add(curentLocation);
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      totalTime += 1;
-      timeController.text = _printDuration(Duration(seconds: totalTime));
+      totalTime += 1.0;
+      timeController.text =
+          _printDuration(Duration(seconds: totalTime.toInt()));
+      distanceController.text = totalDistance.toStringAsFixed(2);
+      caloController.text =
+          (totalDistance * widget.weight * 0.001036).toStringAsFixed(2);
+      speedController.text = (totalDistance / totalTime).toStringAsFixed(2);
     });
     setState(() {
       isRunning = true;
@@ -103,7 +105,9 @@ class _MapState extends State<Map> {
       setState(() {
         isRunning = false;
         totalDistance = 0.0;
-        totalTime = 0;
+        distanceController.text = '0.00';
+        totalTime = 0.0;
+        timeController.text = '00:00:00';
         route.clear();
         routes.clear();
       });
@@ -115,7 +119,9 @@ class _MapState extends State<Map> {
     setState(() {
       isRunning = false;
       totalDistance = 0.0;
-      totalTime = 0;
+      distanceController.text = '0.00';
+      totalTime = 0.0;
+      timeController.text = '00:00:00';
       route.clear();
       routes.clear();
     });
@@ -126,21 +132,6 @@ class _MapState extends State<Map> {
     return Stack(
       children: <Widget>[
         Scaffold(
-          // appBar: AppBar(
-          //   backgroundColor: Color(0xff297373),
-          //   actions: [
-          //     IconButton(
-          //         icon: Icon(Icons.save_alt_outlined),
-          //         onPressed: () {
-          //           saveRun();
-          //         }),
-          //     IconButton(
-          //         icon: Icon(Icons.delete),
-          //         onPressed: () {
-          //           removeRun();
-          //         })
-          //   ],
-          // ),
           body: StreamBuilder<LatLng>(
             stream: locationServices.locationListen,
             builder: (context, snapshot) {
@@ -198,7 +189,7 @@ class _MapState extends State<Map> {
           // ),
         ),
         Visibility(
-          visible: haveRun,
+          visible: !(isRunning || (totalTime == 0)),
           child: Align(
             alignment: Alignment(0.9, -0.9),
             child: FloatingActionButton(
@@ -235,19 +226,20 @@ class _MapState extends State<Map> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      // TextField(
-                      //   controller: timeController,
-                      //   style: TextStyle(
-                      //       color: Colors.white,
-                      //       fontSize: 30,
-                      //       fontFamily: "RobotoLight"),
-                      // ),
-                      Text(
-                        _printDuration(Duration(seconds: totalTime)),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontFamily: "RobotoLight"),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 120,
+                        height: 70,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          enableInteractiveSelection: false,
+                          enabled: false,
+                          controller: timeController,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontFamily: "RobotoLight"),
+                        ),
                       ),
                       Text(
                         "Duration",
@@ -256,14 +248,21 @@ class _MapState extends State<Map> {
                             fontSize: 15,
                             fontFamily: "RobotoLight"),
                       ),
-                      SizedBox(height: 30),
-                      Text(
-                        (totalDistance * widget.weight * 0.001036)
-                            .toStringAsFixed(2),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontFamily: "RobotoLight"),
+                      SizedBox(height: 10),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 120,
+                        height: 70,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          enableInteractiveSelection: false,
+                          enabled: false,
+                          controller: caloController,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontFamily: "RobotoLight"),
+                        ),
                       ),
                       Text(
                         "Calories burned",
@@ -281,19 +280,20 @@ class _MapState extends State<Map> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        (totalDistance).toStringAsFixed(2),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontFamily: "RobotoLight"),
-                      ),
-                      TextField(
-                        controller: TextEditingController(text: '00:00:00'),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontFamily: "RobotoLight"),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 120,
+                        height: 70,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          controller: distanceController,
+                          enableInteractiveSelection: false,
+                          enabled: false,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontFamily: "RobotoLight"),
+                        ),
                       ),
                       Text(
                         "Distance (m)",
@@ -302,14 +302,21 @@ class _MapState extends State<Map> {
                             fontSize: 15,
                             fontFamily: "RobotoLight"),
                       ),
-                      SizedBox(height: 30),
-                      Text(
-                        (totalDistance / (totalTime + 0.0000001) * 3.6)
-                            .toStringAsFixed(2),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontFamily: "RobotoLight"),
+                      SizedBox(height: 10),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 120,
+                        height: 70,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          controller: speedController,
+                          enableInteractiveSelection: false,
+                          enabled: false,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontFamily: "RobotoLight"),
+                        ),
                       ),
                       Text(
                         "Speed (km/h)",
@@ -337,7 +344,7 @@ class _MapState extends State<Map> {
           ),
         ),
         Visibility(
-          visible: haveRun,
+          visible: !(isRunning || (totalTime == 0)),
           child: Align(
             alignment: Alignment(0.9, 0.9),
             child: FloatingActionButton(
@@ -345,7 +352,7 @@ class _MapState extends State<Map> {
               child: Icon(Icons.save_alt_outlined),
               heroTag: null,
               onPressed: () {
-                print("object");
+                saveRun();
               },
             ),
           ),

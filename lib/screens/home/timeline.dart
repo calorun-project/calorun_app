@@ -94,7 +94,7 @@ class _TimelineState extends State<Timeline> {
                     itemCount: posts.length,
                     itemBuilder: (context, index) {
                       return Column(children: <Widget>[
-                        PostWidget(post: posts[index], ),
+                        PostWidget(post: posts[index]),
                       ]);
                     },
                   ),
