@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
           body: PageView(
             children: <Widget>[
               Timeline(),
-              Map(Provider.of<String>(context)),
+              Map(uid: Provider.of<String>(context), weight: Provider.of<ModifiedUser>(context).weight,),
               LeaderBoard(),
               Timeline(),
               Profile(Provider.of<String>(context)),
