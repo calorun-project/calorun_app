@@ -71,15 +71,16 @@ class _PostWidgetState extends State<PostWidget> {
 
   createPostPicture() {
     return GestureDetector(
+      //TODO: Tăng like hộ bé ạ
       onDoubleTap: () => print('Liked'),
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          SizedBox(
-            height: 200,
-          ),
-
+          Image(image: NetworkImage(
+          postOwner.avtUrl,
+        ),)
           /// của ĐĂng widget.post.imgUrl
+          /// TODO: Lôi cái iamge xuống đi :<
         ],
       ),
     );
