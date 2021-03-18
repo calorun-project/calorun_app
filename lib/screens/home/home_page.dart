@@ -17,6 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  dynamic timeline = Timeline();
   PageController pageController;
   int pageIndex = 0;
 

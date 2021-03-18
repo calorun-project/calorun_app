@@ -216,8 +216,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                         ),
                         Align(
                           child: CircleAvatar(
+                            backgroundImage: NetworkImage('https://cdn.now.howstuffworks.com/media-content/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg'),
                             backgroundColor: Colors.red.shade800,
-                            child: Text('GI'),
                             radius: 30,
                           ),
                         ),
@@ -341,8 +341,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                       ),
                       Align(
                         child: CircleAvatar(
+                          backgroundImage: NetworkImage('https://cdn.now.howstuffworks.com/media-content/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',),
                           backgroundColor: Colors.red.shade800,
-                          child: Text('GI'),
                           radius: 30,
                         ),
                       ),

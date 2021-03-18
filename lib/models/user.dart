@@ -31,7 +31,7 @@ class ModifiedUser {
   final List<dynamic> following;
   final List<dynamic> follower;
   final double totalDistance;
-  final int totalTime;
+  final double totalTime;
   final double height;
   final double weight;
 
