@@ -17,6 +17,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Provider.of<String>(context) == widget.uid
         ? UserProfile(widget.uid)
-        : OtherUser(widget.uid);
+        : OtherUser(widget.uid, Provider.of<String>(context));
   }
 }

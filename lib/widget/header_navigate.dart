@@ -3,7 +3,7 @@ import 'package:calorun/widget/user/search.dart';
 import 'package:flutter/material.dart';
 
 
-navigate_header(BuildContext context) {
+Widget navigateHeader(BuildContext context) {
   return AppBar(
     actions: <Widget>[
       IconButton(

@@ -14,7 +14,7 @@ class PostWidget extends StatefulWidget {
 
 class _PostWidgetState extends State<PostWidget> {
   bool isLiked = false;
-  PostOwner postOwner = PostOwner();
+  SimplifiedUser postOwner = SimplifiedUser();
   int numLike = 0;
 
   @override
@@ -24,7 +24,7 @@ class _PostWidgetState extends State<PostWidget> {
   }
 
   Future<void> _getPostInfo() async {
-    postOwner = await DatabaseServices(uid: widget.post.ownerId).getPostOwner();
+    postOwner = await DatabaseServices(uid: widget.post.ownerId).getSimplifiedUser();
     setState(() {
       isLiked = widget.post.userLike.contains(widget.currentUserId);
       numLike = widget.post.userLike.length;
@@ -72,13 +72,42 @@ class _PostWidgetState extends State<PostWidget> {
   createPostPicture() {
     return GestureDetector(
       //TODO: Tăng like hộ bé ạ
-      onDoubleTap: () => print('Liked'),
+      onDoubleTap: () => {
+                      setState(() {
+                        if (isLiked == false) {
+                          widget.post.userLike.add(widget.currentUserId);
+                          DatabaseServices(uid: widget.currentUserId)
+                              .like(widget.post.ownerId, widget.post.pid);
+                        } else {
+                          widget.post.userLike.remove(widget.currentUserId);
+                          DatabaseServices(uid: widget.currentUserId)
+                              .dislike(widget.post.ownerId, widget.post.pid);
+                        }
+                        isLiked = widget.post.userLike.contains(widget.currentUserId);
+                        numLike = widget.post.userLike.length;
+                      }),
+                    },
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          Image(image: NetworkImage(
-          postOwner.avtUrl,
-        ),)
+        Container(height: 70, ),
+            Center(
+              child: new AspectRatio(
+                aspectRatio: 300 / 300,
+                child: new Container(
+                  decoration: new BoxDecoration(
+                    image: new DecorationImage(
+                      fit: BoxFit.fitWidth,
+                      alignment: FractionalOffset.topCenter,
+                      image: new NetworkImage(widget.post.imgUrl),
+                    )
+                  ),
+                ),
+              ),
+            ),
+        //   Image(image: NetworkImage(
+        //   widget.post.imgUrl,
+        // ),)
           /// của ĐĂng widget.post.imgUrl
           /// TODO: Lôi cái iamge xuống đi :<
         ],

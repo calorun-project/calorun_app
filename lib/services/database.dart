@@ -4,28 +4,27 @@ import 'package:calorun/models/user.dart';
 
 class DatabaseServices {
   final String uid;
-  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   DatabaseServices({this.uid});
 
   // Post owner getter
-  Future<PostOwner> getPostOwner() async {
+  Future<SimplifiedUser> getSimplifiedUser() async {
     DocumentSnapshot documentSnapshot =
-        await firebaseFirestore.collection('Users').doc(uid).get();
-    return PostOwner.fromDocument(documentSnapshot);
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+    return SimplifiedUser.fromDocument(documentSnapshot);
   }
 
   // User data getter
   Future<ModifiedUser> getUserData() async {
     DocumentSnapshot documentSnapshot =
-        await firebaseFirestore.collection('Users').doc(uid).get();
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
     return ModifiedUser.fromDocument(documentSnapshot);
   }
 
   // Create user data in 'Users' colection of firebase firestore
   Future<void> createUserData(String uid, String email, String firstName,
       String lastName, String avtUrl) async {
-    return await firebaseFirestore.collection('Users').doc(uid).set({
+    return await FirebaseFirestore.instance.collection('Users').doc(uid).set({
       'uid': uid,
       'email': email,
       'firstName': firstName,
@@ -36,19 +35,19 @@ class DatabaseServices {
       'following': <String>[],
       'follower': <String>[],
       'totalDistance': 0.0,
-      'totalTime': 0,
+      'totalTime': 0.0,
       'height': 0.0,
       'weight': 0.0,
     });
   }
 
-  Future<void> updateRun(double newDistance, int newTime) async {
+  Future<void> updateRun(double newDistance, double newTime) async {
     DocumentSnapshot currentUser =
-        await firebaseFirestore.collection('Users').doc(uid).get();
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
     double newTotalDistance =
         (currentUser.data()['totalDistance'] ?? 0.0) + newDistance;
-    int newTotalTime = (currentUser.data()['totalTime'] ?? 0.0) + newTime;
-    firebaseFirestore.collection('Users').doc(uid).update({
+    double newTotalTime = (currentUser.data()['totalTime'] ?? 0.0) + newTime;
+    FirebaseFirestore.instance.collection('Users').doc(uid).update({
       'totalDistance': newTotalDistance,
       'totalTime': newTotalTime,
     });
@@ -56,40 +55,48 @@ class DatabaseServices {
 
   Future<void> follow(String followId) async {
     DocumentSnapshot following =
-        await firebaseFirestore.collection('Users').doc(uid).get();
-    DocumentSnapshot follower =
-        await firebaseFirestore.collection('Users').doc(followId).get();
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+    DocumentSnapshot follower = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(followId)
+        .get();
     List<dynamic> followingData = following.data()['following'] ?? <String>[];
     List<dynamic> followerData = follower.data()['follower'] ?? <String>[];
-    followingData.add(followId);
-    followerData.add(uid);
-    firebaseFirestore.collection('Users').doc(uid).update({
-      'following': followingData,
-    });
-    firebaseFirestore.collection('Users').doc(followId).update({
-      'follower': followerData,
-    });
+    if (!followingData.contains(followId)) {
+      followingData.add(followId);
+      FirebaseFirestore.instance.collection('Users').doc(uid).update({
+        'following': followingData,
+      });
+    }
+    if (!followerData.contains(uid)) {
+      followerData.add(uid);
+      FirebaseFirestore.instance.collection('Users').doc(followId).update({
+        'follower': followerData,
+      });
+    }
   }
 
   Future<void> unfollow(String followId) async {
     DocumentSnapshot following =
-        await firebaseFirestore.collection('Users').doc(uid).get();
-    DocumentSnapshot follower =
-        await firebaseFirestore.collection('Users').doc(followId).get();
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+    DocumentSnapshot follower = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(followId)
+        .get();
     List<dynamic> followingData = following.data()['following'] ?? <String>[];
     List<dynamic> followerData = follower.data()['follower'] ?? <String>[];
     followingData.remove(followId);
     followerData.remove(uid);
-    firebaseFirestore.collection('Users').doc(uid).update({
+    FirebaseFirestore.instance.collection('Users').doc(uid).update({
       'following': followingData,
     });
-    firebaseFirestore.collection('Users').doc(followId).update({
+    FirebaseFirestore.instance.collection('Users').doc(followId).update({
       'follower': followerData,
     });
   }
 
   Future<void> like(String owner, String postId) async {
-    DocumentSnapshot post = await firebaseFirestore
+    DocumentSnapshot post = await FirebaseFirestore.instance
         .collection('Posts')
         .doc(owner)
         .collection('UserPosts')
@@ -97,7 +104,7 @@ class DatabaseServices {
         .get();
     List<dynamic> userLike = post.data()['userLike'] ?? <String>[];
     userLike.add(uid);
-    firebaseFirestore
+    FirebaseFirestore.instance
         .collection('Posts')
         .doc(owner)
         .collection('UserPosts')
@@ -108,7 +115,7 @@ class DatabaseServices {
   }
 
   Future<void> dislike(String owner, String postId) async {
-    DocumentSnapshot post = await firebaseFirestore
+    DocumentSnapshot post = await FirebaseFirestore.instance
         .collection('Posts')
         .doc(owner)
         .collection('UserPosts')
@@ -116,7 +123,7 @@ class DatabaseServices {
         .get();
     List<dynamic> userLike = post.data()['userLike'] ?? <String>[];
     userLike.remove(uid);
-    firebaseFirestore
+    FirebaseFirestore.instance
         .collection('Posts')
         .doc(owner)
         .collection('UserPosts')
@@ -129,7 +136,7 @@ class DatabaseServices {
   Future<Post> updatePostData(
       String pid, String imgUrl, String description, String location) async {
     DocumentReference userPostsRef =
-        firebaseFirestore.collection('Posts').doc(uid);
+        FirebaseFirestore.instance.collection('Posts').doc(uid);
     await userPostsRef.set({
       'ownerId': uid,
     });
@@ -155,7 +162,7 @@ class DatabaseServices {
   }
 
   Future<void> removePost(String postId) async {
-    return await firebaseFirestore
+    return await FirebaseFirestore.instance
         .collection('Posts')
         .doc(uid)
         .collection('UserPosts')
@@ -169,7 +176,7 @@ class DatabaseServices {
     List<dynamic> following = currentUser.following + [uid];
     List<Post> posts = <Post>[];
     for (String followingUser in following) {
-      QuerySnapshot querySnapshot = await firebaseFirestore
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('Posts')
           .doc(followingUser)
           .collection('UserPosts')
@@ -196,7 +203,7 @@ class DatabaseServices {
   }
 
   Stream<List<Post>> get userPosts {
-    return firebaseFirestore
+    return FirebaseFirestore.instance
         .collection('Posts')
         .doc(uid)
         .collection('UserPosts')
@@ -217,8 +224,44 @@ class DatabaseServices {
   }
 
   Future<void> updateEmail(String newEmail) async {
-    await firebaseFirestore.collection('Users').doc(uid).update({
+    await FirebaseFirestore.instance.collection('Users').doc(uid).update({
       'email': newEmail,
     });
+  }
+
+  static Future<List<LeaderBoardUser>> getDistanceLeaderBoard(int limit) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Users')
+        .orderBy('totalDistance', descending: true)
+        .limit(limit)
+        .get();
+    return querySnapshot.docs.map((doc) {
+      return LeaderBoardUser.fromQueryDocument(doc);
+    }).toList();
+  }
+
+  static Future<List<SearchedUser>> searchUser(String key) async {
+    if (key == '') return [];
+    QuerySnapshot emailQuerySnapshot = await FirebaseFirestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: key)
+        .get();
+
+    List<SearchedUser> searchedUser = emailQuerySnapshot.docs.map((doc) {
+      return SearchedUser.fromQueryDocument(doc);
+    }).toList();
+
+    QuerySnapshot nameQuerySnapshot =
+        await FirebaseFirestore.instance.collection('Users').get();
+    List<QueryDocumentSnapshot> docs = nameQuerySnapshot.docs;
+    docs.removeWhere((doc) =>
+        !((doc.data()['firstName'] + doc.data()['lastName']).contains(key) ||
+            (doc.data()['firstName'] + ' ' + doc.data()['lastName'])
+                .contains(key) ||
+            (doc.data()['lastName'] + doc.data()['firstName']).contains(key) ||
+            (doc.data()['lastName'] + ' ' + doc.data()['firstName'])
+                .contains(key)));
+    searchedUser += docs.map((e) => SearchedUser.fromQueryDocument(e)).toList();
+    return searchedUser;
   }
 }

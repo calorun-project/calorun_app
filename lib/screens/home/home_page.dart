@@ -51,18 +51,22 @@ class _HomeState extends State<Home> {
       initialData: null,
       builder: (context, snapshot) {
         if (Provider.of<ModifiedUser>(context) == null) {
-          return Waiting();
+          return waiting();
         }
+        
         return Scaffold(
-          appBar: navigate_header(context),
+          appBar: navigateHeader(context),
           body: PageView(
             children: <Widget>[
               Timeline(),
-              Map(Provider.of<String>(context)),
+              Map(
+                uid: Provider.of<String>(context),
+                weight: Provider.of<ModifiedUser>(context).weight,
+              ),
               LeaderBoard(),
               Timeline(),
               Profile(Provider.of<String>(context)),
-            ],
+              ],
             controller: pageController,
             onPageChanged: onPageChanged,
             physics: NeverScrollableScrollPhysics(),
