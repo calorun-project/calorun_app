@@ -23,7 +23,7 @@ class _SignInState extends State<SignIn> {
   String error = '';
   @override
   Widget build(BuildContext context) {
-    return loading ? Waiting() : Scaffold(
+    return loading ? waiting() : Scaffold(
       backgroundColor: Color(0xffF5F5F5),
       appBar: header(),
       body: SingleChildScrollView(
@@ -41,7 +41,7 @@ class _SignInState extends State<SignIn> {
                       //fontFamily: "TropicalAsian",
                       fontWeight: FontWeight.w800,
                       fontSize: 25.0,
-                      color: Color(0xff297373)
+                      color: Color(0xff297373),
                     ),
                   ),
 

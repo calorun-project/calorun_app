@@ -25,7 +25,7 @@ class _MapState extends State<Map> {
   TextEditingController caloController = TextEditingController(text: '0.00');
   TextEditingController speedController = TextEditingController(text: '0.00');
 
-  MapController screen = MapController();
+  MapController screen;
   LatLng curentLocation = LatLng(0.0, 0.0);
   List<LatLng> route = <LatLng>[];
   List<Polyline> routes = <Polyline>[];
@@ -56,13 +56,9 @@ class _MapState extends State<Map> {
 
   @override
   void initState() {
-    setUp();
+    screen = MapController();
+    locationServices.askPermission();
     super.initState();
-  }
-
-  Future<void> setUp() async {
-    await locationServices.askPermission();
-    screen.move(curentLocation, 18.0);
   }
 
   void startRun() {

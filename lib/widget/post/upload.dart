@@ -5,6 +5,7 @@ import 'package:calorun/services/location.dart';
 import 'package:calorun/services/storage.dart';
 import 'package:calorun/shared/constants.dart';
 import 'package:calorun/shared/loading.dart';
+import 'package:calorun/widget/header.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -94,13 +95,13 @@ class _UploadWidgetState extends State<UploadWidget> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+      appBar: header(),
+      body: SingleChildScrollView(
       padding: EdgeInsets.only(left: 10, right: 10),
       child: Container(
         alignment: Alignment.center,
         child: Column(
           children: <Widget>[
-            SizedBox(height: 50),
             isUpLoading ? linearProgress() : Text(''),
             Container(
               decoration: BoxDecoration(

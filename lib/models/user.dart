@@ -14,12 +14,52 @@ class LeaderBoardUser {
     this.totalDistance = 0.0,
   });
 
-  factory LeaderBoardUser.fromDocument(QueryDocumentSnapshot document) {
+  factory LeaderBoardUser.fromQueryDocument(QueryDocumentSnapshot document) {
     return LeaderBoardUser(
       firstName: document.data()["firstName"] ?? "",
       lastName: document.data()["lastName"] ?? "",
-      avtUrl: document.data()["avtUrl"] ?? "https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f",
+      avtUrl: document.data()["avtUrl"] ??
+          "https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f",
       totalDistance: document.data()["totalDistance"] ?? 0.0,
+    );
+  }
+}
+
+class SearchedUser {
+  final String uid;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String avtUrl;
+
+  SearchedUser({
+    this.uid = '',
+    this.firstName = '',
+    this.lastName = '',
+    this.email = '',
+    this.avtUrl =
+        'https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f',
+  });
+
+  factory SearchedUser.fromDocument(DocumentSnapshot document) {
+    return SearchedUser(
+      uid: document.data()["uid"] ?? "",
+      firstName: document.data()["firstName"] ?? "",
+      lastName: document.data()["lastName"] ?? "",
+      email: document.data()["email"] ?? "",
+      avtUrl: document.data()["avtUrl"] ??
+          "https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f",
+    );
+  }
+
+  factory SearchedUser.fromQueryDocument(QueryDocumentSnapshot document) {
+    return SearchedUser(
+      uid: document.data()["uid"] ?? "",
+      firstName: document.data()["firstName"] ?? "",
+      lastName: document.data()["lastName"] ?? "",
+      email: document.data()["email"] ?? "",
+      avtUrl: document.data()["avtUrl"] ??
+          "https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f",
     );
   }
 }
@@ -40,7 +80,17 @@ class SimplifiedUser {
     return SimplifiedUser(
       firstName: document.data()["firstName"] ?? "",
       lastName: document.data()["lastName"] ?? "",
-      avtUrl: document.data()["avtUrl"] ?? "",
+      avtUrl: document.data()["avtUrl"] ??
+          "https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f",
+    );
+  }
+
+  factory SimplifiedUser.fromQueryDocument(QueryDocumentSnapshot document) {
+    return SimplifiedUser(
+      firstName: document.data()["firstName"] ?? "",
+      lastName: document.data()["lastName"] ?? "",
+      avtUrl: document.data()["avtUrl"] ??
+          "https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f",
     );
   }
 }
@@ -82,8 +132,8 @@ class ModifiedUser {
       lastName: document.data()["lastName"] ?? "",
       avtUrl: document.data()["avtUrl"] ?? "",
       bio: document.data()["bio"] ?? "",
-      following: document.data()["following"] ?? <String>[],
-      follower: document.data()["follower"] ?? <String>[],
+      following: document.data()["following"],
+      follower: document.data()["follower"] ,
       totalDistance: document.data()["totalDistance"] ?? 0.0,
       totalTime: document.data()["totalTime"] ?? 0.0,
       height: document.data()["height"] ?? 0.0,

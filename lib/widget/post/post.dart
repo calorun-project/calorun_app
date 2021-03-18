@@ -77,7 +77,7 @@ class _PostWidgetState extends State<PostWidget> {
         alignment: Alignment.center,
         children: <Widget>[
           Image(image: NetworkImage(
-          postOwner.avtUrl,
+          widget.post.imgUrl,
         ),)
           /// của ĐĂng widget.post.imgUrl
           /// TODO: Lôi cái iamge xuống đi :<
