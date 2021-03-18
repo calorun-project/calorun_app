@@ -40,7 +40,8 @@ class _OtherUserState extends State<OtherUser> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return circularWaiting();
         user = snapshot.data;
-        isFollow = user.following.contains(widget.currentUserId);
+        isFollow = user.follower.contains(widget.currentUserId);
+        print(isFollow);
         buttonEdit.text = isFollow ? 'Unfollow' : 'Follow';
         return Scaffold(
             resizeToAvoidBottomInset: true,
@@ -241,7 +242,7 @@ class _OtherUserState extends State<OtherUser> {
                           ),
                           onPressed: followButton,
                           child: TextField(
-                            textAlign: TextAlign.center,                           
+                            textAlign: TextAlign.center,
                             enableInteractiveSelection: false,
                             enabled: false,
                             controller: buttonEdit,
@@ -264,6 +265,9 @@ class _OtherUserState extends State<OtherUser> {
                     stream: DatabaseServices(uid: widget.uid).userPosts,
                     builder: (context, snapshot) {
                       List<Post> listPost = snapshot?.data ?? <Post>[];
+                      listPost.sort((Post a, Post b) {
+                        return b.postTime.compareTo(a.postTime);
+                      });
                       return Container(
                         child: ListView.builder(
                           shrinkWrap: true,

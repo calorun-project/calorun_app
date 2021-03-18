@@ -296,6 +296,9 @@ class _UserProfileState extends State<UserProfile> {
                   stream: DatabaseServices(uid: widget.uid).userPosts,
                   builder: (context, snapshot) {
                     List<Post> listPost = snapshot?.data ?? <Post>[];
+                    listPost.sort((Post a, Post b) {
+                      return b.postTime.compareTo(a.postTime);
+                    });
                     return Container(
                       child: ListView.builder(
                         shrinkWrap: true,
