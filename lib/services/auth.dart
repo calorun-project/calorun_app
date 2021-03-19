@@ -70,19 +70,6 @@ class AuthServices {
     }
   }
 
-  Future<bool> changeAccount(String newEmail, String newPassword) async {
-    try {
-      UserCredential result = await user
-          .reauthenticateWithCredential(EmailAuthProvider.credential(
-              email: newEmail, password: newPassword));
-      DatabaseServices(uid: result.user.uid).updateEmail(newEmail);
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
   Future<bool> changePassword(String newPassword) async {
     try {
       await user.updatePassword(newPassword);

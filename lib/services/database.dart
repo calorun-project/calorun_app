@@ -27,8 +27,7 @@ class DatabaseServices {
     return await FirebaseFirestore.instance.collection('Users').doc(uid).set({
       'uid': uid,
       'email': email,
-      'firstName': firstName,
-      'lastName': lastName,
+      'name': firstName + ' ' + lastName,
       'avtUrl': avtUrl,
       'bio': '',
       'registerTime': Timestamp.now(),
@@ -103,15 +102,17 @@ class DatabaseServices {
         .doc(postId)
         .get();
     List<dynamic> userLike = post.data()['userLike'] ?? <String>[];
-    userLike.add(uid);
-    FirebaseFirestore.instance
-        .collection('Posts')
-        .doc(owner)
-        .collection('UserPosts')
-        .doc(postId)
-        .update({
-      'userLike': userLike,
-    });
+    if (!userLike.contains(uid)) {
+      userLike.add(uid);
+      FirebaseFirestore.instance
+          .collection('Posts')
+          .doc(owner)
+          .collection('UserPosts')
+          .doc(postId)
+          .update({
+        'userLike': userLike,
+      });
+    }
   }
 
   Future<void> dislike(String owner, String postId) async {
@@ -133,13 +134,10 @@ class DatabaseServices {
     });
   }
 
-  Future<Post> updatePostData(
+  Future<Post> createPostData(
       String pid, String imgUrl, String description, String location) async {
     DocumentReference userPostsRef =
         FirebaseFirestore.instance.collection('Posts').doc(uid);
-    await userPostsRef.set({
-      'ownerId': uid,
-    });
     Timestamp timestamp = Timestamp.now();
     await userPostsRef.collection('UserPosts').doc(pid).set({
       'pid': pid,
@@ -223,12 +221,6 @@ class DatabaseServices {
     });
   }
 
-  Future<void> updateEmail(String newEmail) async {
-    await FirebaseFirestore.instance.collection('Users').doc(uid).update({
-      'email': newEmail,
-    });
-  }
-
   static Future<List<LeaderBoardUser>> getDistanceLeaderBoard(int limit) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('Users')
@@ -241,7 +233,7 @@ class DatabaseServices {
   }
 
   static Future<List<SearchedUser>> searchUser(String key) async {
-    if (key == '') return [];
+    if (key == '' || key == null) return [];
     QuerySnapshot emailQuerySnapshot = await FirebaseFirestore.instance
         .collection('Users')
         .where('email', isEqualTo: key)
@@ -251,17 +243,31 @@ class DatabaseServices {
       return SearchedUser.fromQueryDocument(doc);
     }).toList();
 
-    QuerySnapshot nameQuerySnapshot =
-        await FirebaseFirestore.instance.collection('Users').get();
-    List<QueryDocumentSnapshot> docs = nameQuerySnapshot.docs;
-    docs.removeWhere((doc) =>
-        !((doc.data()['firstName'] + doc.data()['lastName']).contains(key) ||
-            (doc.data()['firstName'] + ' ' + doc.data()['lastName'])
-                .contains(key) ||
-            (doc.data()['lastName'] + doc.data()['firstName']).contains(key) ||
-            (doc.data()['lastName'] + ' ' + doc.data()['firstName'])
-                .contains(key)));
-    searchedUser += docs.map((e) => SearchedUser.fromQueryDocument(e)).toList();
+    QuerySnapshot nameQuerySnapshot = await FirebaseFirestore.instance
+        .collection('Users')
+        .where('name', isGreaterThanOrEqualTo: key)
+        .where('name', isLessThanOrEqualTo: key + '\uf8ff')
+        .get();
+
+    searchedUser += nameQuerySnapshot.docs.map((doc) {
+      return SearchedUser.fromQueryDocument(doc);
+    }).toList();
     return searchedUser;
+  }
+
+  Future<bool> updateUserProfile(String firstName, String lastName,
+      double height, double weight, String bio) async {
+    try {
+      await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+        'name': firstName + ' ' + lastName,
+        'height': height,
+        'weight': weight,
+        'bio': bio,        
+      });
+      return true;
+    } catch (e) {
+      print('Database error: ' + e);
+      return false;
+    }
   }
 }

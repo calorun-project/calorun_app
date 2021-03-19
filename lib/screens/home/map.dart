@@ -14,9 +14,11 @@ class Map extends StatefulWidget {
   _MapState createState() => _MapState();
 }
 
-class _MapState extends State<Map> {
+class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
   final LocationServices locationServices = LocationServices();
-  bool isRunning = false;
+  bool isRunning = false;  
+  @protected
+  bool get wantKeepAlive => isRunning || totalTime > 0.0;
 
   TextEditingController timeController =
       TextEditingController(text: '00:00:00');
@@ -125,6 +127,7 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Stack(
       children: <Widget>[
         Scaffold(

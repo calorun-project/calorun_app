@@ -78,7 +78,7 @@ class _UploadWidgetState extends State<UploadWidget> {
 
     // Save post info to Firestore
     Post newPost = await DatabaseServices(uid: widget.uid)
-        .updatePostData(pid, downloadUrl, descriptionController.text, location);
+        .createPostData(pid, downloadUrl, descriptionController.text, location);
 
     // Display the post
     widget.reload(newPost);

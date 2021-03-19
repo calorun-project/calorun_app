@@ -35,23 +35,25 @@ class _RegisterState extends State<Register> {
             child: Column(
               children: <Widget>[
                 Text(
-                      "Welcome to Calorun!",
-                      style: TextStyle(
-                        //fontFamily: "TropicalAsian",
-                        fontWeight: FontWeight.w800,
-                        fontSize: 25.0,
-                        color: Color(0xff297373)
-                      ),
-                    ),
-
+                  "Welcome to Calorun!",
+                  style: TextStyle(
+                    //fontFamily: "TropicalAsian",
+                    fontWeight: FontWeight.w800,
+                    fontSize: 25.0,
+                    color: Color(0xff297373)
+                  ),
+                ),
                 // First name
                 SizedBox(
                   height: 20.0,
                 ),
                 TextFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'First name'),
-                  validator: (val) =>
-                      val.isEmpty ? 'Please enter your first name' : null,
+                  validator: (val) 
+                    => val.isEmpty
+                        ? 'Please enter your first name'
+                        : !RegExp('[a-zA-Z]').hasMatch(val) ? 'Please enter a Valid Name'
+                            : null,
                   onChanged: (val) {
                     setState(() => firstName = val);
                   },
@@ -62,8 +64,10 @@ class _RegisterState extends State<Register> {
                 ),
                 TextFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'Last name'),
-                  validator: (val) =>
-                      val.isEmpty ? 'Please enter your last name' : null,
+                  validator: (val) => val.isEmpty
+                        ? 'Please enter your last name'
+                        : !RegExp('[a-zA-Z]').hasMatch(val) ? 'Please enter a valid name'
+                            : null,
                   onChanged: (val) {
                     setState(() => lastName = val);
                   },
@@ -149,7 +153,7 @@ class _RegisterState extends State<Register> {
                         (Set<MaterialState> states) {
                           if (states.contains(MaterialState.pressed))
                             return Color(0xff297373).withOpacity(0.6);
-                          return Color(0xff297373); // Use the component's default.
+                          return Color(0xff297373);
                         },
                       ),
                     ),

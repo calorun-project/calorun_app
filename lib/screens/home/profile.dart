@@ -1,3 +1,4 @@
+import 'package:calorun/models/user.dart';
 import 'package:calorun/widget/user/other_user.dart';
 import 'package:calorun/widget/user/user_profile.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Provider.of<String>(context) == widget.uid
-        ? UserProfile(widget.uid)
-        : OtherUser(widget.uid, Provider.of<String>(context));
+    return Provider.of<ModifiedUser>(context).uid == widget.uid
+        ? UserProfile()
+        : OtherUser(widget.uid);
   }
 }

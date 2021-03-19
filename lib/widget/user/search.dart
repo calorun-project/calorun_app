@@ -3,8 +3,11 @@ import 'package:calorun/services/database.dart';
 import 'package:calorun/widget/header.dart';
 import 'package:calorun/widget/user/watch_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchUser extends StatefulWidget {
+  ModifiedUser currentUser;
+  SearchUser({this.currentUser});
   @override
   _SearchUserState createState() => _SearchUserState();
 }
@@ -15,17 +18,16 @@ class _SearchUserState extends State<SearchUser> {
 
   Future<void> search() async {
     List<SearchedUser> listUser = await DatabaseServices.searchUser(key.text);
-    setState(() {
-      _listUser = listUser;
-    });
+    if (key != null) {
+      setState(() {
+        _listUser = listUser;
+      });
+    }
   }
 
   @override
   void dispose() {
     _listUser.clear();
-    key.removeListener(search);
-    key.clear();
-    key.dispose();
     super.dispose();
   }
 
@@ -39,7 +41,24 @@ class _SearchUserState extends State<SearchUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(),
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              key.clear();
+              Navigator.of(context).pop();
+            }),
+        title: Text(
+          "Calorun",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: "Spantaran",
+            fontSize: 50.0,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Color(0xff297373),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -87,8 +106,11 @@ class _SearchUserState extends State<SearchUser> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  WatchProfile(uid: _listUser[index].uid)),
+                            builder: (context) => WatchProfile(
+                              uid: _listUser[index].uid,
+                              currentUser: widget.currentUser,
+                            ),
+                          ),
                         );
                       },
                       leading: CircleAvatar(
@@ -98,18 +120,18 @@ class _SearchUserState extends State<SearchUser> {
                       ),
                       title: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
+                          Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    WatchProfile(uid: _listUser[index].uid)),
+                              builder: (context) => WatchProfile(
+                                uid: _listUser[index].uid,
+                                currentUser: widget.currentUser,
+                              ),
+                            ),
                           );
                         },
                         child: Container(
                           child: Text(
-                            _listUser[index].firstName +
-                                " " +
-                                _listUser[index].lastName,
+                            _listUser[index].name,
                             style: TextStyle(color: Color(0xff297373)),
                           ),
                         ),

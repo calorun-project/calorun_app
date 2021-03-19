@@ -1,10 +1,13 @@
+import 'package:calorun/models/user.dart';
 import 'package:calorun/screens/home/profile.dart';
 import 'package:calorun/widget/header.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WatchProfile extends StatefulWidget {
   final String uid;
-  WatchProfile({this.uid});
+  final ModifiedUser currentUser;
+  WatchProfile({this.uid, this.currentUser});
   @override
   _WatchProfileState createState() => _WatchProfileState();
 }
@@ -12,9 +15,12 @@ class WatchProfile extends StatefulWidget {
 class _WatchProfileState extends State<WatchProfile> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: header(),
-      body: Profile(widget.uid),
+    return Provider.value(
+      value: widget.currentUser,
+      child: Scaffold(
+        appBar: header(),
+        body: Profile(widget.uid),
+      ),
     );
   }
 }

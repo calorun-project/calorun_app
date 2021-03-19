@@ -2,15 +2,15 @@ import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/widget/loading.dart';
-import 'package:calorun/widget/post/post.dart';
+import 'package:calorun/widget/post/post_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class OtherUser extends StatefulWidget {
   final String uid;
-  final String currentUserId;
 
-  OtherUser(this.uid, this.currentUserId);
+  OtherUser(this.uid);
 
   @override
   _OtherUserState createState() => _OtherUserState();
@@ -20,14 +20,15 @@ class _OtherUserState extends State<OtherUser> {
   ModifiedUser user = ModifiedUser();
   bool isFollow = true;
   TextEditingController buttonEdit = TextEditingController();
+  String currentUserId;
 
   void followButton() {
     if (isFollow) {
-      DatabaseServices(uid: widget.currentUserId).unfollow(widget.uid);
+      DatabaseServices(uid: currentUserId).unfollow(widget.uid);
       isFollow = false;
       buttonEdit.text = 'Follow';
     } else {
-      DatabaseServices(uid: widget.currentUserId).follow(widget.uid);
+      DatabaseServices(uid: currentUserId).follow(widget.uid);
       isFollow = true;
       buttonEdit.text = 'Unfollow';
     }
@@ -35,12 +36,13 @@ class _OtherUserState extends State<OtherUser> {
 
   @override
   Widget build(BuildContext context) {
+    currentUserId = Provider.of<String>(context);
     return FutureBuilder(
       future: DatabaseServices(uid: widget.uid).getUserData(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return circularWaiting();
         user = snapshot.data;
-        isFollow = user.follower.contains(widget.currentUserId);
+        isFollow = user.follower.contains(currentUserId);
         print(isFollow);
         buttonEdit.text = isFollow ? 'Unfollow' : 'Follow';
         return Scaffold(
@@ -55,7 +57,7 @@ class _OtherUserState extends State<OtherUser> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
-                          user.firstName + ' ' + user.lastName,
+                          user.name,
                           style: GoogleFonts.lato(
                               color: Colors.grey[800],
                               fontSize: 26,
@@ -106,7 +108,7 @@ class _OtherUserState extends State<OtherUser> {
                       Padding(
                         padding: const EdgeInsets.only(left: 37.0),
                         child: Text(
-                          user.firstName + ' ' + user.lastName,
+                          user.name,
                           style: GoogleFonts.lato(
                               color: Colors.grey[600],
                               fontSize: 14,
@@ -275,7 +277,10 @@ class _OtherUserState extends State<OtherUser> {
                           itemCount: listPost.length,
                           itemBuilder: (context, index) {
                             return Column(children: <Widget>[
-                              PostWidget(post: listPost[index]),
+                              PostProfileWidget(
+                                post: listPost[index],
+                                owner: user,
+                              ),
                             ]);
                           },
                         ),

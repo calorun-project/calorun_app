@@ -3,6 +3,7 @@ import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/widget/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LeaderBoard extends StatefulWidget {
   @override
@@ -10,6 +11,11 @@ class LeaderBoard extends StatefulWidget {
 }
 
 class _LeaderBoardState extends State<LeaderBoard> {
+  String _getUserRank(String uid, List<LeaderBoardUser> leaderBoard) {
+    int pos = leaderBoard.indexWhere((element) => element.uid == uid);
+    if (pos == -1) return 'No rank';
+    return (pos + 1).toString();
+  }
   Widget buildList(BuildContext ctxt, int index , List<LeaderBoardUser> _leaderBoardItems) {
     int ind = index + 1;
     Widget crown;
@@ -55,19 +61,14 @@ class _LeaderBoardState extends State<LeaderBoard> {
       );
     }
 
-    Color c;
-    if (ind % 2 != 0)
-      c = Colors.white;
-    else
-      c = Color(0xffF5F5F5);
-
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
       child: Container(
         height: 100,
-        decoration: BoxDecoration(color: c,
-            //borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5.0)]),
+        decoration: BoxDecoration(
+          color: ind % 2 != 0 ? Colors.white : Color(0xffF5F5F5),
+          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5.0)],
+        ),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -87,7 +88,9 @@ class _LeaderBoardState extends State<LeaderBoard> {
                       Align(
                         child: CircleAvatar(
                           backgroundColor: Colors.red.shade800,
-                          child: Text('GI'),
+                          backgroundImage: NetworkImage(
+                                _leaderBoardItems[index]?.avtUrl,
+                              ),
                           radius: 30,
                         ),
                       ),
@@ -99,9 +102,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0, top: 5),
                             child: Text(
-                              _leaderBoardItems[index].firstName +
-                                  ' ' +
-                                  _leaderBoardItems[index].lastName,
+                              _leaderBoardItems[index].name,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -137,7 +138,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return FutureBuilder(
       future: DatabaseServices.getDistanceLeaderBoard(10),
       builder: (context, snapshot) {
@@ -152,7 +153,6 @@ class _LeaderBoardState extends State<LeaderBoard> {
             SingleChildScrollView(
               child: Column(
                 children: [
-                  //Draw column chart
                   Container(
                     height: 350.0,
                     color: Color(0xff14213D),
@@ -322,18 +322,18 @@ class _LeaderBoardState extends State<LeaderBoard> {
                             buildList(ctxt, index, _leaderBoardItems)),
                   ),
                   SizedBox(
-                    height: 100,
+                    height: 80,
                   )
                 ],
               ),
             ),
-            new Positioned(
+            Positioned(
                 bottom: 0,
-                child: new Container(
+                child: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
                   height: 80.0,
-                  decoration: new BoxDecoration(color: Colors.transparent),
+                  decoration: BoxDecoration(color: Colors.transparent),
                   child: Padding(
                     padding:
                         const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
@@ -362,18 +362,21 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                             backgroundColor: Colors.transparent,
                                             radius: 20,
                                             child: Text(
-                                              "10",
+                                              _getUserRank(Provider.of<ModifiedUser>(context).uid, _leaderBoardItems),
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
-                                            )),
+                                            ),
+                                          ),
                                       ),
                                     ),
                                     Align(
                                       child: CircleAvatar(
                                         backgroundColor: Colors.red.shade800,
-                                        child: Text('GI'),
+                                        backgroundImage: NetworkImage(
+                                          Provider.of<ModifiedUser>(context).avtUrl,
+                                        ),
                                         radius: 30,
                                       ),
                                     ),
@@ -387,7 +390,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                           padding: const EdgeInsets.only(
                                               left: 8.0, top: 5),
                                           child: Text(
-                                            "me",
+                                            Provider.of<ModifiedUser>(context).name,
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
@@ -406,7 +409,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                "1000",
+                                (Provider.of<ModifiedUser>(context).totalDistance / 1000)
+                                  .toStringAsFixed(0) + ' km',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -419,10 +423,11 @@ class _LeaderBoardState extends State<LeaderBoard> {
                       ),
                     ),
                   ),
-                )),
-          ],
-        ),
-      );
+                ),
+              ),
+            ],
+          ),
+        );
       }, 
     );
   }
