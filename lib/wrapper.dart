@@ -1,3 +1,4 @@
+import 'package:calorun/screens/authenticate/authenticate.dart';
 import 'package:calorun/screens/authenticate/prelogin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
