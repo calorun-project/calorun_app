@@ -80,6 +80,7 @@ class _PostWidgetState extends State<PostWidget> {
                             ]),
                       )),
                 ),
+
                 // Body
                 GestureDetector(
                   onDoubleTap: () {
@@ -101,6 +102,8 @@ class _PostWidgetState extends State<PostWidget> {
                     alignment: Alignment.center,
                     children: <Widget>[
                       Image(
+                        width: 300,
+                        height: 300,
                         image: NetworkImage(
                           widget.post.imgUrl,
                         ),
@@ -108,6 +111,7 @@ class _PostWidgetState extends State<PostWidget> {
                     ],
                   ),
                 ),
+
                 // Foot
                 Column(
                   children: <Widget>[

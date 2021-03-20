@@ -5,6 +5,7 @@ import 'package:calorun/services/database.dart';
 import 'package:calorun/widget/post/post_profile.dart';
 import 'package:calorun/widget/user/edit_account.dart';
 import 'package:calorun/widget/user/edit_profile.dart';
+import 'package:calorun/widget/user/update_avt.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -102,6 +103,29 @@ class _UserProfileState extends State<UserProfile> {
                             user.avtUrl,
                           ),
                         )),
+
+                    Positioned(
+                      bottom: 54,
+                      right: 20, //give the values according to your requirement
+                      child: GestureDetector(
+                        child: Material(
+                          color: Color(0xffFCA311),
+                          elevation: 10,
+                          borderRadius: BorderRadius.circular(100),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.edit,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                          )),
+                        onTap: ()=> Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UpdateAvatar())),
+                      ),
+                    ),
                   ],
                 ),
               ),
