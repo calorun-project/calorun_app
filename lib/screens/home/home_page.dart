@@ -48,29 +48,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureProvider<ModifiedUser>.value(
-      value: DatabaseServices(uid: Provider.of<String>(context)).getUserData(),
+    return StreamProvider<ModifiedUser>.value(
+      value: DatabaseServices(uid: Provider.of<String>(context)).userStream,
       initialData: null,
       builder: (context, snapshot) {
         ModifiedUser currentUser = Provider.of<ModifiedUser>(context);
         if (currentUser == null) {
-          return waiting();
+          return circularWaiting();
         }
-
         return DefaultTabController(
           initialIndex: 0,
           child: Scaffold(
             appBar: AppBar(
               actions: <Widget>[
                 IconButton(
-                      icon: Icon(Icons.search),
-                      tooltip: 'Search',
-                      onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SearchUser(currentUser: currentUser,)),
-                      );
-                    },
-                    ),
+                  icon: Icon(Icons.search),
+                  tooltip: 'Search',
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SearchUser(),),
+                    );
+                  },
+                ),
               ],
 
               title: Text(

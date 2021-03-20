@@ -18,6 +18,7 @@ class _RegisterState extends State<Register> {
   String uid = '';
   String email = '';
   String password = '';
+  String confirmPassword = '';
   String firstName = '';
   String lastName = '';  
   String error = '';
@@ -49,13 +50,14 @@ class _RegisterState extends State<Register> {
                 ),
                 TextFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'First name'),
-                  validator: (val) 
-                    => val.isEmpty
-                        ? 'Please enter your first name'
-                        : !RegExp('[a-zA-Z]').hasMatch(val) ? 'Please enter a Valid Name'
-                            : null,
-                  onChanged: (val) {
-                    setState(() => firstName = val);
+                  validator: (value) =>
+                    (value.isEmpty) ?
+                    'Please enter your first name' :
+                    ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9- ]').hasMatch(value)) ?
+                    'Please enter a valid Name' :
+                    null),
+                  onChanged: (value) {
+                    setState(() => firstName = value);
                   },
                 ),
                 // Last name
@@ -64,12 +66,14 @@ class _RegisterState extends State<Register> {
                 ),
                 TextFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'Last name'),
-                  validator: (val) => val.isEmpty
-                        ? 'Please enter your last name'
-                        : !RegExp('[a-zA-Z]').hasMatch(val) ? 'Please enter a valid name'
-                            : null,
-                  onChanged: (val) {
-                    setState(() => lastName = val);
+                  validator: (value) =>
+                    (value.isEmpty) ?
+                    'Please enter your first name' :
+                    ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9- ]').hasMatch(value)) ?
+                    'Please enter a valid Name' :
+                    null),
+                  onChanged: (value) {
+                    setState(() => lastName = value);
                   },
                 ),
                 // email
@@ -78,10 +82,10 @@ class _RegisterState extends State<Register> {
                 ),
                 TextFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'Email'),
-                  validator: (val) =>
-                      val.isEmpty ? 'Please enter an email' : null,
-                  onChanged: (val) {
-                    setState(() => email = val);
+                  validator: (value) =>
+                      value.isEmpty ? 'Please enter an email' : null,
+                  onChanged: (value) {
+                    setState(() => email = value);
                   },
                 ),
                 // password
@@ -91,11 +95,24 @@ class _RegisterState extends State<Register> {
                 TextFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'Password'),
                   obscureText: true,
-                  validator: (val) => (val.length < 6)
+                  validator: (value) => (value.length < 6)
                       ? 'A password must be at leasst 6 character'
                       : null,
-                  onChanged: (val) {
-                    setState(() => password = val);
+                  onChanged: (value) {
+                    setState(() => password = value);
+                  },
+                ),
+                SizedBox(
+                  height: 20.00,
+                ),
+                TextFormField(
+                  decoration: textInputDecoration.copyWith(hintText: 'Conrfim password'),
+                  obscureText: true,
+                  validator: (value) => (value != password)
+                      ? 'The corfirm password is not valid'
+                      : null,
+                  onChanged: (value) {
+                    setState(() => confirmPassword = value);
                   },
                 ),
                 SizedBox(

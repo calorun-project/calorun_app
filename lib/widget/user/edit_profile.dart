@@ -4,7 +4,7 @@ import 'package:calorun/widget/header.dart';
 import 'package:flutter/material.dart';
 
 class EditProfile extends StatefulWidget {
-  ModifiedUser user;
+  final ModifiedUser user;
   EditProfile(this.user);
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -50,11 +50,12 @@ class _EditProfileState extends State<EditProfile> {
                           labelText: "First name",
                           border: OutlineInputBorder(),
                         ),
-                        validator: (value) => value.isEmpty
-                            ? 'Please enter your first name'
-                            : !RegExp('[a-zA-Z]').hasMatch(value)
-                                ? 'Please enter a valid Name'
-                                : null,
+                        validator: (value) => 
+                          (value.isEmpty) ?
+                          'Please enter your first name' :
+                          ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9- ]').hasMatch(value)) ?
+                          'Please enter a valid Name' :
+                          null),
                         autofocus: false,
                       ),
                     ),
@@ -79,11 +80,12 @@ class _EditProfileState extends State<EditProfile> {
                           border: OutlineInputBorder(),
                           hintText: 'Last name',
                         ),
-                        validator: (value) => value.isEmpty
-                            ? 'Please enter your last name'
-                            : !RegExp('[a-zA-Z]').hasMatch(value)
-                                ? 'Please enter a valid Name'
-                                : null,
+                        validator: (value) =>
+                          (value.isEmpty) ?
+                          'Please enter your first name' :
+                          ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9- ]').hasMatch(value)) ?
+                          'Please enter a valid Name' :
+                          null),
                         autofocus: false,
                       ),
                     ),
@@ -108,12 +110,13 @@ class _EditProfileState extends State<EditProfile> {
                           border: OutlineInputBorder(),
                           hintText: 'Weight',
                         ),
-                        validator: (value) => value.isEmpty
-                            ? 'Please enter your weight'
-                            : (!RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
-                                    .hasMatch(value)
-                                ? 'Please enter a valid weight'
-                                : null),
+                        validator: (value) => 
+                            (value.isEmpty) ?
+                            'Please enter your weight' :
+                            (!RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)) ?
+                            'Please enter a valid weight' :
+                            (double.parse(value) < 0.0 || double.parse(value) > 999.0) ?
+                            'Please enter a valid weight' : null,
                         autofocus: false,
                       ),
                     ),
@@ -138,12 +141,13 @@ class _EditProfileState extends State<EditProfile> {
                           border: OutlineInputBorder(),
                           hintText: 'Height',
                         ),
-                        validator: (value) => value.isEmpty
-                            ? 'Please enter your height'
-                            : (!RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
-                                    .hasMatch(value)
-                                ? 'Please enter a valid height'
-                                : null),
+                        validator: (value) =>
+                            (value.isEmpty) ?
+                            'Please enter your height' :
+                            (!RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)) ?
+                            'Please enter a valid height' :
+                            (double.parse(value) < 0.0 || double.parse(value) > 999.0) ?
+                            'Please enter a valid height' : null,
                         autofocus: false,
                       ),
                     ),

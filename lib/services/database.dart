@@ -21,6 +21,10 @@ class DatabaseServices {
     return ModifiedUser.fromDocument(documentSnapshot);
   }
 
+  Stream<ModifiedUser> get userStream {
+    return FirebaseFirestore.instance.collection('Users').doc(uid).snapshots().map((event) => ModifiedUser.fromDocument(event));
+  }
+
   // Create user data in 'Users' colection of firebase firestore
   Future<void> createUserData(String uid, String email, String firstName,
       String lastName, String avtUrl) async {

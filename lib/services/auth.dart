@@ -50,7 +50,7 @@ class AuthServices {
           email,
           firstName,
           lastName,
-          'https://firebasestorage.googleapis.com/v0/b/calorunapp.appspot.com/o/default-avatar.jpg?alt=media&token=13b2a509-df44-47aa-80bb-a69a56f2f52f');
+          null);
       return user?.uid;
     } catch (e) {
       print("Register error: " + e.toString());

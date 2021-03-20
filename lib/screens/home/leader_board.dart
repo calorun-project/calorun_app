@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
+import 'package:calorun/shared/modified_image.dart';
 import 'package:calorun/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +89,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                       Align(
                         child: CircleAvatar(
                           backgroundColor: Colors.red.shade800,
-                          backgroundImage: NetworkImage(
+                          backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                          foregroundImage: modifiedImageNetwork(
                                 _leaderBoardItems[index]?.avtUrl,
                               ),
                           radius: 30,
@@ -165,7 +167,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
+                              backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                              foregroundImage: modifiedImageNetwork(
                                 _leaderBoardItems[1]?.avtUrl,
                               ),
                               backgroundColor: Colors.red,
@@ -218,7 +221,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
+                              backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                              foregroundImage: modifiedImageNetwork(
                                 _leaderBoardItems[0]?.avtUrl,
                               ),
                               backgroundColor: Colors.red,
@@ -261,7 +265,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
+                              backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                              foregroundImage: modifiedImageNetwork(
                                 _leaderBoardItems[2].avtUrl,
                               ),
                               backgroundColor: Colors.red,
@@ -374,7 +379,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                     Align(
                                       child: CircleAvatar(
                                         backgroundColor: Colors.red.shade800,
-                                        backgroundImage: NetworkImage(
+                                        backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                                        foregroundImage: modifiedImageNetwork(
                                           Provider.of<ModifiedUser>(context).avtUrl,
                                         ),
                                         radius: 30,

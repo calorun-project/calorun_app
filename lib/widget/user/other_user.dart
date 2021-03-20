@@ -6,6 +6,7 @@ import 'package:calorun/widget/post/post_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:calorun/shared/modified_image.dart';
 
 class OtherUser extends StatefulWidget {
   final String uid;
@@ -84,7 +85,8 @@ class _OtherUserState extends State<OtherUser> {
                                       Border.all(color: Colors.white, width: 2),
                                   borderRadius: BorderRadius.circular(140)),
                               child: CircleAvatar(
-                                backgroundImage: NetworkImage(
+                                backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                                foregroundImage: modifiedImageNetwork(
                                   user.avtUrl,
                                 ),
                               )),

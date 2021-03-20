@@ -1,6 +1,7 @@
 import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
+import 'package:calorun/shared/modified_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,8 @@ class _PostProfileWidgetState extends State<PostProfileWidget> {
   Widget createPostHead(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(
+        backgroundImage: AssetImage("assets/images/default-avatar.png"),
+        foregroundImage: modifiedImageNetwork(
           widget.owner.avtUrl,
         ),
       ),
@@ -63,7 +65,7 @@ class _PostProfileWidgetState extends State<PostProfileWidget> {
         alignment: Alignment.center,
         children: <Widget>[
           Image(
-            image: NetworkImage(
+            image: modifiedPostImageNetwork(
               widget.post.imgUrl,
             ),
           )
@@ -80,35 +82,35 @@ class _PostProfileWidgetState extends State<PostProfileWidget> {
           children: <Widget>[
             Padding(padding: EdgeInsets.only(top: 40.0, left: 20.0)),
             GestureDetector(
-                onTap: () => {
-                      setState(() {
-                        if (isLiked == false) {
-                          widget.post.userLike.add(uid);
-                          DatabaseServices(uid: uid)
-                              .like(widget.post.ownerId, widget.post.pid);
-                        } else {
-                          widget.post.userLike.remove(uid);
-                          DatabaseServices(uid: uid)
-                              .dislike(widget.post.ownerId, widget.post.pid);
-                        }
-                        isLiked = widget.post.userLike.contains(uid);
-                        numLike = widget.post.userLike.length;
-                      }),
-                    },
-                child: Icon(
-                  isLiked ? Icons.favorite : Icons.favorite_border,
-                  size: 20.0,
-                  color: Color(0xff297373),
-                )),
-            Padding(padding: EdgeInsets.only(right: 20.0)),
-            GestureDetector(
-              onTap: () => print('ShowCommnets'),
+              onTap: () => {
+                setState(() {
+                  if (isLiked == false) {
+                    widget.post.userLike.add(uid);
+                    DatabaseServices(uid: uid)
+                        .like(widget.post.ownerId, widget.post.pid);
+                  } else {
+                    widget.post.userLike.remove(uid);
+                    DatabaseServices(uid: uid)
+                        .dislike(widget.post.ownerId, widget.post.pid);
+                  }
+                  isLiked = widget.post.userLike.contains(uid);
+                  numLike = widget.post.userLike.length;
+                }),
+              },    
               child: Icon(
-                Icons.chat_bubble_outline,
+                isLiked ? Icons.favorite : Icons.favorite_border,
                 size: 20.0,
                 color: Color(0xff297373),
-              ),
-            )
+              )),
+            Padding(padding: EdgeInsets.only(right: 20.0)),
+            // GestureDetector(
+            //   onTap: () => print('ShowCommnets'),
+            //   child: Icon(
+            //     Icons.chat_bubble_outline,
+            //     size: 20.0,
+            //     color: Color(0xff297373),
+            //   ),
+            // )
           ],
         ),
         Row(

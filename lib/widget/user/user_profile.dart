@@ -2,6 +2,7 @@ import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/auth.dart';
 import 'package:calorun/services/database.dart';
+import 'package:calorun/shared/modified_image.dart';
 import 'package:calorun/widget/post/post_profile.dart';
 import 'package:calorun/widget/user/edit_account.dart';
 import 'package:calorun/widget/user/edit_profile.dart';
@@ -98,7 +99,9 @@ class _UserProfileState extends State<UserProfile> {
                             border: Border.all(color: Colors.white, width: 2),
                             borderRadius: BorderRadius.circular(140)),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(
+                          backgroundImage:
+                              AssetImage("assets/images/default-avatar.png"),
+                          foregroundImage: modifiedImageNetwork(
                             user.avtUrl,
                           ),
                         )),
@@ -270,7 +273,10 @@ class _UserProfileState extends State<UserProfile> {
                     primary: Color(0xff297373),
                     onPrimary: Color(0xff14213D),
                   ),
-                  onPressed: AuthServices().signOut,
+                  onPressed: () {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    AuthServices().signOut();
+                  },
                   child: Text(
                     "Log out",
                     style: TextStyle(color: Color(0xffFFFFFF)),

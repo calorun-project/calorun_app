@@ -1,6 +1,7 @@
 import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
+import 'package:calorun/shared/modified_image.dart';
 import 'package:calorun/widget/post/post.dart';
 import 'package:calorun/widget/post/upload.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,8 @@ class _TimelineState extends State<Timeline> {
                                     Border.all(color: Colors.white, width: 2),
                                 borderRadius: BorderRadius.circular(50)),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(
+                              backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                              foregroundImage: modifiedImageNetwork(
                                 Provider.of<ModifiedUser>(context).avtUrl ,
                               ),
                             )),
@@ -67,10 +69,8 @@ class _TimelineState extends State<Timeline> {
                                 MaterialPageRoute(
                                   builder: (context) => UploadWidget(
                                     uid: Provider.of<String>(context),
-                                    reload: (Post post) {
-                                      setState(() {
-                                        posts.add(post);
-                                      });
+                                    reload: () {
+                                      setState(() => null);
                                     },
                                   ),
                                 ),

@@ -78,6 +78,11 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto-Light.ttf
 
+  assets:
+    - assets/images/default-avatar.png
+    - assets/images/transparent.png
+    - assets/images/transparent_post.png
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

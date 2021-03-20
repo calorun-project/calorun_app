@@ -16,9 +16,13 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
   final LocationServices locationServices = LocationServices();
-  bool isRunning = false;  
-  @protected
-  bool get wantKeepAlive => isRunning || totalTime > 0.0;
+  bool isRunning = false;
+  bool isAlive = false;
+
+  bool get wantKeepAlive {
+    if (isAlive) return true;
+    return false;
+  }
 
   TextEditingController timeController =
       TextEditingController(text: '00:00:00');
@@ -64,6 +68,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
   }
 
   void startRun() {
+    isAlive = true;
     route.add(curentLocation);
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       totalTime += 1.0;
@@ -80,12 +85,10 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
   }
 
   void stopRun() {
-    print(totalDistance);
-    print(totalTime);
     routes.add(Polyline(
       points: route,
       strokeWidth: 6.0,
-      color: Colors.blue,
+      color: Color(0xffFCA311),
     ));
     route = <LatLng>[];
     timer?.cancel();
@@ -97,7 +100,13 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
   void saveRun() {
     stopRun();
     if (totalDistance < 300.0) {
-      // cuar ddangw
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content:
+              const Text('The distance less than 300 meters cannot be saved'),
+          duration: Duration(milliseconds: 500),
+        ),
+      );
     } else {
       DatabaseServices(uid: widget.uid).updateRun(totalDistance, totalTime);
       setState(() {
@@ -109,6 +118,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
         route.clear();
         routes.clear();
       });
+      isAlive = false;
     }
   }
 
@@ -122,6 +132,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       timeController.text = '00:00:00';
       route.clear();
       routes.clear();
+      isAlive = false;
     });
   }
 
@@ -140,7 +151,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
                   totalDistance += _measure(curentLocation, snapshot.data);
                 }
                 curentLocation = snapshot.data;
-                screen.move(snapshot.data, 18.0);
+                screen.move(LatLng(snapshot.data.latitude - 0.0002, snapshot.data.longitude), 18.0);
               }
               return FlutterMap(
                 mapController: screen,
@@ -159,7 +170,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
                           Polyline(
                             points: route,
                             strokeWidth: 6.0,
-                            color: Colors.blue,
+                            color: Color(0xffFCA311),
                           )
                         ],
                   ),
@@ -168,10 +179,11 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
                       Marker(
                         width: 80.0,
                         height: 80.0,
-                        point: curentLocation,
+                        point: LatLng(curentLocation.latitude + 0.000035, curentLocation.longitude),
                         builder: (contex) => Container(
                           child: Icon(
                             Icons.location_on,
+                            color: Color(0xff297373),
                           ),
                         ),
                       ),
@@ -181,11 +193,6 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
               );
             },
           ),
-          // floatingActionButton: FloatingActionButton(
-          //   backgroundColor: isRunning ? Color(0xffFCA311):Color(0xff297373),
-          //   child: isRunning ? Icon(Icons.pause, size: 40,) : Icon(Icons.play_arrow_rounded, size: 40),
-          //   onPressed: isRunning ? stopRun : startRun,
-          // ),
         ),
         Visibility(
           visible: !(isRunning || (totalTime == 0)),
@@ -197,6 +204,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
               heroTag: null,
               onPressed: () {
                 removeRun();
+                print(isAlive);
               },
             ),
           ),

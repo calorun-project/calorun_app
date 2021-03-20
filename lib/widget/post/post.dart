@@ -1,6 +1,7 @@
 import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
+import 'package:calorun/shared/modified_image.dart';
 import 'package:calorun/widget/user/watch_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +20,8 @@ class _PostWidgetState extends State<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    ModifiedUser currentUser = Provider.of<ModifiedUser>(context);    
-    isLiked = widget.post.userLike.contains(currentUser.uid);
+    String currentUserId = Provider.of<String>(context);    
+    isLiked = widget.post.userLike.contains(currentUserId);
     numLike = widget.post.userLike.length;
 
     
@@ -44,12 +45,13 @@ class _PostWidgetState extends State<PostWidget> {
                       MaterialPageRoute(
                           builder: (context) => WatchProfile(
                                 uid: widget.post.ownerId,
-                                currentUser: currentUser,
+                                // currentUserId: currentUserId,
                               )),
                     );
                   },
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
+                    backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                    foregroundImage: modifiedImageNetwork(
                       postOwner.avtUrl,
                     ),
                   ),
@@ -60,7 +62,7 @@ class _PostWidgetState extends State<PostWidget> {
                           MaterialPageRoute(
                               builder: (context) => WatchProfile(
                                     uid: widget.post.ownerId,
-                                    currentUser: currentUser,
+                                    // currentUserId: currentUserId,
                                   )),
                         );
                       },
@@ -85,15 +87,15 @@ class _PostWidgetState extends State<PostWidget> {
                   onDoubleTap: () {
                     setState(() {
                       if (isLiked == false) {
-                        widget.post.userLike.add(currentUser.uid);
-                        DatabaseServices(uid: currentUser.uid)
+                        widget.post.userLike.add(currentUserId);
+                        DatabaseServices(uid: currentUserId)
                             .like(widget.post.ownerId, widget.post.pid);
                       } else {
-                        widget.post.userLike.remove(currentUser.uid);
-                        DatabaseServices(uid: currentUser.uid)
+                        widget.post.userLike.remove(currentUserId);
+                        DatabaseServices(uid: currentUserId)
                             .dislike(widget.post.ownerId, widget.post.pid);
                       }
-                      isLiked = widget.post.userLike.contains(currentUser.uid);
+                      isLiked = widget.post.userLike.contains(currentUserId);
                       numLike = widget.post.userLike.length;
                     });
                   },
@@ -101,7 +103,7 @@ class _PostWidgetState extends State<PostWidget> {
                     alignment: Alignment.center,
                     children: <Widget>[
                       Image(
-                        image: NetworkImage(
+                        image: modifiedPostImageNetwork(
                           widget.post.imgUrl,
                         ),
                       )
@@ -120,16 +122,16 @@ class _PostWidgetState extends State<PostWidget> {
                             onTap: () => {
                                   setState(() {
                                     if (isLiked == false) {
-                                      widget.post.userLike.add(currentUser.uid);
-                                      DatabaseServices(uid: currentUser.uid).like(
+                                      widget.post.userLike.add(currentUserId);
+                                      DatabaseServices(uid: currentUserId).like(
                                           widget.post.ownerId, widget.post.pid);
                                     } else {
-                                      widget.post.userLike.remove(currentUser.uid);
-                                      DatabaseServices(uid: currentUser.uid).dislike(
+                                      widget.post.userLike.remove(currentUserId);
+                                      DatabaseServices(uid: currentUserId).dislike(
                                           widget.post.ownerId, widget.post.pid);
                                     }
                                     isLiked =
-                                        widget.post.userLike.contains(currentUser.uid);
+                                        widget.post.userLike.contains(currentUserId);
                                     numLike = widget.post.userLike.length;
                                   }),
                                 },
@@ -139,14 +141,14 @@ class _PostWidgetState extends State<PostWidget> {
                               color: Color(0xff297373),
                             )),
                         Padding(padding: EdgeInsets.only(right: 20.0)),
-                        GestureDetector(
-                          onTap: () => print('ShowCommnets'),
-                          child: Icon(
-                            Icons.chat_bubble_outline,
-                            size: 20.0,
-                            color: Color(0xff297373),
-                          ),
-                        )
+                        // GestureDetector(
+                        //   onTap: () => print('ShowCommnets'),
+                        //   child: Icon(
+                        //     Icons.chat_bubble_outline,
+                        //     size: 20.0,
+                        //     color: Color(0xff297373),
+                        //   ),
+                        // )
                       ],
                     ),
                     Row(
