@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PostWidget extends StatefulWidget {
+  final bool isOwner = true;
   final Post post;
   PostWidget({this.post});
   @override
@@ -78,7 +79,13 @@ class _PostWidgetState extends State<PostWidget> {
                                     color: Colors.grey, fontSize: 9.0),
                               ),
                             ]),
-                      )),
+                      )
+                    ),
+                    trailing: Visibility(
+                      visible: widget.isOwner,
+                      child: IconButton(icon: Icon(Icons.close, color: Color(0xffc4c4c4),), onPressed: ()=> print("hello") ),
+                    ),
+                  
                 ),
 
                 // Body
