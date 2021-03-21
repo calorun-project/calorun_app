@@ -1,7 +1,7 @@
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
+import 'package:calorun/shared/widget_resource.dart';
 import 'package:calorun/shared/modified_image.dart';
-import 'package:calorun/widget/loading.dart';
 import 'package:calorun/widget/user/watch_profile.dart';
 import 'package:flutter/material.dart';
 

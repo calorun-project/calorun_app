@@ -1,10 +1,6 @@
-import 'package:calorun/widget/header.dart';
-import 'package:calorun/widget/loading.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:calorun/services/auth.dart';
-import 'package:calorun/shared/constants.dart';
-//import 'package:calorun/shared/loading.dart';
+import 'package:calorun/shared/widget_resource.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;

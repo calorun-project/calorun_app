@@ -4,7 +4,7 @@ import 'package:calorun/screens/home/map.dart';
 import 'package:calorun/screens/home/timeline.dart';
 import 'package:calorun/screens/home/profile.dart';
 import 'package:calorun/services/database.dart';
-import 'package:calorun/widget/loading.dart';
+import 'package:calorun/shared/widget_resource.dart';
 import 'package:calorun/widget/user/search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

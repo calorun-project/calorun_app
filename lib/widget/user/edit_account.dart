@@ -1,6 +1,5 @@
 import 'package:calorun/services/auth.dart';
-import 'package:calorun/widget/header.dart';
-import 'package:calorun/widget/loading.dart';
+import 'package:calorun/shared/widget_resource.dart';
 import 'package:flutter/material.dart';
 
 class EditAccount extends StatefulWidget {

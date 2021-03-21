@@ -1,5 +1,5 @@
 import 'package:calorun/models/user.dart';
-import 'package:calorun/widget/user/other_user.dart';
+import 'package:calorun/widget/user/other_user_profile.dart';
 import 'package:calorun/widget/user/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +18,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Provider.of<ModifiedUser>(context).uid == widget.uid
         ? UserProfile()
-        : OtherUser(widget.uid);
+        : OtherUserProfile(widget.uid);
   }
 }

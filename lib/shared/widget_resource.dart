@@ -1,5 +1,35 @@
 import 'package:flutter/material.dart';
 
+final CircularProgressIndicator loadIcon = CircularProgressIndicator(
+  valueColor: AlwaysStoppedAnimation(Colors.black),
+);
+
+const InputDecoration textInputDecoration = InputDecoration(
+  fillColor: Colors.white,
+  filled: true,
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.white, width: 2.0),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Color(0xff297373), width: 2.0),
+  ),
+);
+
+AppBar header() {
+  return AppBar(    
+    title: Text(
+      "Calorun",
+      style: TextStyle(
+        color: Colors.white,
+        fontFamily: "Spantaran",
+        fontSize: 50.0,
+      ),
+    ),
+    centerTitle: true,
+    backgroundColor: Color(0xff297373),
+  );
+}
+
 Widget waiting() {
   return Scaffold(
     body: Container(

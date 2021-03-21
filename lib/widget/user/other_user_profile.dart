@@ -1,23 +1,23 @@
 import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
-import 'package:calorun/widget/loading.dart';
+import 'package:calorun/shared/widget_resource.dart';
 import 'package:calorun/widget/post/post_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:calorun/shared/modified_image.dart';
 
-class OtherUser extends StatefulWidget {
+class OtherUserProfile extends StatefulWidget {
   final String uid;
 
-  OtherUser(this.uid);
+  OtherUserProfile(this.uid);
 
   @override
-  _OtherUserState createState() => _OtherUserState();
+  _OtherUserProfileState createState() => _OtherUserProfileState();
 }
 
-class _OtherUserState extends State<OtherUser> {
+class _OtherUserProfileState extends State<OtherUserProfile> {
   ModifiedUser user = ModifiedUser();
   bool isFollow = true;
   TextEditingController buttonEdit = TextEditingController();

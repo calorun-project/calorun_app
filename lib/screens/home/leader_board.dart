@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/shared/modified_image.dart';
-import 'package:calorun/widget/loading.dart';
+import 'package:calorun/shared/widget_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +47,10 @@ class _LeaderBoardState extends State<LeaderBoard> {
         child: Text(
           ind.toString(),
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
         ),
       );
     } else {
@@ -57,7 +60,10 @@ class _LeaderBoardState extends State<LeaderBoard> {
         child: Text(
           ind.toString(),
           style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+            color: Colors.black, 
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
       );
     }
@@ -91,28 +97,30 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           backgroundColor: Colors.red.shade800,
                           backgroundImage: AssetImage("assets/images/default-avatar.png"),
                           foregroundImage: modifiedImageNetwork(
-                                _leaderBoardItems[index]?.avtUrl,
-                              ),
+                            _leaderBoardItems[index]?.avtUrl,
+                          ),
                           radius: 30,
                         ),
                       ),
                       Align(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0, top: 5),
-                            child: Text(
-                              _leaderBoardItems[index].name,
-                              style: TextStyle(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0, top: 5),
+                              child: Text(
+                                _leaderBoardItems[index].name,
+                                style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18),
+                                  fontSize: 18
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      )),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -124,12 +132,12 @@ class _LeaderBoardState extends State<LeaderBoard> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   (_leaderBoardItems[index].totalDistance / 1000)
-                          .toStringAsFixed(0) +
-                      ' km',
+                      .toStringAsFixed(0) + ' km',
                   style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18
+                  ),
                 ),
               ),
             )
@@ -179,8 +187,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                             ),
                             Text(
                               (_leaderBoardItems[1].totalDistance / 1000)
-                                      .toStringAsFixed(0) +
-                                  ' km',
+                                  .toStringAsFixed(0) + ' km',
                               style: TextStyle(color: Colors.white),
                             ),
                             SizedBox(
@@ -188,17 +195,10 @@ class _LeaderBoardState extends State<LeaderBoard> {
                             ),
                             Container(
                               width: 70.0,
-                              height: ((_leaderBoardItems[1].totalDistance *
-                                              1.0 /
-                                              _leaderBoardItems[0].totalDistance *
-                                              1.0)
-                                          .isNaN
-                                      ? 0.0
-                                      : _leaderBoardItems[1].totalDistance *
-                                          1.0 /
-                                          _leaderBoardItems[0].totalDistance *
-                                          1.0) *
-                                  160.0,
+                              height: ((_leaderBoardItems[1].totalDistance * 1.0 /
+                                  _leaderBoardItems[0].totalDistance * 1.0).isNaN ? 
+                                  0.0 : _leaderBoardItems[1].totalDistance * 1.0 /
+                                  _leaderBoardItems[0].totalDistance *  1.0) * 160.0,
                               color: Color(0xffFCA311),
                             ),
                             SizedBox(
@@ -286,17 +286,10 @@ class _LeaderBoardState extends State<LeaderBoard> {
                             ),
                             Container(
                               width: 70,
-                              height: ((_leaderBoardItems[2].totalDistance *
-                                              1.0 /
-                                              _leaderBoardItems[0].totalDistance *
-                                              1.0)
-                                          .isNaN
-                                      ? 0.0
-                                      : _leaderBoardItems[2].totalDistance *
-                                          1.0 /
-                                          _leaderBoardItems[0].totalDistance *
-                                          1.0) *
-                                  160,
+                              height: ((_leaderBoardItems[2].totalDistance * 1.0 /
+                                  _leaderBoardItems[0].totalDistance * 1.0).isNaN ?
+                                  0.0 : _leaderBoardItems[2].totalDistance * 1.0 /
+                                   _leaderBoardItems[0].totalDistance * 1.0) * 160,
                               color: Color(0xffFCA311),
                             ),
                             SizedBox(
@@ -320,11 +313,12 @@ class _LeaderBoardState extends State<LeaderBoard> {
                   ),
                   Container(
                     child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: _leaderBoardItems.length,
-                        itemBuilder: (BuildContext ctxt, int index) =>
-                            buildList(ctxt, index, _leaderBoardItems)),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: _leaderBoardItems.length,
+                      itemBuilder: (BuildContext ctxt, int index) =>
+                          buildList(ctxt, index, _leaderBoardItems)
+                    ),
                   ),
                   SizedBox(
                     height: 80,
@@ -345,10 +339,11 @@ class _LeaderBoardState extends State<LeaderBoard> {
                     child: Container(
                       height: 100,
                       decoration: BoxDecoration(color: Colors.white,
-                          //borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black26, blurRadius: 5.0)
-                          ]),
+                        //borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black26, blurRadius: 5.0)
+                        ],
+                      ),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -364,16 +359,17 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                         padding: const EdgeInsets.only(
                                             left: 15.0, right: 25),
                                         child: CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            radius: 20,
-                                            child: Text(
-                                              _getUserRank(Provider.of<ModifiedUser>(context).uid, _leaderBoardItems),
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
+                                          backgroundColor: Colors.transparent,
+                                          radius: 20,
+                                          child: Text(
+                                            _getUserRank(Provider.of<ModifiedUser>(context).uid, _leaderBoardItems),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20
                                             ),
                                           ),
+                                        ),
                                       ),
                                     ),
                                     Align(
@@ -398,13 +394,15 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                           child: Text(
                                             Provider.of<ModifiedUser>(context).name,
                                             style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18),
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),
                                           ),
                                         ),
                                       ],
-                                    )),
+                                    ),
+                                    ),
                                   ],
                                 ),
                               ),

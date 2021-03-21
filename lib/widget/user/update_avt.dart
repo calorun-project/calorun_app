@@ -3,7 +3,7 @@ import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/services/storage.dart';
 import 'package:calorun/shared/modified_image.dart';
-import 'package:calorun/widget/header_navigate.dart';
+import 'package:calorun/widget/user/search.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -138,7 +138,31 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: navigateHeader(context),
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            tooltip: 'Search',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SearchUser()),
+              );
+            },
+          ),
+        ],
+
+        title: Text(
+          "Calorun",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: "Spantaran",
+            fontSize: 50.0,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Color(0xff297373),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -176,16 +200,18 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
                   color: Color(0xffd6d6d6),
                   width: 150,
                   child: IconButton(
-                      icon: Icon(Icons.add_photo_alternate),
-                      onPressed: () => _getImage()),
+                    icon: Icon(Icons.add_photo_alternate),
+                    onPressed: () => _getImage()
+                  ),
                 ),
                 SizedBox(width: 5),
                 Container(
                   color: Color(0xffd6d6d6),
                   width: 150,
                   child: IconButton(
-                      icon: Icon(Icons.camera_alt),
-                      onPressed: () => _getCaptureImage()),
+                    icon: Icon(Icons.camera_alt),
+                    onPressed: () => _getCaptureImage()
+                  ),
                 ),
               ],
             ),
