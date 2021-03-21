@@ -32,10 +32,10 @@ class StorageServices {
 
   Future<bool> removeUserAvatar(String uid) async {
     try {
-      await storageReference
-          .child("Users Avatar")
-          .child("avt_$uid.png")
-          .delete();
+      Reference reference =
+          storageReference.child("Users Avatar").child("avt_$uid.png");
+      if (reference.bucket.isNotEmpty) return true;
+      await reference.delete();
       return true;
     } catch (e) {
       print('Storage error: ' + e);

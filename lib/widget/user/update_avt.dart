@@ -79,6 +79,13 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
     });
   }
 
+  Future<void> _removeAvatar() async {
+    await StorageServices().removeUserAvatar(widget.currentUser.uid);
+    await DatabaseServices(uid: widget.currentUser.uid)
+          .updateUserAvatar(null);
+    Navigator.of(context).pop();
+  }
+
   Future<void> _uploadAndSave() async {
     setState(() {
       isUploading = true;
@@ -113,8 +120,7 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
           image = null;
         });
         Navigator.of(context).pop();
-      } else {
-        
+      } else {        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Upload failed'),
@@ -198,7 +204,7 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
               children: <Widget>[
                 Container(
                   color: Color(0xffd6d6d6),
-                  width: 150,
+                  width: 80,
                   child: IconButton(
                     icon: Icon(Icons.add_photo_alternate),
                     onPressed: () => _getImage()
@@ -207,10 +213,19 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
                 SizedBox(width: 5),
                 Container(
                   color: Color(0xffd6d6d6),
-                  width: 150,
+                  width: 80,
                   child: IconButton(
                     icon: Icon(Icons.camera_alt),
                     onPressed: () => _getCaptureImage()
+                  ),
+                ),
+                SizedBox(width: 5),
+                Container(
+                  color: Color(0xffd6d6d6),
+                  width: 80,
+                  child: IconButton(
+                    icon: Icon(Icons.close_rounded),
+                    onPressed: () => _removeAvatar()
                   ),
                 ),
               ],
