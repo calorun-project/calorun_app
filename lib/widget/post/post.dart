@@ -17,14 +17,14 @@ class _PostWidgetState extends State<PostWidget> {
   bool isLiked = false;
   SimplifiedUser postOwner = SimplifiedUser();
   int numLike = 0;
+  bool isOwner = false;
 
   @override
   Widget build(BuildContext context) {
-    String currentUserId = Provider.of<String>(context);    
+    String currentUserId = Provider.of<String>(context);
     isLiked = widget.post.userLike.contains(currentUserId);
     numLike = widget.post.userLike.length;
-
-    
+    isOwner = currentUserId == widget.post.ownerId;
 
     return FutureBuilder(
       future: DatabaseServices(uid: widget.post.ownerId).getSimplifiedUser(),
@@ -43,69 +43,107 @@ class _PostWidgetState extends State<PostWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => WatchProfile(
-                                uid: widget.post.ownerId,
-                                // currentUserId: currentUserId,
-                              )),
+                        builder: (context) => WatchProfile(
+                          uid: widget.post.ownerId,
+                          // currentUserId: currentUserId,
+                        ),
+                      ),
                     );
                   },
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                    backgroundImage:
+                        AssetImage("assets/images/default-avatar.png"),
                     foregroundImage: modifiedImageNetwork(
                       postOwner.avtUrl,
                     ),
                   ),
                   title: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WatchProfile(
-                                    uid: widget.post.ownerId,
-                                    // currentUserId: currentUserId,
-                                  )),
-                        );
-                      },
-                      child: Container(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                postOwner.name,
-                                style: TextStyle(color: Color(0xff297373)),
-                              ),
-                              Text(
-                                widget.post.timeAgo,
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 9.0),
-                              ),
-                            ]),
-                      )),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WatchProfile(
+                            uid: widget.post.ownerId,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            postOwner.name,
+                            style: TextStyle(color: Color(0xff297373)),
+                          ),
+                          Text(
+                            widget.post.timeAgo,
+                            style: TextStyle(
+                                color: Colors.grey, fontSize: 9.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 // Body
                 GestureDetector(
-                  onDoubleTap: () {
-                    setState(() {
-                      if (isLiked == false) {
+                  onDoubleTap: () async {                    
+                    bool result = false;
+                    if (isLiked == false) {
+                      result = await DatabaseServices(uid: currentUserId)
+                          .like(widget.post.ownerId, widget.post.pid);
+                      if (result) {
                         widget.post.userLike.add(currentUserId);
-                        DatabaseServices(uid: currentUserId)
-                            .like(widget.post.ownerId, widget.post.pid);
-                      } else {
-                        widget.post.userLike.remove(currentUserId);
-                        DatabaseServices(uid: currentUserId)
-                            .dislike(widget.post.ownerId, widget.post.pid);
+                        setState(() {
+                          isLiked = widget.post.userLike.contains(currentUserId);
+                          numLike = widget.post.userLike.length;
+                        });
                       }
-                      isLiked = widget.post.userLike.contains(currentUserId);
-                      numLike = widget.post.userLike.length;
-                    });
+                      else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Something is wrong'),
+                            duration: Duration(milliseconds: 500),
+                          ),
+                        );
+                      }
+                    } else {                      
+                      result = await DatabaseServices(uid: currentUserId)
+                          .dislike(widget.post.ownerId, widget.post.pid);
+                      if (result) {
+                        setState(() {
+                          widget.post.userLike.remove(currentUserId);
+                          isLiked = widget.post.userLike.contains(currentUserId);
+                          numLike = widget.post.userLike.length;
+                        });
+                      }
+                      else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Something is wrong'),
+                            duration: Duration(milliseconds: 500),
+                          ),
+                        );
+                      }
+                    }                    
                   },
                   child: Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
-                      Image(
-                        image: modifiedPostImageNetwork(
-                          widget.post.imgUrl,
-                        ),
+                      Container(
+                        height: widget.post.imgUrl == null ||
+                                widget.post.imgUrl == ''
+                            ? 0
+                            : 300,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          alignment: FractionalOffset.topCenter,
+                          image: modifiedPostImageNetwork(
+                            widget.post.imgUrl,
+                          ),
+                        )),
                       )
                     ],
                   ),
@@ -119,36 +157,52 @@ class _PostWidgetState extends State<PostWidget> {
                         Padding(
                             padding: EdgeInsets.only(top: 40.0, left: 20.0)),
                         GestureDetector(
-                            onTap: () => {
-                                  setState(() {
-                                    if (isLiked == false) {
-                                      widget.post.userLike.add(currentUserId);
-                                      DatabaseServices(uid: currentUserId).like(
-                                          widget.post.ownerId, widget.post.pid);
-                                    } else {
-                                      widget.post.userLike.remove(currentUserId);
-                                      DatabaseServices(uid: currentUserId).dislike(
-                                          widget.post.ownerId, widget.post.pid);
-                                    }
-                                    isLiked =
-                                        widget.post.userLike.contains(currentUserId);
-                                    numLike = widget.post.userLike.length;
-                                  }),
-                                },
-                            child: Icon(
-                              isLiked ? Icons.favorite : Icons.favorite_border,
-                              size: 20.0,
-                              color: Color(0xff297373),
-                            )),
+                          onTap: () async {
+                            bool result = false;
+                            if (isLiked == false) {
+                              result = await DatabaseServices(uid: currentUserId)
+                                  .like(widget.post.ownerId, widget.post.pid);
+                              if (result) {
+                                widget.post.userLike.add(currentUserId);
+                                setState(() {
+                                  isLiked = widget.post.userLike.contains(currentUserId);
+                                  numLike = widget.post.userLike.length;
+                                });
+                              }
+                              else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: const Text('Something is wrong'),
+                                    duration: Duration(milliseconds: 500),
+                                  ),
+                                );
+                              }
+                            } else {                      
+                              result = await DatabaseServices(uid: currentUserId)
+                                  .dislike(widget.post.ownerId, widget.post.pid);
+                              if (result) {
+                                setState(() {
+                                  widget.post.userLike.remove(currentUserId);
+                                  isLiked = widget.post.userLike.contains(currentUserId);
+                                  numLike = widget.post.userLike.length;
+                                });
+                              }
+                              else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: const Text('Something is wrong'),
+                                    duration: Duration(milliseconds: 500),
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                          child: Icon(
+                            isLiked ? Icons.favorite : Icons.favorite_border,
+                            size: 20.0,
+                            color: Color(0xff297373),
+                          )),
                         Padding(padding: EdgeInsets.only(right: 20.0)),
-                        // GestureDetector(
-                        //   onTap: () => print('ShowCommnets'),
-                        //   child: Icon(
-                        //     Icons.chat_bubble_outline,
-                        //     size: 20.0,
-                        //     color: Color(0xff297373),
-                        //   ),
-                        // )
                       ],
                     ),
                     Row(

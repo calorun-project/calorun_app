@@ -21,7 +21,7 @@ class StorageServices {
 
   Future<String> newAvatar(File image, String uid) async {
     UploadTask uploadTask = storageReference
-        .child("User Avatar")
+        .child("Users Avatar")
         .child("avt_$uid.png")
         .putFile(image);
     TaskSnapshot storageTaskSnapshot =
@@ -30,7 +30,16 @@ class StorageServices {
     return url;
   }
 
-  void removeUserAvatar(String uid) {
-    storageReference.child("Posted Picture").child("avt_$uid.png").delete();
+  Future<bool> removeUserAvatar(String uid) async {
+    try {
+      await storageReference
+          .child("Users Avatar")
+          .child("avt_$uid.png")
+          .delete();
+      return true;
+    } catch (e) {
+      print('Storage error: ' + e);
+      return false;
+    }
   }
 }

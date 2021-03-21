@@ -8,4 +8,8 @@ ImageProvider<Object> modifiedPostImageNetwork(String url) {
   if (url == null || url == '') return AssetImage("assets/images/transparent_post.png");
   return NetworkImage(url);
 }
+ImageProvider<Object> modifiedAvtImageNetwork(String url) {
+  if (url == null || url == '') return AssetImage("assets/images/default-avatar.png");
+  return NetworkImage(url);
+}
 

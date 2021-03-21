@@ -22,7 +22,11 @@ class DatabaseServices {
   }
 
   Stream<ModifiedUser> get userStream {
-    return FirebaseFirestore.instance.collection('Users').doc(uid).snapshots().map((event) => ModifiedUser.fromDocument(event));
+    return FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid)
+        .snapshots()
+        .map((event) => ModifiedUser.fromDocument(event));
   }
 
   // Create user data in 'Users' colection of firebase firestore
@@ -44,70 +48,117 @@ class DatabaseServices {
     });
   }
 
-  Future<void> updateRun(double newDistance, double newTime) async {
-    DocumentSnapshot currentUser =
-        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-    double newTotalDistance =
-        (currentUser.data()['totalDistance'] ?? 0.0) + newDistance;
-    double newTotalTime = (currentUser.data()['totalTime'] ?? 0.0) + newTime;
-    FirebaseFirestore.instance.collection('Users').doc(uid).update({
-      'totalDistance': newTotalDistance,
-      'totalTime': newTotalTime,
-    });
+  Future<bool> updateRun(double newDistance, double newTime) async {
+    try {
+      DocumentSnapshot currentUser =
+          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+      double newTotalDistance =
+          (currentUser.data()['totalDistance'] ?? 0.0) + newDistance;
+      double newTotalTime = (currentUser.data()['totalTime'] ?? 0.0) + newTime;
+      FirebaseFirestore.instance.collection('Users').doc(uid).update({
+        'totalDistance': newTotalDistance,
+        'totalTime': newTotalTime,
+      });
+      return true;
+    } catch (e) {
+      print('Database error: ' + e);
+      return false;
+    }
   }
 
   Future<void> follow(String followId) async {
-    DocumentSnapshot following =
-        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-    DocumentSnapshot follower = await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(followId)
-        .get();
-    List<dynamic> followingData = following.data()['following'] ?? <String>[];
-    List<dynamic> followerData = follower.data()['follower'] ?? <String>[];
-    if (!followingData.contains(followId)) {
-      followingData.add(followId);
-      FirebaseFirestore.instance.collection('Users').doc(uid).update({
-        'following': followingData,
-      });
-    }
-    if (!followerData.contains(uid)) {
-      followerData.add(uid);
-      FirebaseFirestore.instance.collection('Users').doc(followId).update({
-        'follower': followerData,
-      });
+    try {
+      DocumentSnapshot following =
+          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+      DocumentSnapshot follower = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(followId)
+          .get();
+      List<dynamic> followingData = following.data()['following'] ?? <String>[];
+      List<dynamic> followerData = follower.data()['follower'] ?? <String>[];
+      if (!followingData.contains(followId)) {
+        followingData.add(followId);
+        FirebaseFirestore.instance.collection('Users').doc(uid).update({
+          'following': followingData,
+        });
+      }
+      if (!followerData.contains(uid)) {
+        followerData.add(uid);
+        FirebaseFirestore.instance.collection('Users').doc(followId).update({
+          'follower': followerData,
+        });
+      }
+      return true;
+    } catch (e) {
+      print('Database error: ' + e);
+      return false;
     }
   }
 
   Future<void> unfollow(String followId) async {
-    DocumentSnapshot following =
-        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-    DocumentSnapshot follower = await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(followId)
-        .get();
-    List<dynamic> followingData = following.data()['following'] ?? <String>[];
-    List<dynamic> followerData = follower.data()['follower'] ?? <String>[];
-    followingData.remove(followId);
-    followerData.remove(uid);
-    FirebaseFirestore.instance.collection('Users').doc(uid).update({
-      'following': followingData,
-    });
-    FirebaseFirestore.instance.collection('Users').doc(followId).update({
-      'follower': followerData,
-    });
+    try {
+      DocumentSnapshot following =
+          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+      DocumentSnapshot follower = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(followId)
+          .get();
+      List<dynamic> followingData = following.data()['following'] ?? <String>[];
+      List<dynamic> followerData = follower.data()['follower'] ?? <String>[];
+      followingData.remove(followId);
+      followerData.remove(uid);
+      FirebaseFirestore.instance.collection('Users').doc(uid).update({
+        'following': followingData,
+      });
+      FirebaseFirestore.instance.collection('Users').doc(followId).update({
+        'follower': followerData,
+      });
+      return true;
+    } catch (e) {
+      print('Database error: ' + e);
+      return false;
+    }
   }
 
-  Future<void> like(String owner, String postId) async {
-    DocumentSnapshot post = await FirebaseFirestore.instance
-        .collection('Posts')
-        .doc(owner)
-        .collection('UserPosts')
-        .doc(postId)
-        .get();
-    List<dynamic> userLike = post.data()['userLike'] ?? <String>[];
-    if (!userLike.contains(uid)) {
-      userLike.add(uid);
+  Future<bool> like(String owner, String postId) async {
+    try {
+      DocumentSnapshot post = await FirebaseFirestore.instance
+          .collection('Posts')
+          .doc(owner)
+          .collection('UserPosts')
+          .doc(postId)
+          .get();
+      if (post.data() == null) return false;
+      List<dynamic> userLike = post.data()['userLike'] ?? <String>[];
+      if (!userLike.contains(uid)) {
+        userLike.add(uid);
+        FirebaseFirestore.instance
+            .collection('Posts')
+            .doc(owner)
+            .collection('UserPosts')
+            .doc(postId)
+            .update({
+          'userLike': userLike,
+        });
+      }
+      return true;
+    } catch (e) {
+      print('Database error: ' + e);
+      return false;
+    }
+  }
+
+  Future<bool> dislike(String owner, String postId) async {
+    try {
+      DocumentSnapshot post = await FirebaseFirestore.instance
+          .collection('Posts')
+          .doc(owner)
+          .collection('UserPosts')
+          .doc(postId)
+          .get();
+      if (post.data() == null) return false;
+      List<dynamic> userLike = post.data()['userLike'] ?? <String>[];
+      userLike.remove(uid);
       FirebaseFirestore.instance
           .collection('Posts')
           .doc(owner)
@@ -116,26 +167,11 @@ class DatabaseServices {
           .update({
         'userLike': userLike,
       });
+      return true;
+    } catch (e) {
+      print('Database error: ' + e);
+      return false;
     }
-  }
-
-  Future<void> dislike(String owner, String postId) async {
-    DocumentSnapshot post = await FirebaseFirestore.instance
-        .collection('Posts')
-        .doc(owner)
-        .collection('UserPosts')
-        .doc(postId)
-        .get();
-    List<dynamic> userLike = post.data()['userLike'] ?? <String>[];
-    userLike.remove(uid);
-    FirebaseFirestore.instance
-        .collection('Posts')
-        .doc(owner)
-        .collection('UserPosts')
-        .doc(postId)
-        .update({
-      'userLike': userLike,
-    });
   }
 
   Future<Post> createPostData(
@@ -163,13 +199,19 @@ class DatabaseServices {
     );
   }
 
-  Future<void> removePost(String postId) async {
-    return await FirebaseFirestore.instance
-        .collection('Posts')
-        .doc(uid)
-        .collection('UserPosts')
-        .doc(postId)
-        .delete();
+  Future<bool> removePost(String postId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Posts')
+          .doc(uid)
+          .collection('UserPosts')
+          .doc(postId)
+          .delete();
+      return true;
+    } catch (e) {
+      print('Database error: ' + e);
+      return false;
+    }
   }
 
   // Post list in Future
@@ -184,7 +226,7 @@ class DatabaseServices {
           .collection('UserPosts')
           .where('postTime',
               isGreaterThanOrEqualTo:
-                  Timestamp.fromDate(DateTime.now().add(Duration(days: -1))))
+                  Timestamp.fromDate(DateTime.now().add(Duration(days: -3))))
           .get();
       posts += querySnapshot.docs.map((doc) {
         return Post(
@@ -266,7 +308,19 @@ class DatabaseServices {
         'name': firstName + ' ' + lastName,
         'height': height,
         'weight': weight,
-        'bio': bio,        
+        'bio': bio,
+      });
+      return true;
+    } catch (e) {
+      print('Database error: ' + e);
+      return false;
+    }
+  }
+
+  Future<bool> updateUserAvatar(String url) async {
+    try {
+      await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+        'avtUrl': url,
       });
       return true;
     } catch (e) {

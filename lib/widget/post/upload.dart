@@ -3,8 +3,8 @@ import 'package:calorun/services/database.dart';
 import 'package:calorun/services/location.dart';
 import 'package:calorun/services/storage.dart';
 import 'package:calorun/shared/constants.dart';
-import 'package:calorun/shared/loading.dart';
 import 'package:calorun/widget/header.dart';
+import 'package:calorun/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -42,8 +42,8 @@ class _UploadWidgetState extends State<UploadWidget> {
   Future<void> _getImage() async {
     PickedFile imageFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      maxHeight: 680,
-      maxWidth: 970,
+      maxHeight: 1800,
+      maxWidth: 1800,
     );
     setState(() {
       this.image = File(imageFile.path);
@@ -53,6 +53,8 @@ class _UploadWidgetState extends State<UploadWidget> {
   Future<void> _getCaptureImage() async {
     PickedFile imageFile = await ImagePicker().getImage(
       source: ImageSource.camera,
+      maxHeight: 1800,
+      maxWidth: 1800,
     );
     setState(() {
       this.image = File(imageFile.path);
@@ -81,19 +83,34 @@ class _UploadWidgetState extends State<UploadWidget> {
     }
 
     // Save post info to Firestore
-    await DatabaseServices(uid: widget.uid)
+    if (downloadUrl != null || (descriptionController.text != null && descriptionController.text != '')) {
+      await DatabaseServices(uid: widget.uid)
         .createPostData(pid, downloadUrl, descriptionController.text, location);
 
-    // Display the post
-    widget.reload();
+      // Display the post
+      widget.reload();
 
-    // Upload complete
+      // Upload complete
+      setState(() {
+        pid = Uuid().v4();
+        
+        descriptionController.clear();
+        location = '';
+        image = null;
+      });
+      
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content:
+              const Text('The post need to have content'),
+          duration: Duration(milliseconds: 500),
+        ),
+      );
+    }
     setState(() {
-      pid = Uuid().v4();
       isUpLoading = false;
-      descriptionController.clear();
-      location = '';
-      image = null;
     });
   }
 
@@ -188,7 +205,6 @@ class _UploadWidgetState extends State<UploadWidget> {
                   ),
                   onPressed: () async {
                     await _uploadAndSave();
-                    Navigator.pop(context);
                   },
                 )
               ],
