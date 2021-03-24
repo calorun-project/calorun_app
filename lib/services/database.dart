@@ -45,6 +45,12 @@ class DatabaseServices {
       'totalTime': 0.0,
       'height': 0.0,
       'weight': 0.0,
+      // 'ingredientCount': GameData.ingredientCount,
+      // 'tuna': Calo.tuna,
+      // 'caloHeight': Calo.height,
+      // 'caloWeight': Calo.weight,
+      // 'level': Calo.level,
+      // 'exp': Calo.exp,
     });
   }
 
@@ -328,4 +334,21 @@ class DatabaseServices {
       return false;
     }
   }
+
+  // Future<void> getGameData() async {
+  //   DocumentSnapshot document = await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+  //   List<int> GameData.ingredientCount = document?.data()['ingredientCount'] ?? GameData.ingredientCount;
+  //   int Calo.tuna = document?.data()['tuna'] ?? Calo.tuna;
+  //   double Calo.height = document?.data()['height'] ?? Calo.height;
+  //   double Calo.weight = document?.data()['weight'] ?? Calo.weight;
+  //   int Calo.level = document?.data()['level'] ?? Calo.level;
+  //   int Calo.exp = document?.data()['tuna'] ?? Calo.exp;
+  // }
+
+  // Future<> updateGameData() async {
+  //   DocumentSnapshot document = await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+  //   return ModifiedGameData.fromDocument(document);
+  // }
+
+  // void 
 }
