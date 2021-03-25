@@ -22,7 +22,7 @@ class GameData {
     Ingredient(8, 'Cream', 'Best served with sweet cakes and drinks.', 3, [], 0)
   ];
   static List<int> ingredientCount = [
-    for (int i = 0; i < ingredients.length; i++) 1
+    for (int i = 0; i < ingredients.length; i++) 0
   ];
 
   // Food data
