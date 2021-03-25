@@ -23,8 +23,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
     if (ind == 1) {
       crown = CircleAvatar(
         backgroundColor: Colors.yellow[800],
-        radius: 20,
-         Text(
+        radius:  MediaQuery.of(context).size.width*0.05,
+        child: Text(
           ind.toString(),
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
@@ -33,7 +33,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
     } else if (ind == 2) {
       crown = CircleAvatar(
         backgroundColor: Colors.blueGrey,
-        radius: 20,
+        radius:  MediaQuery.of(context).size.width*0.05,
         child: Text(
           ind.toString(),
           style: TextStyle(
@@ -43,7 +43,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
     } else if (ind == 3) {
       crown = CircleAvatar(
         backgroundColor: Colors.brown,
-        radius: 20,
+        radius:  MediaQuery.of(context).size.width*0.05,
         child: Text(
           ind.toString(),
           style: TextStyle(
@@ -56,7 +56,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
     } else {
       crown = CircleAvatar(
         backgroundColor: Colors.transparent,
-        radius: 20,
+        radius: MediaQuery.of(context).size.width*0.05,
         child: Text(
           ind.toString(),
           style: TextStyle(
@@ -88,7 +88,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 25),
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.05, right:  MediaQuery.of(context).size.width*0.05),
                           child: crown,
                         ),
                       ),
@@ -108,10 +108,9 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(left: 8.0, top: 5),
+                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.025, top: 5),
                               child: Container(
-                                color: Colors.blue,
-                                width: MediaQuery.of(context).size.width*0.25,
+                                width: MediaQuery.of(context).size.width*0.35,
                                 child: Text(
                                 _leaderBoardItems[index].name,
                                 style: TextStyle(
@@ -135,14 +134,17 @@ class _LeaderBoardState extends State<LeaderBoard> {
             Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  (_leaderBoardItems[index].totalDistance / 1000)
-                      .toStringAsFixed(0) + ' km',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.01),
+                child: Container(
+                  width:  MediaQuery.of(context).size.width*0.15,
+                  child:  Text(
+                    (_leaderBoardItems[index].totalDistance / 1000)
+                        .toStringAsFixed(0) + ' km',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                    ),
                   ),
                 ),
               ),
@@ -186,10 +188,10 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                 _leaderBoardItems[1]?.avtUrl,
                               ),
                               backgroundColor: Colors.red,
-                              radius: 27.0,
+                              radius:  MediaQuery.of(context).size.width*0.075,
                             ),
                             SizedBox(
-                              height: 10.0,
+                              height:  MediaQuery.of(context).size.width*0.01,
                             ),
                             Text(
                               (_leaderBoardItems[1].totalDistance / 1000)
@@ -362,11 +364,10 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15.0, right: 25),
+                                        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.05, right:  MediaQuery.of(context).size.width*0.05),
                                         child: CircleAvatar(
                                           backgroundColor: Colors.transparent,
-                                          radius: 20,
+                                          radius:  MediaQuery.of(context).size.width*0.05,
                                           child: Text(
                                             _getUserRank(Provider.of<ModifiedUser>(context).uid, _leaderBoardItems),
                                             style: TextStyle(
@@ -385,7 +386,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                         foregroundImage: modifiedImageNetwork(
                                           Provider.of<ModifiedUser>(context).avtUrl,
                                         ),
-                                        radius: 30,
+                                        radius:  MediaQuery.of(context).size.width*0.075,
                                       ),
                                     ),
                                     Align(
@@ -397,14 +398,18 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 8.0, top: 5),
-                                          child: Text(
-                                            Provider.of<ModifiedUser>(context).name,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            ),
-                                          ),
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width*0.35,
+                                            child: Text(
+                                                        Provider.of<ModifiedUser>(context).name,
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                            
+                                          ), 
                                         ),
                                       ],
                                     ),
@@ -417,14 +422,17 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                (Provider.of<ModifiedUser>(context).totalDistance / 1000)
-                                  .toStringAsFixed(0) + ' km',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                              padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.01),
+                              child: Container(
+                                width:  MediaQuery.of(context).size.width*0.15,
+                                child:  Text(
+                                  (Provider.of<ModifiedUser>(context).totalDistance / 1000)
+                                    .toStringAsFixed(0) + ' km',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
                                 ),
                               ),
                             ),

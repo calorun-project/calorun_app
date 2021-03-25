@@ -98,53 +98,30 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 24.0),
-                        child: Text(
-                          'Name ',
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[900],
-                              fontSize: 16,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.bold),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.2,
+                          child: Text(
+                            'Name ',
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[900],
+                                fontSize: 16,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 37.0),
-                        child: Text(
-                          user.name,
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[600],
-                              fontSize: 14,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24.0),
-                        child: Text(
-                          'Mail ',
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[900],
-                              fontSize: 16,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 37.0),
-                        child: Text(
-                          user.email,
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[600],
-                              fontSize: 14,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.normal),
+                        padding: const EdgeInsets.only(left: 0.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.65,
+                          child: Text(
+                            user.name,
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[600],
+                                fontSize: 14,
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.normal),
+                          ),
                         ),
                       ),
                     ],
@@ -156,46 +133,30 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 24.0),
-                        child: Text(
-                          'Height ',
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[900],
-                              fontSize: 16,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.bold),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.2,
+                          child: Text(
+                            'Mail ',
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[900],
+                                fontSize: 16,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: Text(
-                          user.height.toString() + ' cm',
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[600],
-                              fontSize: 14,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 34.0),
-                        child: Text(
-                          'Weight ',
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[900],
-                              fontSize: 16,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 14.0),
-                        child: Text(
-                          user.weight.toString() + ' kg',
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[600],
-                              fontSize: 14,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.normal),
+                        padding: const EdgeInsets.only(left: 0.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.65,
+                          child: Text(
+                            user.email,
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[600],
+                                fontSize: 14,
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.normal),
+                          ),
                         ),
                       ),
                     ],
@@ -207,24 +168,94 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 24.0),
-                        child: Text(
-                          'Bio ',
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[900],
-                              fontSize: 16,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.bold),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.2,
+                          child: Text(
+                            'Height ',
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[900],
+                                fontSize: 16,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 14.0),
-                        child: Text(
-                          user.bio,
-                          style: GoogleFonts.lato(
-                              color: Colors.grey[600],
-                              fontSize: 14,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.normal),
+                        padding: const EdgeInsets.only(left: 0.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.2,
+                          child: Text(
+                            user.height.toString() + ' cm',
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[600],
+                                fontSize: 14,
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width*0.1),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.2,
+                          child: Text(
+                            'Weight ',
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[900],
+                                fontSize: 16,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.2,
+                          child: Text(
+                            user.weight.toString() + ' kg',
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[600],
+                                fontSize: 14,
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.2,
+                          child: Text(
+                            'Bio ',
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[900],
+                                fontSize: 16,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.65,
+                          child: Text(
+                            user.bio,
+                            style: GoogleFonts.lato(
+                                color: Colors.grey[600],
+                                fontSize: 14,
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.normal),
+                          ),
                         ),
                       ),
                     ],

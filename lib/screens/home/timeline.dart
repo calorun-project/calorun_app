@@ -43,8 +43,10 @@ class _TimelineState extends State<Timeline> {
                                 Provider.of<ModifiedUser>(context).avtUrl ,
                               ),
                             )),
+                        Spacer(),
                         GestureDetector(
                             child: Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.1, 0),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
@@ -52,7 +54,7 @@ class _TimelineState extends State<Timeline> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20)),
                                 ),
-                                height: 40,
+                                height: MediaQuery.of(context).size.width * 0.1,
                                 width: MediaQuery.of(context).size.width * 0.65,
                                 child: Center(
                                   child: Text(
