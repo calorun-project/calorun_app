@@ -1,3 +1,4 @@
+import 'package:calorun/services/storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
@@ -207,6 +208,7 @@ class DatabaseServices {
 
   Future<bool> removePost(String postId) async {
     try {
+      StorageServices().removePostImage(postId);
       await FirebaseFirestore.instance
           .collection('Posts')
           .doc(uid)

@@ -7,8 +7,6 @@ import 'package:calorun/widget/user/search.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image/image.dart' as Im;
 
 class UpdateAvatar extends StatefulWidget {
   final ModifiedUser currentUser;
@@ -95,13 +93,13 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
     downloadUrl = null;
 
     if (image != null) {
-      // Compressing image
-      final Directory directory = await getTemporaryDirectory();
-      final String path = directory.path;
-      final Im.Image decodedImage = Im.decodeImage(image.readAsBytesSync());
-      final compressedImage = File('$path/avt_${widget.currentUser.uid}.png')
-        ..writeAsBytesSync(Im.encodePng(decodedImage));
-      image = compressedImage;
+      // // Compressing image
+      // final Directory directory = await getTemporaryDirectory();
+      // final String path = directory.path;
+      // final Im.Image decodedImage = Im.decodeImage(image.readAsBytesSync());
+      // final compressedImage = File('$path/avt_${widget.currentUser.uid}.png')
+      //   ..writeAsBytesSync(Im.encodePng(decodedImage));
+      // image = compressedImage;
 
       // Upload image
       await StorageServices().removeUserAvatar(widget.currentUser.uid);

@@ -6,7 +6,6 @@ import 'package:calorun/shared/widget_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:image/image.dart' as Im;
 import 'package:uuid/uuid.dart';
 
 class UploadWidget extends StatefulWidget {
@@ -69,12 +68,12 @@ class _UploadWidgetState extends State<UploadWidget> {
 
     if (image != null) {
       // Compressing image
-      final Directory directory = await getTemporaryDirectory();
-      final String path = directory.path;
-      final Im.Image decodedImage = Im.decodeImage(image.readAsBytesSync());
-      final compressedImage = File('$path/img_$pid.png')
-        ..writeAsBytesSync(Im.encodeJpg(decodedImage, quality: 90));
-      image = compressedImage;
+      // final Directory directory = await getTemporaryDirectory();
+      // final String path = directory.path;
+      // final Im.Image decodedImage = Im.decodeImage(image.readAsBytesSync());
+      // final compressedImage = File('$path/img_$pid.png')
+      //   ..writeAsBytesSync(Im.encodeJpg(decodedImage, quality: 90));
+      // image = compressedImage;
 
       // Get uploaded image URL
       downloadUrl = await StorageServices().uploadPostImage(image, pid);

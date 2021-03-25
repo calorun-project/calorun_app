@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:calorun/gameengine/gamedataGE.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/services/storage.dart';
 import 'package:flutter/material.dart';
@@ -110,16 +111,6 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
     });
   }
 
-  // Future<Uint8List> _capturePng() async {
-  //   RenderRepaintBoundary boundary =
-  //       globalKey.currentContext.findRenderObject();
-  //   ui.Image image = await boundary.toImage();
-  //   ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-
-  //   // You can use this with Image.memory
-  //   return byteData.buffer.asUint8List();
-  // }
-  
   Future<Uint8List> convertWidgetToImage() async {
     RenderRepaintBoundary renderRepaintBoundary =
         globalKey.currentContext.findRenderObject();
@@ -131,25 +122,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
 
   Future<void> share() async {
     Uint8List screenshot = await convertWidgetToImage();
-    // dynamic bytes = await rootBundle.load('assets\images\profile.png');
-    // String tempPath = (await getTemporaryDirectory()).path;
-    // File file = File('$tempPath/profile.png');
-    // image = await file.writeAsBytes(bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes));
-    //Today, I run ... km in ... minutes.
     String pid = Uuid().v4();
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(
-    //     body: Container(
-    //     child: Image(image: FileImage(image)),
-    //   ),
-    // )));
-    // Compressing image
-    // final Directory directory = await getTemporaryDirectory();
-    // final String path = directory.path;
-    // final Im.Image decodedImage = Im.decodeImage(screanshot);
-    // final compressedImage = File('$path/img_$pid.png')
-    //   ..writeAsBytesSync(Im.encodePng(decodedImage));
-    // image = compressedImage;
-    // image = File.fromRawPath(screanshot);
     String location = await LocationServices().getCurrentAddress();
     String downloadUrl = await StorageServices().uploadPostMap(screenshot, pid);
     await DatabaseServices(uid: widget.uid).createPostData(
@@ -169,7 +142,6 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
     );
   }
 
-
   Future<void> saveRun(BuildContext context) async {
     stopRun();
     if (totalDistance < 300.0) {
@@ -183,6 +155,11 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
     } else {
       DatabaseServices(uid: widget.uid).updateRun(totalDistance, totalTime);
       await share();
+      Calo.afterRun(
+        context: context,
+        kilometers: totalDistance / 1000,
+        minutes: totalTime / 60
+      );
       setState(() {
         isRunning = false;
         totalDistance = 0.0;

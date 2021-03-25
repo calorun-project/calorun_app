@@ -35,6 +35,7 @@ class LocationServices {
   }
 
   Future<void> askPermission() async {
+    _serviceEnabled = await _location.requestService();
     _serviceEnabled = await _location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await _location.requestService();
@@ -42,6 +43,7 @@ class LocationServices {
         return;
       }
     }
+    _permissionGranted = await _location.requestPermission();
 
     _permissionGranted = await _location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
