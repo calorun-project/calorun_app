@@ -1,9 +1,8 @@
-import 'package:calorun/evaluate.dart';
-import 'package:calorun/gamedataGE.dart';
-import 'package:calorun/ingredientfoodGE.dart';
+import 'evaluate.dart';
+import 'package:calorun/gameengine/gamedataGE.dart';
+import 'package:calorun/gameengine/ingredientfoodGE.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 
 class Kitchen extends StatefulWidget {
   int foodID;
@@ -20,12 +19,12 @@ class KitchenBuild extends State<Kitchen> {
   }
   @override
   void dispose() {
-    for (int i = 0; i < process.ingredient.length; i++)
-      {
-        process.timers[i].cancel();
-      }
+    for (int i = 0; i < process.ingredient.length; i++) {
+      process.timers[i].cancel();
+    }
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,12 +68,14 @@ class KitchenBuild extends State<Kitchen> {
             Container(
               height: 64,
               alignment: Alignment.center,
-              child: Text("${GameData.foods[process.foodId].instruction}", style: TextStyle(
-                fontSize: 18,
-                color: Color(-8845047),
-                fontWeight: FontWeight.bold
+              child: Text(
+                "${GameData.foods[process.foodId].instruction}",
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Color(-8845047),
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,),
             ),
             Stack(
               alignment: Alignment.center,
@@ -104,39 +105,45 @@ class KitchenBuild extends State<Kitchen> {
                 Visibility(
                     visible: _cooked == process.ingredient.length,
                     child: InkWell(
-                      onTap: () async {
-                        List temp = await process.finish();
-                        Navigator.pop(context);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Evaluate(evaluate: temp,)));
-                      },
+                        onTap: () async {
+                          List temp = await process.finish();
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Evaluate(
+                                        evaluate: temp,
+                                      )));
+                        },
                         child: Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width * 0.45,
-                      height: MediaQuery.of(context).size.width * 0.25,
-                      decoration: BoxDecoration(
-                        color: Color(-14060685),
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            Color(-14060685),
-                            Color(-13968421),
-                            Color(-14060685)
-                          ],
-                          stops: [0.4, 1, 0.6],
-                        ),
-                        border: Border.all(color: Color(-1710619), width: 5),
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                      ),
-                      child: Text(
-                        "FEED",
-                        style: TextStyle(
-                          fontSize: 40,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )))
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          height: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                            color: Color(-14060685),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Color(-14060685),
+                                Color(-13968421),
+                                Color(-14060685)
+                              ],
+                              stops: [0.4, 1, 0.6],
+                            ),
+                            border:
+                                Border.all(color: Color(-1710619), width: 5),
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          ),
+                          child: Text(
+                            "FEED",
+                            style: TextStyle(
+                              fontSize: 40,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )))
               ],
             ),
             Container(
@@ -224,7 +231,10 @@ class KitchenBuild extends State<Kitchen> {
               shape: BoxShape.circle,
               border: Border.all(color: Colors.black, width: 3),
             ),
-            child: Image(image: AssetImage(process.ingredient[_index].pretreatment[index].image),),
+            child: Image(
+              image: AssetImage(
+                  process.ingredient[_index].pretreatment[index].image),
+            ),
           ),
         ));
   }

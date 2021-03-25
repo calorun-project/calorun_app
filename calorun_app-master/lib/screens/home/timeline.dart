@@ -28,8 +28,8 @@ class _TimelineState extends State<Timeline> {
                     child: Row(
                       children: [
                         Container(
-                            height: 60,
-                            width: 60,
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.15,
                             margin: const EdgeInsets.only(
                                 left: 15.0, right: 15, top: 10, bottom: 15),
                             padding: const EdgeInsets.all(2.0),
@@ -43,8 +43,10 @@ class _TimelineState extends State<Timeline> {
                                 Provider.of<ModifiedUser>(context).avtUrl ,
                               ),
                             )),
+                        Spacer(),
                         GestureDetector(
                             child: Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.1, 0),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
@@ -52,8 +54,8 @@ class _TimelineState extends State<Timeline> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20)),
                                 ),
-                                height: 40,
-                                width: 300,
+                                height: MediaQuery.of(context).size.width * 0.1,
+                                width: MediaQuery.of(context).size.width * 0.65,
                                 child: Center(
                                   child: Text(
                                     "What\'s on your mind?",

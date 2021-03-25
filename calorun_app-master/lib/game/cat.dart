@@ -1,5 +1,5 @@
-import 'package:calorun/gamedataGE.dart';
-import 'package:calorun/home.dart';
+import 'package:calorun/gameengine/gamedataGE.dart';
+import 'home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,12 +19,13 @@ class CatBuild extends State<Cat> {
         appBar: AppBar(
           backgroundColor: Color(-14060685),
           leading: IconButton(
-            icon: Icon(Icons.home, color: Color(-15580606),),
+            icon: Icon(
+              Icons.home,
+              color: Color(-15580606),
+            ),
             iconSize: 32,
             tooltip: "Back to home",
-            onPressed: () => {
-              Navigator.pop(context)
-            },
+            onPressed: () => {Navigator.pop(context)},
           ),
           title: Text(
             "CALO THE CAT",
@@ -54,20 +55,23 @@ class CatBuild extends State<Cat> {
                     alignment: Alignment.center,
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.height * 0.3,
-                        child: RotationTransition(
-                          child: CircularProgressIndicator(
-                            value: Calo.exp / Calo.maxExp(),
-                            backgroundColor: Colors.black,
-                            strokeWidth: 10,
-                            valueColor:
-                            AlwaysStoppedAnimation<Color>(Color(-14060685)),
-                          ),
-                          turns: AlwaysStoppedAnimation(1/2),
-                        )
-                      ),
-                      Image(image: AssetImage("assets/cat.png"))
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.height * 0.3,
+                          child: RotationTransition(
+                            child: CircularProgressIndicator(
+                              value: Calo.exp / Calo.maxExp(),
+                              backgroundColor: Colors.black,
+                              strokeWidth: 10,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Color(-14060685)),
+                            ),
+                            turns: AlwaysStoppedAnimation(1 / 2),
+                          )),
+                      Image(
+                        image: AssetImage("assets/images/Cat.gif"),
+                        height: MediaQuery.of(context).size.width * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.3,
+                      )
                     ],
                   )),
             ),
@@ -116,7 +120,10 @@ class CatBuild extends State<Cat> {
                           ),
                         ),
                         onTap: () => {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()))
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GameHome()))
                         },
                       ),
                     ),
@@ -127,15 +134,15 @@ class CatBuild extends State<Cat> {
                           width: MediaQuery.of(context).size.height * 0.4,
                           child: RotationTransition(
                             child: CircularProgressIndicator(
-                              value: (Calo.weight - Calo.minWeight) / ((Calo.maxWeight - Calo.minWeight) * 2),
+                              value: (Calo.weight - Calo.minWeight) /
+                                  ((Calo.maxWeight - Calo.minWeight) * 2),
                               backgroundColor: Colors.black,
                               strokeWidth: 20,
                               valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(-220399)),
+                                  AlwaysStoppedAnimation<Color>(Color(-220399)),
                             ),
-                            turns: AlwaysStoppedAnimation(-1/4),
-                          )
-                      ),
+                            turns: AlwaysStoppedAnimation(-1 / 4),
+                          )),
                     )
                   ],
                 )),

@@ -1,10 +1,10 @@
-import 'package:calorun/gamedataGE.dart';
-import 'package:calorun/kitchen.dart';
+import 'package:calorun/gameengine/gamedataGE.dart';
+import 'kitchen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:calorun/cookbookGE.dart';
+import 'package:calorun/gameengine/cookbookGE.dart';
 
-import 'ingredientfoodGE.dart';
+import 'package:calorun/gameengine/ingredientfoodGE.dart';
 
 class Menu extends StatefulWidget {
   MenuBuild createState() => MenuBuild();

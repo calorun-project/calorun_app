@@ -1,3 +1,5 @@
+import 'package:calorun/game/home.dart';
+import 'package:calorun/game/transition.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/screens/home/leader_board.dart';
 import 'package:calorun/screens/home/map.dart';
@@ -92,7 +94,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin<Home> {
                   weight: Provider.of<ModifiedUser>(context).weight,
                 ),
                 LeaderBoard(),
-                Timeline(),
+                Transition(),
                 Profile(Provider.of<String>(context)),
               ],
             ),

@@ -1,32 +1,7 @@
-/*
-This file contains all game data used for the app, includes:
-
-# class GameData
-#
-
-# class Calo
-#     int Calo.tuna: in-game currency
-
-#     double Calo.weight: weight of Calo
-#     double Calo.maxWeight: max weight of Calo
-#     double Calo.minWeight: min weight of Calo
-
-#     (review) double Calo.weightLoss(distance: distance, speed: speed): function return weight loss with certain distance and speed
-#     void Calo.loseWeight(distance: distance, speed: speed): make Calo lose weight the same amount as calculated weight loss
-
-#     int Calo.level: level of Calo
-#     int Calo.maxLevel: max level of Calo
-
-#     int Calo.exp: exp of Calo
-#     int Calo.maxExp(): function return max exp of Calo at current level
-
-# class Gacha
-#     int Gacha.cost: cost of Gacha
-
-
- */
-
 import 'dart:math';
+import 'package:calorun/gameengine/gamealertGE.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'ingredientfoodGE.dart';
 
 class GameData {
@@ -147,7 +122,8 @@ class GameData {
 }
 
 class Calo {
-  static int tuna = 2000;
+  static int tuna = 0;
+  static int maxTuna = 9999;
 
   static String name = 'Calo';
 
@@ -158,7 +134,7 @@ class Calo {
   static double maxWeight = 10.0;
   static double minWeight = 1.0;
 
-  static int level = 3;
+  static int level = 1;
   static int maxLevel = 5;
 
   static int exp = 0;
@@ -169,13 +145,40 @@ class Calo {
   }
 
   // Weight loss when run a distance with a speed
-  static double weightLoss({distance, speed}) {
-    return distance * speed;
+  static double weightLoss({double kilometers, double minutes}) {
+    double pace = minutes / kilometers;
+    return min(
+        ((MoreMath.exponential(-0.2746 * pace) * 7.5 * kilometers) * 10)
+                .round() /
+            10,
+        weight - minWeight);
+  }
+
+  // Tuna gained when run a distance with a speed
+  static int tunaGained({double kilometers, double minutes}) {
+    double pace = minutes / kilometers;
+    return min(
+        ((MoreMath.exponential(-0.2746 * pace) * 1000 * kilometers) / 10)
+                .round() *
+            10,
+        maxTuna - tuna);
   }
 
   // Make Calo lose weight
-  static void loseWeight({distance, speed}) {
-    weight =
-        max(minWeight, weight - weightLoss(distance: distance, speed: speed));
+  static void afterRun(
+      {BuildContext context, double kilometers, double minutes}) {
+    double lessWeight = weightLoss(kilometers: kilometers, minutes: minutes);
+    int moreTuna = tunaGained(kilometers: kilometers, minutes: minutes);
+
+    weight = weight - lessWeight;
+    tuna = tuna + moreTuna;
+
+    GameAlert.showAfterRunDialog(context, lessWeight, moreTuna);
+  }
+}
+
+class MoreMath {
+  static double exponential(double x) {
+    return exp(x);
   }
 }

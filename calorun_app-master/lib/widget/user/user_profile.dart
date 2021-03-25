@@ -257,7 +257,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 14.0),
-                  width: 320,
+                  width: MediaQuery.of(context).size.width * 0.7,
                   child: Text(
                     user.bio,
                     style: GoogleFonts.lato(

@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 import 'gamedataGE.dart';
-import 'dart:core';
 
 class Pretreatment {
   String name;
   String image;
 
   Pretreatment(this.name) {
-    this.image = GameData.pretreatImage + this.name.toString() + '.png';
+    this.image = GameData.pretreatImage + this.name + '.png';
   }
 }
 
@@ -74,7 +73,8 @@ class Food {
     for (int i = 0; i < this.ingredient.length; i++) {
       temp *= GameData.ingredientCount[i];
     }
-    return (temp != 0);
+
+    return (temp != 0) && (Calo.weight < Calo.maxWeight);
   }
 }
 
@@ -119,7 +119,7 @@ class Process {
       timerOn[index] = true;
 
       timers[index] = Timer.periodic(Duration(seconds: 1), (timer) {
-        // timers[index] = timer;
+        //timers[index] = timer;
         cooktime[index]++;
         func();
       });
@@ -132,10 +132,8 @@ class Process {
       if (this.pretreatment[i].name ==
           GameData.foods[foodId].pretreatment[i].name)
         temp = temp + 5 / this.ingredient.length;
-
       var delta = this.cooktime[i] - GameData.foods[foodId].cooktime[i];
       if (delta < 0) delta = -delta;
-
       if (this.cooktime[i] > 0) {
         temp = temp + (5 / this.ingredient.length) * (1 / (1 + 0.5 * delta));
       }
@@ -169,22 +167,24 @@ class Process {
     return (1 / 2 * weightBase * (1 + getRating / 10) * 10).round() / 10;
   }
 
-  Future<List> finish() async {
+  List finish() {
     for (int i = 0; i < GameData.foods[foodId].ingredient.length; i++) {
-      //timers[i].cancel();
+      timers[i].cancel();
       GameData.ingredientCount[GameData.foods[foodId].ingredient[i]]--;
     }
+
     String comment = this.comment();
     int ratingVal = this.rating();
     int expVal = this.expGained();
     double weightVal = this.weightGained();
+
     if (Calo.level < Calo.maxLevel) Calo.exp += expVal;
+
     while (Calo.exp >= Calo.maxExp()) {
       Calo.exp -= Calo.maxExp();
       Calo.level++;
       if (Calo.level >= Calo.maxLevel) Calo.exp = 0;
     }
-
 
     Calo.weight = min(Calo.weight + weightVal, Calo.maxWeight);
 

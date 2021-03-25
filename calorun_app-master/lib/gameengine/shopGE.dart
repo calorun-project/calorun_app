@@ -22,7 +22,7 @@ class Item {
 }
 
 class Gacha extends Item {
-  static List<int> prob = [0, 90, 99, 100];
+  static List<int> prob = [0, 60, 90, 100];
 
   Gacha(int cost) {
     this.cost = cost;

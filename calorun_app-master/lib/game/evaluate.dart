@@ -14,12 +14,15 @@ class EvaluateBuild extends State<Evaluate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "EVALUATE",
-          style: TextStyle(color: Color(-220399), fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black,
+          title: Text(
+            "EVALUATE",
+            style: TextStyle(
+                color: Color(-220399),
+                fontSize: 30,
+                fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.black,
           leading: IconButton(
             icon: Icon(Icons.home, color: Color(-220399)),
             iconSize: 32,
@@ -28,8 +31,7 @@ class EvaluateBuild extends State<Evaluate> {
               Navigator.pop(context),
               Navigator.pop(context),
             },
-          )
-      ),
+          )),
       backgroundColor: Colors.black,
       body: Center(
         child: Column(
@@ -63,14 +65,19 @@ class EvaluateBuild extends State<Evaluate> {
               height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width,
               child: Image(
-                image: AssetImage("assets/cat.png"),
+                image: AssetImage("assets/images/Cat.gif"),
+                height: MediaQuery.of(context).size.width * 0.3,
+                width: MediaQuery.of(context).size.width * 0.3,
               ),
             ),
             Container(
               alignment: Alignment.center,
               height: MediaQuery.of(context).size.height * 0.05,
               width: MediaQuery.of(context).size.width,
-              child: Text("${evaluate[0]}", style: TextStyle(fontSize: 13, color: Colors.white),), //comment
+              child: Text(
+                "${evaluate[0]}",
+                style: TextStyle(fontSize: 13, color: Colors.white),
+              ), //comment
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
