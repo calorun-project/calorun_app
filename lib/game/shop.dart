@@ -1,9 +1,9 @@
-import 'package:calorun/gamedataGE.dart';
-import 'package:calorun/ingredientfoodGE.dart';
+import 'gamedataGE.dart';
+import 'ingredientfoodGE.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:calorun/shopGE.dart';
+import 'shopGE.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 bool _window = true;
@@ -77,7 +77,11 @@ class ShopBuild extends State<ShopUI> {
                       "${Calo.tuna} ",
                       style: TextStyle(fontSize: 25, color: Color(-220399)),
                     ),
-                    Image(image: AssetImage("assets/images/Tuna.png"), height: 30, width: 30,)
+                    Image(
+                      image: AssetImage("assets/images/Tuna.png"),
+                      height: 30,
+                      width: 30,
+                    )
                   ],
                 ),
               ),

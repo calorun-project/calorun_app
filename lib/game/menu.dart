@@ -1,8 +1,8 @@
-import 'package:calorun/gamedataGE.dart';
-import 'package:calorun/kitchen.dart';
+import 'gamedataGE.dart';
+import 'kitchen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:calorun/cookbookGE.dart';
+import 'cookbookGE.dart';
 
 import 'ingredientfoodGE.dart';
 

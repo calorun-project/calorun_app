@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:calorun/inventoryGE.dart';
+import 'inventoryGE.dart';
 
 bool _visitable = false;
 String _avatar = "assets/sugar.png";
@@ -22,7 +22,10 @@ class InventoryBuild extends State<InventoryUI> {
         appBar: AppBar(
           title: Text(
             "INVENTORY",
-            style: TextStyle(fontSize: 30, color: Color(-15580606), fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 30,
+                color: Color(-15580606),
+                fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           backgroundColor: Color(-14060685),
@@ -106,8 +109,12 @@ class InventoryBuild extends State<InventoryUI> {
                       topRight: Radius.circular(10),
                       topLeft: Radius.circular(10))),
               padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-              child: Center(child: Text("${object.getName()}", style: TextStyle(color: Color(
-                  -1761411072),fontSize: 15, fontWeight: FontWeight.bold))),
+              child: Center(
+                  child: Text("${object.getName()}",
+                      style: TextStyle(
+                          color: Color(-1761411072),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold))),
             ),
             Expanded(
               child: Container(
@@ -122,13 +129,19 @@ class InventoryBuild extends State<InventoryUI> {
             Container(
               alignment: Alignment.centerRight,
               padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-              child: Text("+${object.getQuantity()}", style: TextStyle(color: Color(-1761411072),fontSize: 17, fontWeight: FontWeight.bold),),
+              child: Text(
+                "+${object.getQuantity()}",
+                style: TextStyle(
+                    color: Color(-1761411072),
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold),
+              ),
             )
           ],
         ),
       ),
-      onTap: () =>
-          ShowPanel("${object.getName()}", object.image, "${object.getRarity()}", 125.0, 234.0, "${object.getDescription()}"),
+      onTap: () => ShowPanel("${object.getName()}", object.image,
+          "${object.getRarity()}", 125.0, 234.0, "${object.getDescription()}"),
     ));
   }
 
@@ -152,8 +165,7 @@ class InventoryBuild extends State<InventoryUI> {
 
   Widget Panel() {
     Color rarityColor;
-    switch(_rank)
-    {
+    switch (_rank) {
       case "Basic":
         rarityColor = Color(-12791297);
         break;
@@ -195,7 +207,7 @@ class InventoryBuild extends State<InventoryUI> {
                         child: Image(image: AssetImage(_avatar)))),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.width * 0.5 *  5 / 9,
+                  height: MediaQuery.of(context).size.width * 0.5 * 5 / 9,
                   margin: EdgeInsets.fromLTRB(10, 5, 10, 20),
                   padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                   child: Column(
@@ -208,14 +220,16 @@ class InventoryBuild extends State<InventoryUI> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 4,),
+                      SizedBox(
+                        height: 4,
+                      ),
                       Text(
                         "$_rank",
-                        style: TextStyle(
-                          color: rarityColor
-                        ),
+                        style: TextStyle(color: rarityColor),
                       ),
-                      SizedBox(height: 4,),
+                      SizedBox(
+                        height: 4,
+                      ),
                       Text(
                         "$_description",
                         textAlign: TextAlign.center,
