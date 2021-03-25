@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/calorunapp.iml" filepath="$PROJECT_DIR$/.idea/calorunapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/calorun_app-master.iml" filepath="$PROJECT_DIR$/.idea/calorun_app-master.iml" />
     </modules>
   </component>
 </project>
