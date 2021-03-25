@@ -1,10 +1,17 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:calorun/services/database.dart';
+import 'package:calorun/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:calorun/services/location.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'dart:math' show cos, sqrt, pi, sin, atan2;
+import 'package:uuid/uuid.dart';
+import 'dart:ui' as ui;
 
 class Map extends StatefulWidget {
   final String uid;
@@ -18,11 +25,17 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
   final LocationServices locationServices = LocationServices();
   bool isRunning = false;
   bool isAlive = false;
+  File image;
 
   bool get wantKeepAlive {
     if (isAlive) return true;
     return false;
   }
+
+  // File.fromRawPath(Uint8List uint8List);
+  GlobalKey globalKey = GlobalKey();
+
+  // ScreenshotController screenshotController = ScreenshotController();
 
   TextEditingController timeController =
       TextEditingController(text: '00:00:00');
@@ -97,7 +110,67 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
     });
   }
 
-  void saveRun() {
+  // Future<Uint8List> _capturePng() async {
+  //   RenderRepaintBoundary boundary =
+  //       globalKey.currentContext.findRenderObject();
+  //   ui.Image image = await boundary.toImage();
+  //   ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
+  //   // You can use this with Image.memory
+  //   return byteData.buffer.asUint8List();
+  // }
+  
+  Future<Uint8List> convertWidgetToImage() async {
+    RenderRepaintBoundary renderRepaintBoundary =
+        globalKey.currentContext.findRenderObject();
+    ui.Image boxImage = await renderRepaintBoundary.toImage(pixelRatio: 1);
+    ByteData byteData =
+        await boxImage.toByteData(format: ui.ImageByteFormat.png);
+    return byteData.buffer.asUint8List();
+  }
+
+  Future<void> share() async {
+    Uint8List screenshot = await convertWidgetToImage();
+    // dynamic bytes = await rootBundle.load('assets\images\profile.png');
+    // String tempPath = (await getTemporaryDirectory()).path;
+    // File file = File('$tempPath/profile.png');
+    // image = await file.writeAsBytes(bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes));
+    //Today, I run ... km in ... minutes.
+    String pid = Uuid().v4();
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(
+    //     body: Container(
+    //     child: Image(image: FileImage(image)),
+    //   ),
+    // )));
+    // Compressing image
+    // final Directory directory = await getTemporaryDirectory();
+    // final String path = directory.path;
+    // final Im.Image decodedImage = Im.decodeImage(screanshot);
+    // final compressedImage = File('$path/img_$pid.png')
+    //   ..writeAsBytesSync(Im.encodePng(decodedImage));
+    // image = compressedImage;
+    // image = File.fromRawPath(screanshot);
+    String location = await LocationServices().getCurrentAddress();
+    String downloadUrl = await StorageServices().uploadPostMap(screenshot, pid);
+    await DatabaseServices(uid: widget.uid).createPostData(
+        pid,
+        downloadUrl,
+        "Today, I run " +
+            totalDistance.toStringAsFixed(0) +
+            " m in about " +
+            (totalTime / 60).toStringAsFixed(0) +
+            " minutes.",
+        location);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Uploaded'),
+        duration: Duration(milliseconds: 500),
+      ),
+    );
+  }
+
+
+  Future<void> saveRun(BuildContext context) async {
     stopRun();
     if (totalDistance < 300.0) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -109,6 +182,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       );
     } else {
       DatabaseServices(uid: widget.uid).updateRun(totalDistance, totalTime);
+      await share();
       setState(() {
         isRunning = false;
         totalDistance = 0.0;
@@ -151,45 +225,52 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
                   totalDistance += _measure(curentLocation, snapshot.data);
                 }
                 curentLocation = snapshot.data;
-                screen.move(LatLng(snapshot.data.latitude - 0.0002, snapshot.data.longitude), 18.0);
+                screen.move(
+                    LatLng(snapshot.data.latitude - 0.0002,
+                        snapshot.data.longitude),
+                    18.0);
               }
-              return FlutterMap(
-                mapController: screen,
-                options: MapOptions(
-                  center: curentLocation,
-                  zoom: 13.0,
-                ),
-                layers: [
-                  TileLayerOptions(
-                      urlTemplate:
-                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c']),
-                  PolylineLayerOptions(
-                    polylines: routes +
-                        [
-                          Polyline(
-                            points: route,
-                            strokeWidth: 6.0,
-                            color: Color(0xffFCA311),
-                          )
-                        ],
+              return RepaintBoundary(
+                key: globalKey,
+                child: FlutterMap(
+                  mapController: screen,
+                  options: MapOptions(
+                    center: curentLocation,
+                    zoom: 13.0,
                   ),
-                  MarkerLayerOptions(
-                    markers: [
-                      Marker(
-                        width: 80.0,
-                        height: 80.0,
-                        point: LatLng(curentLocation.latitude + 0.000035, curentLocation.longitude),
-                        builder: (contex) => Container(
-                          child: Icon(
-                            Icons.location_on,
-                            color: Color(0xff297373),
+                  layers: [
+                    TileLayerOptions(
+                        urlTemplate:
+                            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        subdomains: ['a', 'b', 'c']),
+                    PolylineLayerOptions(
+                      polylines: routes +
+                          [
+                            Polyline(
+                              points: route,
+                              strokeWidth: 6.0,
+                              color: Color(0xffFCA311),
+                            )
+                          ],
+                    ),
+                    MarkerLayerOptions(
+                      markers: [
+                        Marker(
+                          width: 80.0,
+                          height: 80.0,
+                          point: LatLng(curentLocation.latitude + 0.000035,
+                              curentLocation.longitude),
+                          builder: (contex) => Container(
+                            child: Icon(
+                              Icons.location_on,
+                              color: Color(0xff297373),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               );
             },
           ),
@@ -359,7 +440,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
               child: Icon(Icons.save_alt_outlined),
               heroTag: null,
               onPressed: () {
-                saveRun();
+                saveRun(context);
               },
             ),
           ),

@@ -339,16 +339,23 @@ class DatabaseServices {
   //   DocumentSnapshot document = await FirebaseFirestore.instance.collection('Users').doc(uid).get();
   //   List<int> GameData.ingredientCount = document?.data()['ingredientCount'] ?? GameData.ingredientCount;
   //   int Calo.tuna = document?.data()['tuna'] ?? Calo.tuna;
-  //   double Calo.height = document?.data()['height'] ?? Calo.height;
-  //   double Calo.weight = document?.data()['weight'] ?? Calo.weight;
+  //   double Calo.height = document?.data()['caloHeight'] ?? Calo.height;
+  //   double Calo.weight = document?.data()['caloWeight'] ?? Calo.weight;
   //   int Calo.level = document?.data()['level'] ?? Calo.level;
-  //   int Calo.exp = document?.data()['tuna'] ?? Calo.exp;
+  //   int Calo.exp = document?.data()['exp'] ?? Calo.exp;
   // }
 
-  // Future<> updateGameData() async {
-  //   DocumentSnapshot document = await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-  //   return ModifiedGameData.fromDocument(document);
+  // Future<void> updateGameData() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('Users')
+  //       .doc(uid)
+  //       .update({
+  //         'ingredientCount': GameData.ingredientCount,
+  //         'tuna': Calo.tuna,
+  //         'caloHeight': Calo.height,
+  //         'caloWeight': Calo.weight,
+  //         'level': Calo.level,
+  //         'exp': Calo.exp,
+  //       });
   // }
-
-  // void 
 }
