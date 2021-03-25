@@ -24,10 +24,10 @@ class _LeaderBoardState extends State<LeaderBoard> {
       crown = CircleAvatar(
         backgroundColor: Colors.yellow[800],
         radius: 20,
-        child: Text(
+         Text(
           ind.toString(),
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
       );
     } else if (ind == 2) {
@@ -99,7 +99,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           foregroundImage: modifiedImageNetwork(
                             _leaderBoardItems[index]?.avtUrl,
                           ),
-                          radius: 30,
+                          radius: MediaQuery.of(context).size.width*0.08,
                         ),
                       ),
                       Align(
@@ -109,13 +109,19 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0, top: 5),
-                              child: Text(
+                              child: Container(
+                                color: Colors.blue,
+                                width: MediaQuery.of(context).size.width*0.25,
+                                child: Text(
                                 _leaderBoardItems[index].name,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18
                                 ),
+                                 overflow: TextOverflow.ellipsis,
+                              ),
+                                 
                               ),
                             ),
                           ],
@@ -331,7 +337,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                 child: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
-                  height: 80.0,
+                  height: MediaQuery.of(context).size.width*0.5,
                   decoration: BoxDecoration(color: Colors.transparent),
                   child: Padding(
                     padding:

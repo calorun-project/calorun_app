@@ -28,8 +28,8 @@ class _TimelineState extends State<Timeline> {
                     child: Row(
                       children: [
                         Container(
-                            height: 60,
-                            width: 60,
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.15,
                             margin: const EdgeInsets.only(
                                 left: 15.0, right: 15, top: 10, bottom: 15),
                             padding: const EdgeInsets.all(2.0),
@@ -53,7 +53,7 @@ class _TimelineState extends State<Timeline> {
                                       BorderRadius.all(Radius.circular(20)),
                                 ),
                                 height: 40,
-                                width: 300,
+                                width: MediaQuery.of(context).size.width * 0.65,
                                 child: Center(
                                   child: Text(
                                     "What\'s on your mind?",

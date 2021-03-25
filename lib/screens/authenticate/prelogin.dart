@@ -27,14 +27,24 @@ class Prepage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('Calorun',
-              style: TextStyle(
-                fontFamily: 'Spantaran',
-                fontWeight: FontWeight.w300,
-                fontSize: 90.0,
-                color: Colors.white,
-                ), 
+            
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                  'Calorun',
+                  style: TextStyle(
+                    fontFamily: 'Spantaran',
+                    fontWeight: FontWeight.w300,
+                    fontSize: 90.0,
+                    color: Colors.white,
+                  ), 
+                ),
+              ),
             ),
+
+
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: Color(0xffFCA311),
