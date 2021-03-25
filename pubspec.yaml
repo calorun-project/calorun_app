@@ -46,6 +46,7 @@ dev_dependencies:
   path_provider: ^2.0.1
   cached_network_image: ^2.5.1
   uuid: ^3.0.1
+  fluttertoast: ^7.1.8
   #fl_chart: ^0.20.1
 
 # For information on the generic Dart part of this file, see the
@@ -80,9 +81,7 @@ flutter:
         - asset: assets/fonts/Roboto-Light.ttf
 
   assets:
-    - assets/images/default-avatar.png
-    - assets/images/transparent.png
-    - assets/images/transparent_post.png
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
