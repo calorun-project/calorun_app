@@ -148,7 +148,24 @@ class GameHomeBuild extends State<GameHome> {
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => Cat()))
                   },
-                ))
+                )),
+            Positioned(
+              top: MediaQuery.of(context).padding.top,
+              left: 0,
+              child: InkWell(
+                onTap: () => {Navigator.pop(context)},
+                child: Container(
+                  height: MediaQuery.of(context).size.width * 1 / 8,
+                  width: MediaQuery.of(context).size.width * 1 / 8,
+                  margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  decoration: BoxDecoration(
+                      color: Color(1845493759),
+                      borderRadius: BorderRadius.all(Radius.circular(10))
+                  ),
+                  child: Icon(Icons.home, color: Color(-14060685), size: MediaQuery.of(context).size.width * 0.1,),
+                ),
+              ),
+            ),
           ],
         ));
   }
