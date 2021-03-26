@@ -283,7 +283,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
                   ],
                 ),
               ),
-              height: 220,
+              height: MediaQuery.of(context).size.height * 0.32,
               child: Row(
                 //crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
