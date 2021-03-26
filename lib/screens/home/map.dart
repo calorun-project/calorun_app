@@ -54,13 +54,8 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
 
   Timer timer;
 
-<<<<<<< HEAD
   double _measure(LatLng point1, LatLng point2) {
     double r = 6371000.0; // Radius of earth in m
-=======
-  double _measure(LatLng point1, LatLng point2) { 
-    double r = 6371008.8; // Radius of earth in m
->>>>>>> af44f190ab57e9d1f33d033647be8a88297b1849
     double dLat = point2.latitude * pi / 180.0 - point1.latitude * pi / 180.0;
     double dLon = point2.longitude * pi / 180.0 - point1.longitude * pi / 180.0;
     double a = sin(dLat / 2) * sin(dLat / 2) +
