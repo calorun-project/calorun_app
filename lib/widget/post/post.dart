@@ -36,55 +36,67 @@ class _PostWidgetState extends State<PostWidget> {
             color: Color(0xffF5F5F5),
             child: Column(
               children: <Widget>[
-                SizedBox(height: 10.0),
                 // Head
-                ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WatchProfile(
-                          uid: widget.post.ownerId,
-                          // currentUserId: currentUserId,
+                Column(
+                  children: <Widget> [
+                    ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WatchProfile(
+                              uid: widget.post.ownerId,
+                              // currentUserId: currentUserId,
+                            ),
+                          ),
+                        );
+                      },
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage("assets/images/default-avatar.png"),
+                        foregroundImage: modifiedImageNetwork(
+                          postOwner.avtUrl,
                         ),
                       ),
-                    );
-                  },
-                  leading: CircleAvatar(
-                    backgroundImage:
-                        AssetImage("assets/images/default-avatar.png"),
-                    foregroundImage: modifiedImageNetwork(
-                      postOwner.avtUrl,
-                    ),
-                  ),
-                  title: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WatchProfile(
-                            uid: widget.post.ownerId,
+                      title: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WatchProfile(
+                                uid: widget.post.ownerId,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                postOwner.name,
+                                style: TextStyle(color: Color(0xff297373)),
+                              ),
+                              Text(
+                                widget.post.timeAgo,
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 9.0),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                    child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            postOwner.name,
-                            style: TextStyle(color: Color(0xff297373)),
-                          ),
-                          Text(
-                            widget.post.timeAgo,
-                            style: TextStyle(
-                                color: Colors.grey, fontSize: 9.0),
-                          ),
-                        ],
                       ),
                     ),
-                  ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.only(left: 18.0),
+                      child: Text(
+                        widget.post.description,
+                        style: TextStyle(color: Color(0xff297373)),
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                  ],
                 ),
                 // Body
                 GestureDetector(
@@ -133,29 +145,49 @@ class _PostWidgetState extends State<PostWidget> {
                     children: <Widget>[
                       Container(
                         height: widget.post.imgUrl == null ||
-                                widget.post.imgUrl == ''
-                            ? 0
-                            : 300,
+                                widget.post.imgUrl == '' ? 0 : 300,
+                        
                         decoration: BoxDecoration(
-                            image: DecorationImage(
-                          fit: BoxFit.fitHeight,
-                          alignment: FractionalOffset.topCenter,
-                          image: modifiedPostImageNetwork(
-                            widget.post.imgUrl,
+                          image: DecorationImage(
+                            fit: BoxFit.fitHeight,
+                            alignment: FractionalOffset.topCenter,
+                            image: modifiedPostImageNetwork(
+                              widget.post.imgUrl,
+                            ),
                           ),
-                        )),
-                      )
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 // Foot
                 Column(
                   children: <Widget>[
+                    Visibility(
+                      visible: widget.post.location != null && widget.post.location != '',
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.my_location,
+                              color: Color(0xffFCA311),
+                            ),
+                            Text(
+                              ' ' + widget.post.location,
+                              style: TextStyle(color: Color(0xffFCA311))
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                            padding: EdgeInsets.only(top: 40.0, left: 20.0)),
+                          padding: EdgeInsets.only(top: 40.0, left: 18.0),
+                        ),
                         GestureDetector(
                           onTap: () async {
                             bool result = false;
@@ -197,47 +229,28 @@ class _PostWidgetState extends State<PostWidget> {
                               }
                             }
                           },
-                          child: Icon(
-                            isLiked ? Icons.favorite : Icons.favorite_border,
-                            size: 20.0,
-                            color: Color(0xff297373),
-                          )),
-                        Padding(padding: EdgeInsets.only(right: 20.0)),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 20.0),
-                          child: Text(
-                            numLike.toString() +
-                                ((numLike > 1) ? " likes" : " like"),
-                            style: TextStyle(color: Color(0xff297373)),
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 20.0),
-                          child: Text(
-                            postOwner.name + ': ',
-                            style: TextStyle(color: Color(0xff297373)),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                isLiked ? Icons.favorite : Icons.favorite_border,
+                                size: 20.0,
+                                color: Color(0xff297373),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 5.0),
+                                child: Text(
+                                  numLike.toString() +
+                                      ((numLike > 1) ? " likes" : " like"),
+                                  style: TextStyle(color: Color(0xff297373)),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Expanded(
-                          child: Text(
-                            widget.post.description,
-                            style: TextStyle(color: Color(0xff297373)),
-                          ),
-                        )
                       ],
-                    )
+                    ),
                   ],
                 ),
-                SizedBox(height: 20.0),
               ],
             ),
           ),

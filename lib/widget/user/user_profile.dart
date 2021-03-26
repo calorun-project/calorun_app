@@ -33,13 +33,17 @@ class _UserProfileState extends State<UserProfile> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    user.name,
-                    style: GoogleFonts.lato(
-                        color: Colors.grey[800],
-                        fontSize: 26,
-                        letterSpacing: 0,
-                        fontWeight: FontWeight.bold),
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 0.0),
+                    width: MediaQuery.of(context).size.width * 0.65,
+                      child: Text(
+                      user.name,
+                      style: GoogleFonts.lato(
+                          color: Colors.grey[800],
+                          fontSize: 26,
+                          letterSpacing: 0,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 Padding(

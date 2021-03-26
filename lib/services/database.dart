@@ -207,15 +207,17 @@ class DatabaseServices {
     );
   }
 
-  Future<bool> removePost(String postId) async {
+  Future<bool> removePost(String postId, bool haveImage) async {
     try {
-      StorageServices().removePostImage(postId);
       await FirebaseFirestore.instance
           .collection('Posts')
           .doc(uid)
           .collection('UserPosts')
           .doc(postId)
           .delete();
+      if (haveImage) {
+        StorageServices().removePostImage(postId);
+      }
       return true;
     } catch (e) {
       print('Database error: ' + e);

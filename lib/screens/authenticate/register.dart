@@ -67,7 +67,7 @@ class _RegisterState extends State<Register> {
                   validator: (value) =>
                     (value.isEmpty) ?
                     'Please enter your first name' :
-                    ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9- ]').hasMatch(value)) ?
+                    ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]').hasMatch(value)) ?
                     'Please enter a valid Name' :
                     null),
                   onChanged: (value) {
