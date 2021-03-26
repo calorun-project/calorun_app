@@ -30,58 +30,70 @@ class _PostProfileWidgetState extends State<PostProfileWidget> {
         color: Color(0xffF5F5F5),
         child: Column(
           children: <Widget>[
-            SizedBox(height: 10.0),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundImage: AssetImage("assets/images/default-avatar.png"),
-                foregroundImage: modifiedImageNetwork(
-                  widget.owner.avtUrl,
-                ),
-              ),
-              title: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.owner.name,
-                      style: TextStyle(color: Color(0xff297373)),
+            Column(
+              children: <Widget>[
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                    foregroundImage: modifiedImageNetwork(
+                      widget.owner.avtUrl,
                     ),
-                    Text(
-                      widget.post.timeAgo,
-                      style: TextStyle(color: Colors.grey, fontSize: 9.0),
-                    ),
-                  ],
-                ),
-              ),
-              trailing: Visibility(
-                visible: uid == widget.post.ownerId,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    color: Color(0xffc4c4c4),
                   ),
-                  onPressed: () async {
-                    bool result =
-                        await DatabaseServices(uid: uid)
-                            .removePost(widget.post.pid);
-                    if (result) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text('Remove successfully'),
-                          duration: Duration(milliseconds: 500),
+                  title: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.owner.name,
+                          style: TextStyle(color: Color(0xff297373)),
                         ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text('Something is wrong'),
-                          duration: Duration(milliseconds: 500),
+                        Text(
+                          widget.post.timeAgo,
+                          style: TextStyle(color: Colors.grey, fontSize: 9.0),
                         ),
-                      );
-                    }
-                  }
+                      ],
+                    ),
+                  ),
+                  trailing: Visibility(
+                    visible: uid == widget.post.ownerId,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: Color(0xffc4c4c4),
+                      ),
+                      onPressed: () async {
+                        bool result =
+                            await DatabaseServices(uid: uid)
+                                .removePost(widget.post.pid);
+                        if (result) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text('Remove successfully'),
+                              duration: Duration(milliseconds: 500),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text('Something is wrong'),
+                              duration: Duration(milliseconds: 500),
+                            ),
+                          );
+                        }
+                      }
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 18.0),
+                  child: Text(
+                    widget.post.description,
+                    style: TextStyle(color: Color(0xff297373)),
+                  ),
+                ),
+                SizedBox(height: 10.0),
+              ],
             ),
             GestureDetector(
               onDoubleTap: () async {
@@ -144,6 +156,25 @@ class _PostProfileWidgetState extends State<PostProfileWidget> {
             ),
             Column(
               children: <Widget>[
+                Visibility(
+                  visible: widget.post.location != null && widget.post.location != '',
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.my_location,
+                          color: Color(0xffFCA311),
+                        ),
+                        Text(
+                          ' ' + widget.post.location,
+                          style: TextStyle(color: Color(0xffFCA311))
+                        ),
+                      ],
+                    ),
+                  ),
+                ),          
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -189,49 +220,61 @@ class _PostProfileWidgetState extends State<PostProfileWidget> {
                           }
                         } 
                       },    
-                      child: Icon(
-                        isLiked ? Icons.favorite : Icons.favorite_border,
-                        size: 20.0,
-                        color: Color(0xff297373),
-                      )),
-                    Padding(padding: EdgeInsets.only(right: 20.0)),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        numLike.toString() + ((numLike > 1) ? " likes" : " like"),
-                        style: TextStyle(color: Color(0xff297373)),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        widget.owner.name + ': ',
-                        style: TextStyle(color: Color(0xff297373)),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            isLiked ? Icons.favorite : Icons.favorite_border,
+                            size: 20.0,
+                            color: Color(0xff297373),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 5.0),
+                            child: Text(
+                              numLike.toString() +
+                                  ((numLike > 1) ? " likes" : " like"),
+                              style: TextStyle(color: Color(0xff297373)),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        widget.post.description,
-                        style: TextStyle(color: Color(0xff297373)),
-                      ),
-                    )
                   ],
-                )
+                ),
               ],
             ),
-            SizedBox(height: 20.0),
           ],
         ),
       ),
     );
   }
 }
+// trailing: Visibility(
+//                 visible: uid == widget.post.ownerId,
+//                 child: IconButton(
+//                   icon: Icon(
+//                     Icons.close,
+//                     color: Color(0xffc4c4c4),
+//                   ),
+//                   onPressed: () async {
+//                     bool result =
+//                         await DatabaseServices(uid: uid)
+//                             .removePost(widget.post.pid);
+//                     if (result) {
+//                       ScaffoldMessenger.of(context).showSnackBar(
+//                         SnackBar(
+//                           content: const Text('Remove successfully'),
+//                           duration: Duration(milliseconds: 500),
+//                         ),
+//                       );
+//                     } else {
+//                       ScaffoldMessenger.of(context).showSnackBar(
+//                         SnackBar(
+//                           content: const Text('Something is wrong'),
+//                           duration: Duration(milliseconds: 500),
+//                         ),
+//                       );
+//                     }
+//                   }
+//                 ),
+//               ),
+            
