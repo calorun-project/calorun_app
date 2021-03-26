@@ -2,6 +2,7 @@ import 'package:calorun/services/storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:calorun/models/post.dart';
 import 'package:calorun/models/user.dart';
+import 'package:calorun/gameengine/gamedataGE.dart';
 
 class DatabaseServices {
   final String uid;
@@ -337,27 +338,26 @@ class DatabaseServices {
     }
   }
 
-  // Future<void> getGameData() async {
-  //   DocumentSnapshot document = await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-  //   List<int> GameData.ingredientCount = document?.data()['ingredientCount'] ?? GameData.ingredientCount;
-  //   int Calo.tuna = document?.data()['tuna'] ?? Calo.tuna;
-  //   double Calo.height = document?.data()['caloHeight'] ?? Calo.height;
-  //   double Calo.weight = document?.data()['caloWeight'] ?? Calo.weight;
-  //   int Calo.level = document?.data()['level'] ?? Calo.level;
-  //   int Calo.exp = document?.data()['exp'] ?? Calo.exp;
-  // }
+  Future<void> getGameData() async {
+    DocumentSnapshot document =
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+    GameData.ingredientCount =
+        document?.data()['ingredientCount'] ?? GameData.ingredientCount;
+    Calo.tuna = document?.data()['tuna'] ?? Calo.tuna;
+    Calo.height = document?.data()['caloHeight'] ?? Calo.height;
+    Calo.weight = document?.data()['caloWeight'] ?? Calo.weight;
+    Calo.level = document?.data()['level'] ?? Calo.level;
+    Calo.exp = document?.data()['exp'] ?? Calo.exp;
+  }
 
-  // Future<void> updateGameData() async {
-  //   await FirebaseFirestore.instance
-  //       .collection('Users')
-  //       .doc(uid)
-  //       .update({
-  //         'ingredientCount': GameData.ingredientCount,
-  //         'tuna': Calo.tuna,
-  //         'caloHeight': Calo.height,
-  //         'caloWeight': Calo.weight,
-  //         'level': Calo.level,
-  //         'exp': Calo.exp,
-  //       });
-  // }
+  Future<void> updateGameData() async {
+    await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+      'ingredientCount': GameData.ingredientCount,
+      'tuna': Calo.tuna,
+      'caloHeight': Calo.height,
+      'caloWeight': Calo.weight,
+      'level': Calo.level,
+      'exp': Calo.exp,
+    });
+  }
 }

@@ -22,7 +22,7 @@ class Item {
 }
 
 class Gacha extends Item {
-  static List<int> prob = [0, 60, 90, 100];
+  static List<int> prob = [0, 75, 95, 100];
 
   Gacha(int cost) {
     this.cost = cost;
@@ -41,7 +41,7 @@ class Gacha extends Item {
         if (GameData.ingredients[j].rarity == i + 1) GameData.ingredients[j]
     ];
 
-    return tempList[rand.nextInt(1 << 4) % tempList.length].id;
+    return tempList[rand.nextInt(tempList.length * 10) % tempList.length].id;
   }
 
   @override
