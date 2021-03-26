@@ -149,21 +149,17 @@ class Calo {
   // Weight loss when run a distance with a speed
   static double weightLoss({double kilometers, double minutes}) {
     double pace = minutes / kilometers;
-    return min(
-        ((MoreMath.exponential(-0.2746 * pace) * 7.5 * kilometers) * 10)
-                .round() /
-            10,
-        weight - minWeight);
+    double temp = MoreMath.exponential(-0.2746 * pace) * 7.5;
+    if (temp > 1.5) temp = 1.5;
+    return min(((temp * kilometers) * 10).round() / 10, weight - minWeight);
   }
 
   // Tuna gained when run a distance with a speed
   static int tunaGained({double kilometers, double minutes}) {
     double pace = minutes / kilometers;
-    return min(
-        ((MoreMath.exponential(-0.2746 * pace) * 1000 * kilometers) / 10)
-                .round() *
-            10,
-        maxTuna - tuna);
+    double temp = MoreMath.exponential(-0.2746 * pace) * 1000;
+    if (temp > 200) temp = 200;
+    return min(((temp * kilometers) / 10).round() * 10, maxTuna - tuna);
   }
 
   // Make Calo lose weight
