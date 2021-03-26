@@ -29,7 +29,6 @@ class EvaluateBuild extends State<Evaluate> {
             tooltip: "Back to home",
             onPressed: () => {
               Navigator.pop(context),
-              Navigator.pop(context),
             },
           )),
       backgroundColor: Colors.black,

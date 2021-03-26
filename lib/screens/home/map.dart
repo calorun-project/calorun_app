@@ -55,7 +55,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
   Timer timer;
 
   double _measure(LatLng point1, LatLng point2) {
-    double r = 63710088.0; // Radius of earth in m
+    double r = 6371000.0; // Radius of earth in m
     double dLat = point2.latitude * pi / 180.0 - point1.latitude * pi / 180.0;
     double dLon = point2.longitude * pi / 180.0 - point1.longitude * pi / 180.0;
     double a = sin(dLat / 2) * sin(dLat / 2) +
@@ -156,10 +156,9 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       DatabaseServices(uid: widget.uid).updateRun(totalDistance, totalTime);
       await share();
       Calo.afterRun(
-        context: context,
-        kilometers: totalDistance / 1000,
-        minutes: totalTime / 60
-      );
+          context: context,
+          kilometers: totalDistance / 1000,
+          minutes: totalTime / 60);
       setState(() {
         isRunning = false;
         totalDistance = 0.0;
