@@ -3,6 +3,7 @@ import 'package:calorun/models/user.dart';
 import 'package:calorun/services/database.dart';
 import 'package:calorun/shared/modified_image.dart';
 import 'package:calorun/shared/widget_resource.dart';
+import 'package:calorun/widget/user/watch_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,91 +68,104 @@ class _LeaderBoardState extends State<LeaderBoard> {
         ),
       );
     }
+//TODO
+
 
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
-      child: Container(
-        height: 100,
-        decoration: BoxDecoration(
-          color: ind % 2 != 0 ? Colors.white : Color(0xffF5F5F5),
-          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5.0)],
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 0.0),
-                  child: Row(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.05, right:  MediaQuery.of(context).size.width*0.05),
-                          child: crown,
-                        ),
-                      ),
-                      Align(
-                        child: CircleAvatar(
-                          backgroundColor: Colors.red.shade800,
-                          backgroundImage: AssetImage("assets/images/default-avatar.png"),
-                          foregroundImage: modifiedImageNetwork(
-                            _leaderBoardItems[index]?.avtUrl,
+      child: GestureDetector(
+        child: Container(
+          height: 100,
+          decoration: BoxDecoration(
+            color: ind % 2 != 0 ? Colors.white : Color(0xffF5F5F5),
+            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5.0)],
+          ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 0.0),
+                    child: Row(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.05, right:  MediaQuery.of(context).size.width*0.05),
+                            child: crown,
                           ),
-                          radius: MediaQuery.of(context).size.width*0.08,
                         ),
-                      ),
-                      Align(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.025, top: 5),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Text(
-                                _leaderBoardItems[index].name,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18
-                                ),
-                                 overflow: TextOverflow.ellipsis,
-                              ),
-                                 
-                              ),
+                        Align(
+                          child: CircleAvatar(
+                            backgroundColor: Colors.red.shade800,
+                            backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                            foregroundImage: modifiedImageNetwork(
+                              _leaderBoardItems[index]?.avtUrl,
                             ),
-                          ],
+                            radius: MediaQuery.of(context).size.width*0.08,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.01),
-                child: Container(
-                  width:  MediaQuery.of(context).size.width*0.15,
-                  child:  Text(
-                    (_leaderBoardItems[index].totalDistance / 1000)
-                        .toStringAsFixed(0) + ' km',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18
+                        Align(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.025, top: 5),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width*0.35,
+                                  child: Text(
+                                  _leaderBoardItems[index].name,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  ),                                 
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            )
-          ],
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.01),
+                  child: Container(
+                    width:  MediaQuery.of(context).size.width*0.15,
+                    child:  Text(
+                      (_leaderBoardItems[index].totalDistance / 1000)
+                          .toStringAsFixed(0) + ' km',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WatchProfile(
+                uid: _leaderBoardItems[index].uid,
+              ),
+            ),
+          );
+        },
+      )
     );
   }
 

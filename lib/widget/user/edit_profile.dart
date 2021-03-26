@@ -43,7 +43,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 60,
-                      width: 300,
+                      width: MediaQuery.of(context).size.width*0.75,
                       child: TextFormField(
                         controller: firstName,
                         decoration: InputDecoration(
@@ -72,7 +72,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 60,
-                      width: 300,
+                      width: MediaQuery.of(context).size.width*0.75,
                       child: TextFormField(
                         controller: lastName,
                         decoration: InputDecoration(
@@ -102,7 +102,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 60,
-                      width: 300,
+                      width: MediaQuery.of(context).size.width*0.75,
                       child: TextFormField(
                         controller: weight,
                         decoration: InputDecoration(
@@ -133,7 +133,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 60,
-                      width: 300,
+                      width: MediaQuery.of(context).size.width*0.75,
                       child: TextFormField(
                         controller: height,
                         decoration: InputDecoration(
@@ -164,7 +164,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 100,
-                      width: 300,
+                      width: MediaQuery.of(context).size.width*0.75,
                       child: TextFormField(
                         controller: bio,
                         decoration: InputDecoration(

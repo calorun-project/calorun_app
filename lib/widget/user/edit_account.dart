@@ -35,7 +35,7 @@ class _EditAccount extends State<EditAccount> {
                       padding: EdgeInsets.only(left: 20),
                       child: Container(
                         height: 40,
-                        width: 300,
+                        width: MediaQuery.of(context).size.width*0.75,
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: "Password",
@@ -63,7 +63,7 @@ class _EditAccount extends State<EditAccount> {
                       padding: EdgeInsets.only(left: 20),
                       child: Container(
                         height: 40,
-                        width: 300,
+                        width: MediaQuery.of(context).size.width*0.75,
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: "Confirm password",
