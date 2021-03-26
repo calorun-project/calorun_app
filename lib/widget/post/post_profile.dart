@@ -62,24 +62,8 @@ class _PostProfileWidgetState extends State<PostProfileWidget> {
                         color: Color(0xffc4c4c4),
                       ),
                       onPressed: () async {
-                        bool result =
-                            await DatabaseServices(uid: uid)
-                                .removePost(widget.post.pid);
-                        if (result) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text('Remove successfully'),
-                              duration: Duration(milliseconds: 500),
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text('Something is wrong'),
-                              duration: Duration(milliseconds: 500),
-                            ),
-                          );
-                        }
+                        await DatabaseServices(uid: uid)
+                                .removePost(widget.post.pid, !(widget.post.imgUrl == null || widget.post.imgUrl == ''));
                       }
                     ),
                   ),
@@ -248,33 +232,4 @@ class _PostProfileWidgetState extends State<PostProfileWidget> {
     );
   }
 }
-// trailing: Visibility(
-//                 visible: uid == widget.post.ownerId,
-//                 child: IconButton(
-//                   icon: Icon(
-//                     Icons.close,
-//                     color: Color(0xffc4c4c4),
-//                   ),
-//                   onPressed: () async {
-//                     bool result =
-//                         await DatabaseServices(uid: uid)
-//                             .removePost(widget.post.pid);
-//                     if (result) {
-//                       ScaffoldMessenger.of(context).showSnackBar(
-//                         SnackBar(
-//                           content: const Text('Remove successfully'),
-//                           duration: Duration(milliseconds: 500),
-//                         ),
-//                       );
-//                     } else {
-//                       ScaffoldMessenger.of(context).showSnackBar(
-//                         SnackBar(
-//                           content: const Text('Something is wrong'),
-//                           duration: Duration(milliseconds: 500),
-//                         ),
-//                       );
-//                     }
-//                   }
-//                 ),
-//               ),
             

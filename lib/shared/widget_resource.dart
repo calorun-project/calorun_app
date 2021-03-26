@@ -16,7 +16,7 @@ const InputDecoration textInputDecoration = InputDecoration(
 );
 
 AppBar header() {
-  return AppBar(    
+  return AppBar(
     title: Text(
       "Calorun",
       style: TextStyle(
@@ -70,5 +70,63 @@ Widget linearProgress() {
 Widget circularWaiting() {
   return Scaffold(
     body: circularProgress(),
+  );
+}
+
+Widget noInternetApp(BuildContext context) {
+  return Scaffold(
+    body: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color.fromRGBO(20, 33, 61, 1),
+            Color(0xff1A364B),
+            Color(0xff1F4A58),
+            Color(0xff245F66),
+            Color.fromRGBO(41, 115, 115, 1),
+          ],
+        ),
+      ),
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                'Calorun',
+                style: TextStyle(
+                  fontFamily: 'Spantaran',
+                  fontWeight: FontWeight.w300,
+                  fontSize: 90.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xffFCA311),
+              onPrimary: Colors.white,
+            ),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content:
+                      const Text('Please wait for the internet connection!'),
+                  duration: Duration(milliseconds: 500),
+                ),
+              );
+            },
+            child: Text('Sign in'),
+          ),
+        ],
+      ),
+    ),
   );
 }

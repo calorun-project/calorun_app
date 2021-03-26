@@ -27,8 +27,16 @@ class StorageServices {
     return url;
   }
 
-  void removePostImage(String postId) {
-    storageReference.child("Posted Picture").child("post_$postId.png").delete();
+  Future<bool> removePostImage(String postId) async {
+    try {
+      storageReference
+          .child("Posted Picture")
+          .child("post_$postId.png")
+          .delete();
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<String> newAvatar(File image, String uid) async {
@@ -46,7 +54,6 @@ class StorageServices {
     try {
       Reference reference =
           storageReference.child("Users Avatar").child("avt_$uid.png");
-      if (reference.bucket.isNotEmpty) return true;
       await reference.delete();
       return true;
     } catch (e) {

@@ -78,7 +78,9 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
   }
 
   Future<void> _removeAvatar() async {
-    await StorageServices().removeUserAvatar(widget.currentUser.uid);
+    if (widget.currentUser.avtUrl != null && widget.currentUser.avtUrl != '') {
+      await StorageServices().removeUserAvatar(widget.currentUser.uid);
+    }
     await DatabaseServices(uid: widget.currentUser.uid)
           .updateUserAvatar(null);
     Navigator.of(context).pop();
@@ -93,16 +95,10 @@ class _UpdateAvatarState extends State<UpdateAvatar> {
     downloadUrl = null;
 
     if (image != null) {
-      // // Compressing image
-      // final Directory directory = await getTemporaryDirectory();
-      // final String path = directory.path;
-      // final Im.Image decodedImage = Im.decodeImage(image.readAsBytesSync());
-      // final compressedImage = File('$path/avt_${widget.currentUser.uid}.png')
-      //   ..writeAsBytesSync(Im.encodePng(decodedImage));
-      // image = compressedImage;
-
       // Upload image
-      await StorageServices().removeUserAvatar(widget.currentUser.uid);
+      if (widget.currentUser.avtUrl != null && widget.currentUser.avtUrl != '') {
+        await StorageServices().removeUserAvatar(widget.currentUser.uid);
+      }
       downloadUrl =
           await StorageServices().newAvatar(image, widget.currentUser.uid);
     }
