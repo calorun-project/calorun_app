@@ -106,12 +106,11 @@ class MenuBuild extends State<Menu> {
                   icon: Image.asset("assets/images/cookIcon.png"),
                   iconSize: 32,
                   onPressed: () => {
-                    if (object.canCook())
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Kitchen(foodID: object.id))),
+                    if (object.canCook()) Navigator.pop(context),
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Kitchen(foodID: object.id))),
                   },
                 ),
               ))

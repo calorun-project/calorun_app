@@ -119,6 +119,7 @@ class GameData {
   static final String ingredientImage = 'assets/images/ingredient';
   static final String foodImage = 'assets/images/food';
   static final String pretreatImage = 'assets/images/pretreat';
+  static String uid = '';
 }
 
 class Calo {

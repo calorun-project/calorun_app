@@ -210,7 +210,7 @@ class ShopBuild extends State<ShopUI> {
       fToast.init(context);
       if (Calo.tuna < object.cost) {
         fToast.showToast(
-            child: Toast("You have not enough Tuna!", false),
+            child: Toast("Not enough Tuna!", false),
             gravity: ToastGravity.BOTTOM,
             toastDuration: Duration(seconds: 1));
       } else {
@@ -233,7 +233,7 @@ class ShopBuild extends State<ShopUI> {
           FToast fToast = FToast();
           fToast.init(context);
           fToast.showToast(
-              child: Toast("You have not enough Tuna!", false),
+              child: Toast("Not enough Tuna!", false),
               gravity: ToastGravity.BOTTOM,
               toastDuration: Duration(seconds: 1));
         }

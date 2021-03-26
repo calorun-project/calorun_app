@@ -69,12 +69,11 @@ class Food {
   }
 
   bool canCook() {
-    int temp = 1;
     for (int i = 0; i < this.ingredient.length; i++) {
-      temp *= GameData.ingredientCount[i];
+      if (GameData.ingredientCount[this.ingredient[i]] <= 0) return false;
     }
 
-    return (temp != 0) && (Calo.weight < Calo.maxWeight);
+    return (Calo.weight < Calo.maxWeight);
   }
 }
 
