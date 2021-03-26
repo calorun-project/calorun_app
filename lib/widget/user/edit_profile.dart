@@ -16,17 +16,37 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController weight = TextEditingController();
   TextEditingController height = TextEditingController();
   TextEditingController bio = TextEditingController();
-  String error = '';
-  bool loading = false;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
-    firstName.text = widget.user.name.split(' ').first;
-    lastName.text = widget.user.name.split(' ').last;
+  void initState() {
+    firstName.text = _getFirstName(widget.user);
+    lastName.text = _getLastName(widget.user);
     weight.text = widget.user.weight.toStringAsFixed(2);
     height.text = widget.user.height.toStringAsFixed(2);
     bio.text = widget.user.bio;
+    super.initState();
+  }
+
+  String error = '';
+  bool loading = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _getFirstName(ModifiedUser user) {
+    return user.name.split(' ').first;
+  }
+
+  String _getLastName(ModifiedUser user) {
+    String concentrate = '';
+    List<String> list = user.name.split(' ');
+    list.removeAt(0);
+    list.forEach((element) {
+      concentrate = concentrate + element + ' ';
+    });
+    concentrate = concentrate.substring(0, concentrate.length - 1);
+    return concentrate;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: header(),
       body: SingleChildScrollView(
@@ -43,19 +63,19 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 60,
-                      width: MediaQuery.of(context).size.width*0.75,
+                      width: MediaQuery.of(context).size.width * 0.75,
                       child: TextFormField(
                         controller: firstName,
                         decoration: InputDecoration(
                           labelText: "First name",
                           border: OutlineInputBorder(),
                         ),
-                        validator: (value) => 
-                          (value.isEmpty) ?
-                          'Please enter your first name' :
-                          ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9- ]').hasMatch(value)) ?
-                          'Please enter a valid Name' :
-                          null),
+                        validator: (value) => (value.isEmpty)
+                            ? 'Please enter your first name'
+                            : ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9- ]')
+                                    .hasMatch(value))
+                                ? 'Please enter a valid Name'
+                                : null),
                         autofocus: false,
                       ),
                     ),
@@ -72,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 60,
-                      width: MediaQuery.of(context).size.width*0.75,
+                      width: MediaQuery.of(context).size.width * 0.75,
                       child: TextFormField(
                         controller: lastName,
                         decoration: InputDecoration(
@@ -80,12 +100,12 @@ class _EditProfileState extends State<EditProfile> {
                           border: OutlineInputBorder(),
                           hintText: 'Last name',
                         ),
-                        validator: (value) =>
-                          (value.isEmpty) ?
-                          'Please enter your first name' :
-                          ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9- ]').hasMatch(value)) ?
-                          'Please enter a valid Name' :
-                          null),
+                        validator: (value) => (value.isEmpty)
+                            ? 'Please enter your first name'
+                            : ((RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
+                                    .hasMatch(value))
+                                ? 'Please enter a valid Name'
+                                : null),
                         autofocus: false,
                       ),
                     ),
@@ -102,7 +122,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 60,
-                      width: MediaQuery.of(context).size.width*0.75,
+                      width: MediaQuery.of(context).size.width * 0.75,
                       child: TextFormField(
                         controller: weight,
                         decoration: InputDecoration(
@@ -110,13 +130,15 @@ class _EditProfileState extends State<EditProfile> {
                           border: OutlineInputBorder(),
                           hintText: 'Weight',
                         ),
-                        validator: (value) => 
-                            (value.isEmpty) ?
-                            'Please enter your weight' :
-                            (!RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)) ?
-                            'Please enter a valid weight' :
-                            (double.parse(value) < 0.0 || double.parse(value) > 999.0) ?
-                            'Please enter a valid weight' : null,
+                        validator: (value) => (value.isEmpty)
+                            ? 'Please enter your weight'
+                            : (!RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
+                                    .hasMatch(value))
+                                ? 'Please enter a valid weight'
+                                : (double.parse(value) < 0.0 ||
+                                        double.parse(value) > 999.0)
+                                    ? 'Please enter a valid weight'
+                                    : null,
                         autofocus: false,
                       ),
                     ),
@@ -133,7 +155,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 60,
-                      width: MediaQuery.of(context).size.width*0.75,
+                      width: MediaQuery.of(context).size.width * 0.75,
                       child: TextFormField(
                         controller: height,
                         decoration: InputDecoration(
@@ -141,13 +163,15 @@ class _EditProfileState extends State<EditProfile> {
                           border: OutlineInputBorder(),
                           hintText: 'Height',
                         ),
-                        validator: (value) =>
-                            (value.isEmpty) ?
-                            'Please enter your height' :
-                            (!RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)) ?
-                            'Please enter a valid height' :
-                            (double.parse(value) < 0.0 || double.parse(value) > 999.0) ?
-                            'Please enter a valid height' : null,
+                        validator: (value) => (value.isEmpty)
+                            ? 'Please enter your height'
+                            : (!RegExp(r'^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
+                                    .hasMatch(value))
+                                ? 'Please enter a valid height'
+                                : (double.parse(value) < 0.0 ||
+                                        double.parse(value) > 999.0)
+                                    ? 'Please enter a valid height'
+                                    : null,
                         autofocus: false,
                       ),
                     ),
@@ -164,7 +188,7 @@ class _EditProfileState extends State<EditProfile> {
                     padding: EdgeInsets.only(left: 20),
                     child: Container(
                       height: 100,
-                      width: MediaQuery.of(context).size.width*0.75,
+                      width: MediaQuery.of(context).size.width * 0.75,
                       child: TextFormField(
                         controller: bio,
                         decoration: InputDecoration(
