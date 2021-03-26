@@ -54,8 +54,8 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
 
   Timer timer;
 
-  double _measure(LatLng point1, LatLng point2) {
-    double r = 63710088.0; // Radius of earth in m
+  double _measure(LatLng point1, LatLng point2) { 
+    double r = 6371008.8; // Radius of earth in m
     double dLat = point2.latitude * pi / 180.0 - point1.latitude * pi / 180.0;
     double dLon = point2.longitude * pi / 180.0 - point1.longitude * pi / 180.0;
     double a = sin(dLat / 2) * sin(dLat / 2) +
@@ -156,16 +156,16 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       DatabaseServices(uid: widget.uid).updateRun(totalDistance, totalTime);
       await share();
       Calo.afterRun(
-        context: context,
-        kilometers: totalDistance / 1000,
-        minutes: totalTime / 60
-      );
+          context: context,
+          kilometers: totalDistance / 1000,
+          minutes: totalTime / 60);
       setState(() {
         isRunning = false;
         totalDistance = 0.0;
         distanceController.text = '0.00';
         totalTime = 0.0;
         timeController.text = '00:00:00';
+        speedController.text = '0.00';
         route.clear();
         routes.clear();
       });
@@ -181,6 +181,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       distanceController.text = '0.00';
       totalTime = 0.0;
       timeController.text = '00:00:00';
+      speedController.text = '0.00';
       route.clear();
       routes.clear();
       isAlive = false;
