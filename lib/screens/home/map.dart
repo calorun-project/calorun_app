@@ -26,6 +26,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
   final LocationServices locationServices = LocationServices();
   bool isRunning = false;
   bool isAlive = false;
+  bool isLoading = true;
   File image;
 
   bool get wantKeepAlive {
@@ -91,7 +92,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       distanceController.text = totalDistance.toStringAsFixed(2);
       caloController.text =
           (totalDistance * widget.weight * 0.001036).toStringAsFixed(2);
-      speedController.text = (totalDistance / totalTime).toStringAsFixed(2);
+      speedController.text = (totalDistance / totalTime * 3.6).toStringAsFixed(2);
     });
     setState(() {
       isRunning = true;
@@ -144,11 +145,20 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
 
   Future<void> saveRun(BuildContext context) async {
     stopRun();
-    if (totalDistance < 300.0) {
+    if ((totalDistance / totalTime * 3.6) > 50.0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content:
-              const Text('The distance less than 300 meters cannot be saved'),
+              const Text('Your speed is too fast!'),
+          duration: Duration(milliseconds: 500),
+        ),
+      );
+    }
+    else if (totalDistance < 300.0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content:
+              const Text('The distance less than 300 meters can not be saved'),
           duration: Duration(milliseconds: 500),
         ),
       );
@@ -198,6 +208,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
             stream: locationServices.locationListen,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                isLoading = false;
                 if (isRunning && snapshot.data != curentLocation) {
                   route.add(snapshot.data);
                   totalDistance += _measure(curentLocation, snapshot.data);
@@ -285,7 +296,6 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
               ),
               height: MediaQuery.of(context).size.height * 0.32,
               child: Row(
-                //crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Column(
@@ -406,7 +416,11 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
                     size: 40,
                   )
                 : Icon(Icons.play_arrow_rounded, size: 40),
-            onPressed: isRunning ? stopRun : startRun,
+            onPressed: () {
+              if (!isLoading) {
+                isRunning ? stopRun() : startRun();
+              }
+            },
           ),
         ),
         Visibility(

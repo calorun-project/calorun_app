@@ -63,6 +63,13 @@ class LocationServices {
     List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(
         Coordinates(_locationData.latitude, _locationData.longitude));
     Address first = addresses.first;
-    return '${first.subAdminArea}, ${first.adminArea}, ${first.countryName}';
+    String returnVal = ('${first.subAdminArea}' == 'null'
+        ? ''
+        : '${first.subAdminArea}, ') + ('${first.adminArea}' == 'null'
+            ? ''
+            : '${first.adminArea}, ') + ('${first.countryName}' == 'null'
+                ? ''
+                : '${first.countryName}.');
+    return returnVal;
   }
 }
