@@ -223,24 +223,24 @@ class ShopBuild extends State<ShopUI> {
     });
   }
 
-  void _Click() {
-    setState(() {
-      if (_roll) {
-        if (Calo.tuna >= GameData.gachaCost) {
-          _roll = false;
-          _ingredient = GameData.ingredients[Gacha(GameData.gachaCost).buy()];
-        } else {
-          FToast fToast = FToast();
-          fToast.init(context);
-          fToast.showToast(
-              child: Toast("Not enough Tuna!", false),
-              gravity: ToastGravity.BOTTOM,
-              toastDuration: Duration(seconds: 1));
-        }
+  void _Click() async {
+    if (_roll) {
+      if (Calo.tuna >= GameData.gachaCost) {
+        _roll = false;
+        _ingredient =
+            GameData.ingredients[await Gacha(GameData.gachaCost).buy()];
       } else {
-        _roll = true;
+        FToast fToast = FToast();
+        fToast.init(context);
+        fToast.showToast(
+            child: Toast("Not enough Tuna!", false),
+            gravity: ToastGravity.BOTTOM,
+            toastDuration: Duration(seconds: 1));
       }
-    });
+    } else {
+      _roll = true;
+    }
+    setState(() {});
   }
 
   Ingredient _ingredient = GameData.ingredients[0];

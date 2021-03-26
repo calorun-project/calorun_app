@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:calorun/gameengine/gamealertGE.dart';
+import 'package:calorun/services/database.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'ingredientfoodGE.dart';
@@ -167,12 +168,16 @@ class Calo {
 
   // Make Calo lose weight
   static void afterRun(
-      {BuildContext context, double kilometers, double minutes}) {
+      {BuildContext context, double kilometers, double minutes}) async {
     double lessWeight = weightLoss(kilometers: kilometers, minutes: minutes);
     int moreTuna = tunaGained(kilometers: kilometers, minutes: minutes);
 
     weight = weight - lessWeight;
     tuna = tuna + moreTuna;
+
+    await DatabaseServices(uid: GameData.uid).updateGameData();
+
+    print(GameData.uid);
 
     GameAlert.showAfterRunDialog(context, lessWeight, moreTuna);
   }
