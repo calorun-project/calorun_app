@@ -129,7 +129,7 @@ class _UploadWidgetState extends State<UploadWidget> {
                   child: TextField(
                     controller: descriptionController,
                     decoration: textInputDecoration.copyWith(
-                      hintText: 'Say somthing?',
+                      hintText: 'Say something?',
                     ),
                   ),
                 ),

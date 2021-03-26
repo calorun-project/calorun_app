@@ -68,7 +68,6 @@ class _LeaderBoardState extends State<LeaderBoard> {
         ),
       );
     }
-//TODO
 
 
     return Padding(

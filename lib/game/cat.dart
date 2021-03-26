@@ -2,9 +2,6 @@ import 'package:calorun/gameengine/gamedataGE.dart';
 import 'home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import 'menu.dart';
 
 class Cat extends StatefulWidget {
   CatBuild createState() => CatBuild();
