@@ -54,8 +54,13 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
 
   Timer timer;
 
+<<<<<<< HEAD
   double _measure(LatLng point1, LatLng point2) {
     double r = 6371000.0; // Radius of earth in m
+=======
+  double _measure(LatLng point1, LatLng point2) { 
+    double r = 6371008.8; // Radius of earth in m
+>>>>>>> af44f190ab57e9d1f33d033647be8a88297b1849
     double dLat = point2.latitude * pi / 180.0 - point1.latitude * pi / 180.0;
     double dLon = point2.longitude * pi / 180.0 - point1.longitude * pi / 180.0;
     double a = sin(dLat / 2) * sin(dLat / 2) +
@@ -165,6 +170,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
         distanceController.text = '0.00';
         totalTime = 0.0;
         timeController.text = '00:00:00';
+        speedController.text = '0.00';
         route.clear();
         routes.clear();
       });
@@ -180,6 +186,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       distanceController.text = '0.00';
       totalTime = 0.0;
       timeController.text = '00:00:00';
+      speedController.text = '0.00';
       route.clear();
       routes.clear();
       isAlive = false;
@@ -281,7 +288,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
                   ],
                 ),
               ),
-              height: 220,
+              height: MediaQuery.of(context).size.height * 0.32,
               child: Row(
                 //crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -18,35 +18,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin<Home> {
-  // PageController pageController;
-  // int pageIndex = 0;
-  TabController controller ;
+
+  TabController controller;
 
   @override
   void initState() {
     super.initState();
-    // pageController = PageController();
     controller = TabController(length: 5, vsync: this);
   }
 
   @override
   void dispose() {
-    // pageController?.dispose();
     controller?.dispose();
     super.dispose();
   }
-
-  // onPageChanged(int pageIndex) {
-  //   setState(() {
-  //     this.pageIndex = pageIndex;
-  //   });
-  // }
-
-  // onTap(int pageIndex) {
-  //   pageController.jumpToPage(pageIndex);
-  //   // pageController.animateToPage(pageIndex,
-  //   //     duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,46 +96,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin<Home> {
           ),
           length: 5,
         );
-        // return Scaffold(
-        //   appBar: navigateHeader(context),
-        //   body: PageView(
-        //     children: <Widget>[
-        //       Timeline(),
-        //       Map(
-        //         uid: Provider.of<String>(context),
-        //         weight: Provider.of<ModifiedUser>(context).weight,
-        //       ),
-        //       LeaderBoard(),
-        //       Timeline(),
-        //       Profile(Provider.of<String>(context)),
-        //     ],
-        //     controller: pageController,
-        //     onPageChanged: onPageChanged,
-        //     physics: NeverScrollableScrollPhysics(),
-        //   ),
-        //   bottomNavigationBar: CupertinoTabBar(
-        //     currentIndex: pageIndex,
-        //     onTap: onTap,
-        //     activeColor: Color(0xff297373),
-        //     items: [
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.whatshot),
-        //       ),
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.run_circle_rounded),
-        //       ),
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.equalizer_rounded),
-        //       ),
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.games_rounded),
-        //       ),
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.account_circle),
-        //       ),
-        //     ],
-        //   ),
-        // );
       },
     );
   }
