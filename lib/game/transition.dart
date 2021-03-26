@@ -1,4 +1,6 @@
 import 'package:calorun/game/home.dart';
+import 'package:calorun/gameengine/gamedataGE.dart';
+import 'package:calorun/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +26,8 @@ class Transition extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            onTap: () => {
+            onTap: () async => {
+                  await DatabaseServices(uid: GameData.uid).getGameData(),
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => GameHome())),
                 }));

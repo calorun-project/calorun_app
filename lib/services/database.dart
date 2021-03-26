@@ -343,13 +343,17 @@ class DatabaseServices {
   Future<void> getGameData() async {
     DocumentSnapshot document =
         await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-    GameData.ingredientCount =
-        document?.data()['ingredientCount'] ?? GameData.ingredientCount;
-    Calo.tuna = document?.data()['tuna'] ?? Calo.tuna;
-    Calo.height = document?.data()['caloHeight'] ?? Calo.height;
-    Calo.weight = document?.data()['caloWeight'] ?? Calo.weight;
-    Calo.level = document?.data()['level'] ?? Calo.level;
-    Calo.exp = document?.data()['exp'] ?? Calo.exp;
+    GameData.ingredientCount = () {
+      if (document?.data()['ingredientCount'] == null)
+        return [for (int i = 0; i < GameData.ingredients.length; i++) 0];
+      else
+        return document?.data()['ingredientCount'].cast<int>();
+    }(); //GameData.ingredientCount;
+    Calo.tuna = document?.data()['tuna'] ?? 0; //Calo.tuna;
+    Calo.height = document?.data()['caloHeight'] ?? 7.5; //Calo.height;
+    Calo.weight = document?.data()['caloWeight'] ?? 2.0; //Calo.weight;
+    Calo.level = document?.data()['level'] ?? 1; // Calo.level;
+    Calo.exp = document?.data()['exp'] ?? 0; //Calo.exp;
   }
 
   Future<void> updateGameData() async {

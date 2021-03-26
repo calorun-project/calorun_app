@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:calorun/services/database.dart';
+
 import 'gamedataGE.dart';
 
 class Pretreatment {
@@ -166,7 +168,7 @@ class Process {
     return (1 / 2 * weightBase * (1 + getRating / 10) * 10).round() / 10;
   }
 
-  List finish() {
+  Future<List> finish() async {
     for (int i = 0; i < GameData.foods[foodId].ingredient.length; i++) {
       timers[i].cancel();
       GameData.ingredientCount[GameData.foods[foodId].ingredient[i]]--;
@@ -186,6 +188,8 @@ class Process {
     }
 
     Calo.weight = min(Calo.weight + weightVal, Calo.maxWeight);
+
+    await DatabaseServices(uid: GameData.uid).updateGameData();
 
     return [comment, ratingVal, expVal, weightVal];
   }

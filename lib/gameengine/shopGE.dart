@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:calorun/services/database.dart';
+
 import 'ingredientfoodGE.dart';
 import 'gamedataGE.dart';
 
@@ -16,7 +18,7 @@ class Item {
     return '';
   }
 
-  int buy() {
+  Future<int> buy() async {
     return -1;
   }
 }
@@ -55,10 +57,13 @@ class Gacha extends Item {
   }
 
   @override
-  int buy() {
+  Future<int> buy() async {
     Calo.tuna -= this.cost;
     int temp = foodId();
     GameData.ingredientCount[temp] += 1;
+
+    await DatabaseServices(uid: GameData.uid).updateGameData();
+
     return temp;
   }
 }
@@ -95,9 +100,12 @@ class FoodShop extends Item {
   }
 
   @override
-  int buy() {
+  Future<int> buy() async {
     Calo.tuna -= this.cost;
     GameData.ingredientCount[this.id] += 1;
+
+    await DatabaseServices(uid: GameData.uid).updateGameData();
+
     return -1;
   }
 }
