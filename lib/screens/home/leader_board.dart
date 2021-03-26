@@ -351,7 +351,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
             Positioned(
                 bottom: 0,
                 child: Container(
-                  alignment: Alignment.center,
+                  alignment: Alignment(0,0.9),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.width*0.5,
                   decoration: BoxDecoration(color: Colors.transparent),
