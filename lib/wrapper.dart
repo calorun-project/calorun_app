@@ -1,3 +1,4 @@
+import 'package:calorun/gameengine/gamedataGE.dart';
 import 'package:calorun/screens/authenticate/prelogin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return Prepage();
     } else {
+      GameData.uid = user;
       return Home();
     }
   }
