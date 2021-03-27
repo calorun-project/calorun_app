@@ -1,4 +1,3 @@
-import 'package:calorun/game/home.dart';
 import 'package:calorun/game/transition.dart';
 import 'package:calorun/models/user.dart';
 import 'package:calorun/screens/home/leader_board.dart';
@@ -18,7 +17,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin<Home> {
-
   TabController controller;
 
   @override
@@ -53,12 +51,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin<Home> {
                   tooltip: 'Search',
                   onPressed: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SearchUser(),),
+                      MaterialPageRoute(
+                        builder: (context) => SearchUser(),
+                      ),
                     );
                   },
                 ),
               ],
-
               title: Text(
                 "Calorun",
                 style: TextStyle(
@@ -84,15 +83,35 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin<Home> {
               ],
             ),
             bottomNavigationBar: TabBar(
-                controller: controller,                
-                tabs: <Widget>[
-                  Icon(Icons.whatshot, color: Color(0xff297373), size: 32,),
-                  Icon(Icons.run_circle_rounded, color: Color(0xff297373), size: 32,),
-                  Icon(Icons.equalizer_rounded, color: Color(0xff297373), size: 32,),
-                  Icon(Icons.games_rounded, color: Color(0xff297373), size: 32,),
-                  Icon(Icons.account_circle, color: Color(0xff297373), size: 32,),
-                ],
-              ),
+              controller: controller,
+              tabs: <Widget>[
+                Icon(
+                  Icons.whatshot,
+                  color: Color(0xff297373),
+                  size: 32,
+                ),
+                Icon(
+                  Icons.run_circle_rounded,
+                  color: Color(0xff297373),
+                  size: 32,
+                ),
+                Icon(
+                  Icons.equalizer_rounded,
+                  color: Color(0xff297373),
+                  size: 32,
+                ),
+                Icon(
+                  Icons.games_rounded,
+                  color: Color(0xff297373),
+                  size: 32,
+                ),
+                Icon(
+                  Icons.account_circle,
+                  color: Color(0xff297373),
+                  size: 32,
+                ),
+              ],
+            ),
           ),
           length: 5,
         );
