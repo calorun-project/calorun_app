@@ -149,16 +149,18 @@ class Calo {
   // Weight loss when run a distance with a speed
   static double weightLoss({double kilometers, double minutes}) {
     double pace = minutes / kilometers;
-    double temp = MoreMath.exponential(-0.2746 * pace) * 7.5;
-    if (temp > 1.5) temp = 1.5;
+    double temp = 0.8 + 0.8 / (12.5 - 6.8) * (12.5 - pace);
+    if (temp > 1.6) temp = 1.6;
+    if (temp < 0.6) temp = 0.6;
     return min(((temp * kilometers) * 10).round() / 10, weight - minWeight);
   }
 
   // Tuna gained when run a distance with a speed
   static int tunaGained({double kilometers, double minutes}) {
     double pace = minutes / kilometers;
-    double temp = MoreMath.exponential(-0.2746 * pace) * 1000;
-    if (temp > 200) temp = 200;
+    double temp = 100 + 150 / (12.5 - 6.8) * (12.5 - pace);
+    if (temp > 220) temp = 220;
+    if (temp < 80) temp = 80;
     return min(((temp * kilometers) / 10).round() * 10, maxTuna - tuna);
   }
 
@@ -168,12 +170,10 @@ class Calo {
     double lessWeight = weightLoss(kilometers: kilometers, minutes: minutes);
     int moreTuna = tunaGained(kilometers: kilometers, minutes: minutes);
 
-    weight = weight - lessWeight;
+    weight = ((weight - lessWeight) * 10).round() / 10;
     tuna = tuna + moreTuna;
 
     await DatabaseServices(uid: GameData.uid).updateGameData();
-
-    print(GameData.uid);
 
     GameAlert.showAfterRunDialog(context, lessWeight, moreTuna);
   }

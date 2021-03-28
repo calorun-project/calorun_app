@@ -92,7 +92,8 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       distanceController.text = totalDistance.toStringAsFixed(2);
       caloController.text =
           (totalDistance * widget.weight * 0.001036).toStringAsFixed(2);
-      speedController.text = (totalDistance / totalTime * 3.6).toStringAsFixed(2);
+      speedController.text =
+          (totalDistance / totalTime * 3.6).toStringAsFixed(2);
     });
     setState(() {
       isRunning = true;
@@ -148,13 +149,11 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
     if ((totalDistance / totalTime * 3.6) > 50.0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content:
-              const Text('Your speed is too fast!'),
+          content: const Text('Your speed is too fast!'),
           duration: Duration(milliseconds: 500),
         ),
       );
-    }
-    else if (totalDistance < 300.0) {
+    } else if (totalDistance < 300.0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content:
@@ -176,6 +175,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
         totalTime = 0.0;
         timeController.text = '00:00:00';
         speedController.text = '0.00';
+        caloController.text = '0.00';
         route.clear();
         routes.clear();
       });
@@ -192,6 +192,7 @@ class _MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map> {
       totalTime = 0.0;
       timeController.text = '00:00:00';
       speedController.text = '0.00';
+      caloController.text = '0.00';
       route.clear();
       routes.clear();
       isAlive = false;
