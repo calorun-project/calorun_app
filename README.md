@@ -106,7 +106,7 @@ You can change your profile and see your posts here. Make sure you add your heig
 </p>
 
 # Demo video: 
-Link: [Click here to be redirected to Youtube (turn on English caption if needed)](https://youtu.be/tboAApmBuww)
+Link: [Click here to be redirected to Youtube (turn on English caption if needed)](https://youtu.be/wUZWYsmSq6M)
 
 # Technology used:
 [Dart](https://dart.dev/)/[Flutter](https://flutter.dev/)
