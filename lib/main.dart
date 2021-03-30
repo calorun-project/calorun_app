@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:calorun/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:calorun/services/auth.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -25,8 +26,23 @@ class MyApp extends StatelessWidget {
   //   return false;
   // }
 
+  void _portraitOnlyMode() {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  }
+
+  void _rotationMode() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
+    _portraitOnlyMode();
     return StreamProvider<String>.value(
       value: AuthServices().userCurrentId,
       initialData: null,
@@ -36,5 +52,10 @@ class MyApp extends StatelessWidget {
         home: Wrapper(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _rotationMode();
   }
 }

@@ -18,13 +18,15 @@ class _LeaderBoardState extends State<LeaderBoard> {
     if (pos == -1) return 'No rank';
     return (pos + 1).toString();
   }
-  Widget buildList(BuildContext ctxt, int index , List<LeaderBoardUser> _leaderBoardItems) {
+
+  Widget buildList(
+      BuildContext ctxt, int index, List<LeaderBoardUser> _leaderBoardItems) {
     int ind = index + 1;
     Widget crown;
     if (ind == 1) {
       crown = CircleAvatar(
         backgroundColor: Colors.yellow[800],
-        radius:  MediaQuery.of(context).size.width*0.05,
+        radius: MediaQuery.of(context).size.width * 0.05,
         child: Text(
           ind.toString(),
           style: TextStyle(
@@ -34,7 +36,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
     } else if (ind == 2) {
       crown = CircleAvatar(
         backgroundColor: Colors.blueGrey,
-        radius:  MediaQuery.of(context).size.width*0.05,
+        radius: MediaQuery.of(context).size.width * 0.05,
         child: Text(
           ind.toString(),
           style: TextStyle(
@@ -44,7 +46,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
     } else if (ind == 3) {
       crown = CircleAvatar(
         backgroundColor: Colors.brown,
-        radius:  MediaQuery.of(context).size.width*0.05,
+        radius: MediaQuery.of(context).size.width * 0.05,
         child: Text(
           ind.toString(),
           style: TextStyle(
@@ -57,11 +59,11 @@ class _LeaderBoardState extends State<LeaderBoard> {
     } else {
       crown = CircleAvatar(
         backgroundColor: Colors.transparent,
-        radius: MediaQuery.of(context).size.width*0.05,
+        radius: MediaQuery.of(context).size.width * 0.05,
         child: Text(
           ind.toString(),
           style: TextStyle(
-            color: Colors.black, 
+            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -69,107 +71,114 @@ class _LeaderBoardState extends State<LeaderBoard> {
       );
     }
 
-
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
-      child: GestureDetector(
-        child: Container(
-          height: 100,
-          decoration: BoxDecoration(
-            color: ind % 2 != 0 ? Colors.white : Color(0xffF5F5F5),
-            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5.0)],
-          ),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 0.0),
-                    child: Row(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.05, right:  MediaQuery.of(context).size.width*0.05),
-                            child: crown,
-                          ),
-                        ),
-                        Align(
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red.shade800,
-                            backgroundImage: AssetImage("assets/images/default-avatar.png"),
-                            foregroundImage: modifiedImageNetwork(
-                              _leaderBoardItems[index]?.avtUrl,
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
+        child: GestureDetector(
+          child: Container(
+            height: 100,
+            decoration: BoxDecoration(
+              color: ind % 2 != 0 ? Colors.white : Color(0xffF5F5F5),
+              boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5.0)],
+            ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                  right:
+                                      MediaQuery.of(context).size.width * 0.05),
+                              child: crown,
                             ),
-                            radius: MediaQuery.of(context).size.width*0.08,
                           ),
-                        ),
-                        Align(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.025, top: 5),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width*0.35,
-                                  child: Text(
-                                  _leaderBoardItems[index].name,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                  ),                                 
-                                ),
+                          Align(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.red.shade800,
+                              backgroundImage: AssetImage(
+                                  "assets/images/default-avatar.png"),
+                              foregroundImage: modifiedImageNetwork(
+                                _leaderBoardItems[index]?.avtUrl,
                               ),
-                            ],
+                              radius: MediaQuery.of(context).size.width * 0.08,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.01),
-                  child: Container(
-                    width:  MediaQuery.of(context).size.width*0.15,
-                    child:  Text(
-                      (_leaderBoardItems[index].totalDistance / 1000)
-                          .toStringAsFixed(0) + ' km',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18
+                          Align(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.025,
+                                      top: 5),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    child: Text(
+                                      _leaderBoardItems[index].name,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WatchProfile(
-                uid: _leaderBoardItems[index].uid,
-              ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width * 0.01),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      child: Text(
+                        (_leaderBoardItems[index].totalDistance / 1000)
+                                .toStringAsFixed(0) +
+                            ' km',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
-          );
-        },
-      )
-    );
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WatchProfile(
+                  uid: _leaderBoardItems[index].uid,
+                ),
+              ),
+            );
+          },
+        ));
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return FutureBuilder(
       future: DatabaseServices.getDistanceLeaderBoard(10),
       builder: (context, snapshot) {
@@ -179,178 +188,200 @@ class _LeaderBoardState extends State<LeaderBoard> {
           _leaderBoardItems.add(LeaderBoardUser());
         }
         return Scaffold(
-        body: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    height: 350.0,
-                    color: Color(0xff14213D),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      //crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            CircleAvatar(
-                              backgroundImage: AssetImage("assets/images/default-avatar.png"),
-                              foregroundImage: modifiedImageNetwork(
-                                _leaderBoardItems[1]?.avtUrl,
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      height: 350.0,
+                      color: Color(0xff14213D),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        //crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    "assets/images/default-avatar.png"),
+                                foregroundImage: modifiedImageNetwork(
+                                  _leaderBoardItems[1]?.avtUrl,
+                                ),
+                                backgroundColor: Colors.red,
+                                radius:
+                                    MediaQuery.of(context).size.width * 0.075,
                               ),
-                              backgroundColor: Colors.red,
-                              radius:  MediaQuery.of(context).size.width*0.075,
-                            ),
-                            SizedBox(
-                              height:  MediaQuery.of(context).size.width*0.01,
-                            ),
-                            Text(
-                              (_leaderBoardItems[1].totalDistance / 1000)
-                                  .toStringAsFixed(0) + ' km',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Container(
-                              width: 70.0,
-                              height: ((_leaderBoardItems[1].totalDistance * 1.0 /
-                                  _leaderBoardItems[0].totalDistance * 1.0).isNaN ? 
-                                  0.0 : _leaderBoardItems[1].totalDistance * 1.0 /
-                                  _leaderBoardItems[0].totalDistance *  1.0) * 160.0,
-                              color: Color(0xffFCA311),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "2nd",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xffFFFFFF),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.width * 0.01,
                               ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: 50,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            CircleAvatar(
-                              backgroundImage: AssetImage("assets/images/default-avatar.png"),
-                              foregroundImage: modifiedImageNetwork(
-                                _leaderBoardItems[0]?.avtUrl,
+                              Text(
+                                (_leaderBoardItems[1].totalDistance / 1000)
+                                        .toStringAsFixed(0) +
+                                    ' km',
+                                style: TextStyle(color: Colors.white),
                               ),
-                              backgroundColor: Colors.red,
-                              radius: 27,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              (_leaderBoardItems[0].totalDistance / 1000.0)
-                                      .toStringAsFixed(0) +
-                                  ' km',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              width: 70,
-                              height: 160,
-                              color: Color(0xffFCA311),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "1st",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xffFFFFFF),
+                              SizedBox(
+                                height: 10.0,
                               ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: 50,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            CircleAvatar(
-                              backgroundImage: AssetImage("assets/images/default-avatar.png"),
-                              foregroundImage: modifiedImageNetwork(
-                                _leaderBoardItems[2].avtUrl,
+                              Container(
+                                width: 70.0,
+                                height: ((_leaderBoardItems[1].totalDistance *
+                                                1.0 /
+                                                _leaderBoardItems[0]
+                                                    .totalDistance *
+                                                1.0)
+                                            .isNaN
+                                        ? 0.0
+                                        : _leaderBoardItems[1].totalDistance *
+                                            1.0 /
+                                            _leaderBoardItems[0].totalDistance *
+                                            1.0) *
+                                    160.0,
+                                color: Color(0xffFCA311),
                               ),
-                              backgroundColor: Colors.red,
-                              radius: 27,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              (_leaderBoardItems[2].totalDistance / 1000)
-                                      .toStringAsFixed(0) +
-                                  ' km',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              width: 70,
-                              height: ((_leaderBoardItems[2].totalDistance * 1.0 /
-                                  _leaderBoardItems[0].totalDistance * 1.0).isNaN ?
-                                  0.0 : _leaderBoardItems[2].totalDistance * 1.0 /
-                                   _leaderBoardItems[0].totalDistance * 1.0) * 160,
-                              color: Color(0xffFCA311),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "3rd",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xffFFFFFF),
+                              SizedBox(
+                                height: 20,
                               ),
-                            )
-                          ],
-                        ),
-                      ],
+                              Text(
+                                "2nd",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xffFFFFFF),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            width: 50,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    "assets/images/default-avatar.png"),
+                                foregroundImage: modifiedImageNetwork(
+                                  _leaderBoardItems[0]?.avtUrl,
+                                ),
+                                backgroundColor: Colors.red,
+                                radius: 27,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                (_leaderBoardItems[0].totalDistance / 1000.0)
+                                        .toStringAsFixed(0) +
+                                    ' km',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: 70,
+                                height: 160,
+                                color: Color(0xffFCA311),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "1st",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xffFFFFFF),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            width: 50,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    "assets/images/default-avatar.png"),
+                                foregroundImage: modifiedImageNetwork(
+                                  _leaderBoardItems[2].avtUrl,
+                                ),
+                                backgroundColor: Colors.red,
+                                radius:
+                                    MediaQuery.of(context).size.width * 0.075,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                (_leaderBoardItems[2].totalDistance / 1000)
+                                        .toStringAsFixed(0) +
+                                    ' km',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: 70,
+                                height: ((_leaderBoardItems[2].totalDistance *
+                                                1.0 /
+                                                _leaderBoardItems[0]
+                                                    .totalDistance *
+                                                1.0)
+                                            .isNaN
+                                        ? 0.0
+                                        : _leaderBoardItems[2].totalDistance *
+                                            1.0 /
+                                            _leaderBoardItems[0].totalDistance *
+                                            1.0) *
+                                    160,
+                                color: Color(0xffFCA311),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "3rd",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xffFFFFFF),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    color: Color(0xff14213d),
-                    height: 30,
-                  ),
-                  Container(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: _leaderBoardItems.length,
-                      itemBuilder: (BuildContext ctxt, int index) =>
-                          buildList(ctxt, index, _leaderBoardItems)
+                    Container(
+                      color: Color(0xff14213d),
+                      height: 30,
                     ),
-                  ),
-                  SizedBox(
-                    height: 80,
-                  )
-                ],
+                    Container(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: _leaderBoardItems.length,
+                          itemBuilder: (BuildContext ctxt, int index) =>
+                              buildList(ctxt, index, _leaderBoardItems)),
+                    ),
+                    SizedBox(
+                      height: 80,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Positioned(
+              Positioned(
                 bottom: 0,
                 child: Container(
-                  alignment: Alignment(0,0.9),
+                  alignment: Alignment(0, 0.9),
                   width: MediaQuery.of(context).size.width,
                   height: 100,
                   decoration: BoxDecoration(color: Colors.transparent),
@@ -359,7 +390,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                         const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
                     child: Container(
                       height: 100,
-                      decoration: BoxDecoration(color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
                         //borderRadius: BorderRadius.all(Radius.circular(15.0)),
                         boxShadow: [
                           BoxShadow(color: Colors.black26, blurRadius: 5.0)
@@ -377,17 +409,31 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
-                                        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.05, right:  MediaQuery.of(context).size.width*0.05),
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                            right: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05),
                                         child: CircleAvatar(
                                           backgroundColor: Colors.transparent,
-                                          radius:  MediaQuery.of(context).size.width*0.05,
+                                          radius: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.05,
                                           child: Text(
-                                            _getUserRank(Provider.of<ModifiedUser>(context).uid, _leaderBoardItems),
+                                            _getUserRank(
+                                                Provider.of<ModifiedUser>(
+                                                        context)
+                                                    .uid,
+                                                _leaderBoardItems),
                                             style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20
-                                            ),
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
                                           ),
                                         ),
                                       ),
@@ -395,37 +441,46 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                     Align(
                                       child: CircleAvatar(
                                         backgroundColor: Colors.red.shade800,
-                                        backgroundImage: AssetImage("assets/images/default-avatar.png"),
+                                        backgroundImage: AssetImage(
+                                            "assets/images/default-avatar.png"),
                                         foregroundImage: modifiedImageNetwork(
-                                          Provider.of<ModifiedUser>(context).avtUrl,
+                                          Provider.of<ModifiedUser>(context)
+                                              .avtUrl,
                                         ),
-                                        radius:  MediaQuery.of(context).size.width*0.075,
+                                        radius:
+                                            MediaQuery.of(context).size.width *
+                                                0.075,
                                       ),
                                     ),
                                     Align(
                                       child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 8.0, top: 5),
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width*0.35,
-                                            child: Text(
-                                                        Provider.of<ModifiedUser>(context).name,
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                            
-                                          ), 
-                                        ),
-                                      ],
-                                    ),
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, top: 5),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.35,
+                                              child: Text(
+                                                Provider.of<ModifiedUser>(
+                                                        context)
+                                                    .name,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -435,12 +490,16 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
-                              padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.01),
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.width * 0.01),
                               child: Container(
-                                width:  MediaQuery.of(context).size.width*0.15,
-                                child:  Text(
-                                  (Provider.of<ModifiedUser>(context).totalDistance / 1000)
-                                    .toStringAsFixed(0) + ' km',
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                child: Text(
+                                  (Provider.of<ModifiedUser>(context)
+                                                  .totalDistance /
+                                              1000)
+                                          .toStringAsFixed(0) +
+                                      ' km',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -459,7 +518,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
             ],
           ),
         );
-      }, 
+      },
     );
   }
 }
