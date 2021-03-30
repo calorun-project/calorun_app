@@ -36,7 +36,7 @@ class GameAlert {
 
     if (weight > 0) {
       content = content +
-          "Calo the Cat has lost $weight kg while you are walking/running!";
+          "Calo the Cat has lost ${weight.toStringAsFixed(1)} kg while you are walking/running!";
       if (tuna > 0) {
         content = content + "\nYou have also obtained $tuna Tuna coins!";
       }

@@ -89,7 +89,7 @@ class CatBuild extends State<Cat> {
                   ),
                   Spacer(),
                   Text(
-                    "${Calo.height} inches \n${Calo.weight} kg",
+                    "${Calo.height} inches \n${(Calo.weight).toStringAsFixed(1)} kg",
                     style: TextStyle(fontSize: 13, color: Colors.white),
                   )
                 ],
