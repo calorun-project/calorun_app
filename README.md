@@ -2,7 +2,7 @@
 Calorun is a social media that brings people who love running together. With Calorun, you can track your route, distance, time, and calories burnt. You can show your profile, photos, or running records to your friends. Besides, Calorun has a game that everyone can play. You can earn in-game currency from running.
 
 # System requirement:
-The application is designed to be used on Android devices with Android version 4.1 and newer.
+The application is designed to be used on Android devices with Android version 4.1 or newer.
 
 # Installing:
 - *Step 1*: Download "calorun.apk" file in folder \release.
