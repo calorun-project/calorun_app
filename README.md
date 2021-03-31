@@ -115,5 +115,16 @@ Link: [Click here to be redirected to Youtube (turn on English caption if needed
 
 [OpenStreetMap](https://www.openstreetmap.org/)
 
+# How to run code:
+- *Step 1*: Clone Calorun project 
+```bash
+git clone https://github.com/calorun-project/calorun_app
+```
+- *Step 2*: Open cloned project in Android Studio/Visual Studio Code
+- *Step 3*: Open an Android virtual device. Make sure it is connected to Flutter.
+- *Step 4*: Run *main.dart* in debug mode
+
+*Note*: The cloned project cannot be built into apk file because it requires a secret keystore.
+
 
 
